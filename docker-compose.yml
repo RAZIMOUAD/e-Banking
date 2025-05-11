@@ -1,0 +1,41 @@
+services:
+  db:
+    image: postgres:16
+    container_name: ebank-postgres
+    restart: unless-stopped
+    environment:
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: password
+      POSTGRES_DB: ebanking_db
+    ports:
+      - "5433:5432"
+    volumes:
+      - pgdata:/var/lib/postgresql/data
+
+  backend:
+    build:
+      context: .
+      dockerfile: ./docker/backend.Dockerfile
+    container_name: ebank-backend
+    depends_on:
+      - db
+    ports:
+      - "8088:8088"
+    environment:
+      # Tu pourras les injecter plus tard dans ton app
+      DB_URL: jdbc:postgresql://db:5432/ebanking_db
+      JWT_SECRET: devsecret
+    volumes:
+      - ./backend:/app  # optionnel pour développement local
+  frontend:
+    build:
+      context: .
+      dockerfile: ./docker/frontend.Dockerfile
+    container_name: ebank-frontend
+    ports:
+      - "4200:80"
+    depends_on:
+      - backend
+
+volumes:
+  pgdata:

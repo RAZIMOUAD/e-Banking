@@ -1,0 +1,71 @@
+<section
+  class="relative w-full min-h-[150vh] bg-no-repeat bg-cover bg-center transition-colors duration-700 ease-in-out"
+  [ngClass]="{
+    'bg-[url(/assets/hero/people/woman-smiling2.webp)]': showView1,
+    'bg-[url(/assets/hero/backgrounds/modern-building-glass.webp)]': showView2
+  }"
+  aria-label="Hero Section"
+>
+  <!-- 🌫 Overlay constant pour lisibilité -->
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm z-0"></div>
+
+  <!-- ✅ Vue 1 (accroche principale) -->
+  <div
+    *ngIf="showView1"
+    class="relative z-10 flex flex-col items-center justify-center px-6 text-center text-white h-screen"
+  >
+    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
+      Welcome to <span class="text-emerald-400">E-BANKING</span>
+    </h1>
+    <p class="text-lg max-w-xl mb-8 opacity-90 leading-relaxed">
+      Manage your finances securely, quickly and globally.
+    </p>
+    <a
+      routerLink="/register"
+      class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
+    >
+      Open Your Account
+    </a>
+  </div>
+
+  <!-- ✅ Vue 2 (enchaînée dans le scroll) -->
+  <div
+    *ngIf="showView2"
+    class="relative z-10 w-full pt-[100vh] px-6 pb-20 text-white text-center"
+  >
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 drop-shadow">
+        Explore Our Smart Features
+      </h2>
+      <p class="text-white/80 mb-12 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
+        Manage, track, and secure your finances with next-gen tools.
+      </p>
+
+      <div
+        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in"
+        aria-label="Key features"
+      >
+        <app-feature-card
+          imageSrc="/assets/hero/mobile-ui/security.webp"
+          alt="Security"
+          title="Security First"
+          description="Biometric auth, 2FA, encryption – your data is safe."
+        ></app-feature-card>
+
+        <app-feature-card
+          imageSrc="/assets/hero/mobile-ui/Analytics.webp"
+          alt="Analytics"
+          title="Smart Analytics"
+          description="Real-time spend charts, savings goals and insights."
+        ></app-feature-card>
+
+        <app-feature-card
+          imageSrc="/assets/hero/cards/bank-card-atlas.webp"
+          alt="Card Control"
+          title="Card Control"
+          description="Freeze, unfreeze, and customize your cards instantly."
+        ></app-feature-card>
+      </div>
+    </div>
+  </div>
+</section>

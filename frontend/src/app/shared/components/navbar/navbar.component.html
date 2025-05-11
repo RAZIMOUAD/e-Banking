@@ -1,0 +1,78 @@
+<nav
+  class="fixed top-0 left-0 w-full z-50 transition-all duration-300"
+  [ngClass]="{ 'bg-[#1A1A1A]/90 backdrop-blur-md shadow-md': isScrolled(), 'bg-transparent': !isScrolled() }"
+>
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-16 relative">
+
+      <!-- Bloc gauche : liens nav (desktop only) -->
+      <div class="hidden lg:flex items-center gap-6">
+        <a routerLink="/" class="text-[#F3F4F6] hover:text-[#10B981] transition-colors duration-200 font-medium">
+          Start
+        </a>
+        <a routerLink="/features" class="text-[#F3F4F6] hover:text-[#10B981] transition-colors duration-200 font-medium">
+          Features
+        </a>
+        <a routerLink="/resources" class="text-[#F3F4F6] hover:text-[#10B981] transition-colors duration-200 font-medium">
+          Resources
+        </a>
+      </div>
+
+      <!-- Logo centré (absolu centré horizontalement) -->
+      <div class="absolute left-1/2 transform -translate-x-1/2">
+        <a routerLink="/" class="text-white text-lg font-bold tracking-wider">
+          E-BANKING
+        </a>
+      </div>
+
+      <!-- Bloc droit : boutons desktop + burger mobile -->
+      <div class="flex items-center gap-4">
+        <!-- Boutons desktop -->
+        <div class="hidden lg:flex items-center gap-4">
+          <a routerLink="/login"
+             class="px-4 py-2 text-sm text-[#F3F4F6] hover:text-[#10B981] transition-colors duration-200 font-medium"
+          >
+            Log in
+          </a>
+          <a
+            routerLink="/register"
+            class="px-4 py-2 text-sm font-semibold rounded-md text-white"
+            style="background: linear-gradient(90deg, #10B981, #60A5FA);"
+          >
+            Open Account
+          </a>
+        </div>
+
+        <!-- Burger mobile -->
+        <div class="lg:hidden">
+          <button (click)="toggleMobileMenu()" class="text-[#F3F4F6] focus:outline-none">
+            <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
+                 viewBox="0 0 24 24" stroke-linecap="round" stroke-linejoin="round">
+              <path *ngIf="!isMobileMenuOpen()" d="M4 6h16M4 12h16M4 18h16" />
+              <path *ngIf="isMobileMenuOpen()" d="M6 18L18 6M6 6l12 12" />
+            </svg>
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Menu mobile (off-canvas) -->
+  <div
+    class="mobile-menu w-full bg-[#1A1A1A] lg:hidden px-4 py-6 space-y-4 text-[#F3F4F6] font-medium transition-all duration-300"
+    [ngClass]="{ 'open': isMobileMenuOpen() }"
+  >
+    <a routerLink="/" (click)="closeMobileMenu()" class="block hover:text-[#10B981]">Start</a>
+    <a routerLink="/features" (click)="closeMobileMenu()" class="block hover:text-[#10B981]">Features</a>
+    <a routerLink="/resources" (click)="closeMobileMenu()" class="block hover:text-[#10B981]">Resources</a>
+    <a routerLink="/login" (click)="closeMobileMenu()" class="block hover:text-[#10B981]">Log in</a>
+    <a
+      routerLink="/register"
+      (click)="closeMobileMenu()"
+      class="block mt-2 w-fit px-4 py-2 rounded-md text-white"
+      style="background: linear-gradient(90deg, #10B981, #60A5FA);"
+    >
+      Open Account
+    </a>
+  </div>
+</nav>

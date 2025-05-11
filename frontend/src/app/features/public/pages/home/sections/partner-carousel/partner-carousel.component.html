@@ -1,0 +1,24 @@
+<section class="relative w-full py-20 bg-gradient-to-b from-[#1E293B] via-[#374151] to-[#F9FAFB] text-center overflow-hidden">
+  <div class="text-center text-white mb-12">
+    <h2 class="text-xl font-semibold uppercase tracking-widest opacity-80">+20 trusted partners</h2>
+  </div>
+
+  <div class="flex animate-marquee whitespace-nowrap gap-20 px-12">
+    <ng-container *ngFor="let i of [0, 1]">
+      <ng-container *ngFor="let logo of logos">
+        <img
+          [ngSrc]="logo"
+          width="120"
+          height="48"
+          alt="Partner logo"
+          class="h-14 w-auto transition-all duration-500 grayscale hover:grayscale-0 hover:scale-110 hover:drop-shadow-glow"
+          priority="false"
+        />
+      </ng-container>
+    </ng-container>
+  </div>
+
+  <!-- Fade -->
+  <div class="absolute left-0 top-0 h-full w-20 bg-gradient-to-r from-[#1E293B] to-transparent z-10"></div>
+  <div class="absolute right-0 top-0 h-full w-20 bg-gradient-to-l from-[#1E293B] to-transparent z-10"></div>
+</section>

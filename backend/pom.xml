@@ -1,0 +1,222 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+
+    <!-- Version de Maven POM -->
+    <modelVersion>4.0.0</modelVersion>
+
+    <!-- Coordonnées du projet -->
+    <groupId>com.ebanking</groupId>
+    <artifactId>backend</artifactId>
+    <version>1.0-SNAPSHOT</version>
+    <packaging>war</packaging> <!-- car on déploiera sur Tomcat 10 -->
+
+    <name>E-Banking Backend</name>
+    <description>Module backend Spring MVC sans Boot, support Jakarta EE, PostgreSQL/MongoDB</description>
+
+    <properties>
+        <maven.compiler.source>17</maven.compiler.source>
+        <maven.compiler.target>17</maven.compiler.target>
+        <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+
+        <!--  Version principale de Spring Framework -->
+        <spring.version>6.1.14</spring.version>
+        <!--  Version stable et compatible avec Spring 6.1.13 -->
+        <spring.security.version>6.3.5</spring.security.version>
+        <!--  Jakarta Servlet API (obligatoire avec Tomcat 10.1+) -->
+        <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
+        <!-- Jakarta Persistence (ex-JPA), version 3.1 pour Hibernate 6.3 -->
+        <jakarta.persistence.version>3.1.0</jakarta.persistence.version>
+        <!-- Hibernate ORM (ORM principal, compatible Jakarta 3.1) -->
+        <hibernate.version>6.3.1.Final</hibernate.version>
+        <!--  Spring Data JPA (accès aux entités via Repository) -->
+        <spring.data.jpa.version>3.2.2</spring.data.jpa.version>
+        <!--  PostgreSQL JDBC Driver -->
+        <postgresql.version>42.7.2</postgresql.version>
+        <!--  Spring Data MongoDB (pour logs, crypto, etc.) -->
+        <mongodb.version>4.2.4</mongodb.version>
+        <!-- JJWT - Java JWT (pour génération et validation des tokens JWT) -->
+        <jjwt.version>0.11.5</jjwt.version>
+        <!--  Lombok : génération automatique de code (getter, builder...) -->
+        <lombok.version>1.18.30</lombok.version>
+        <!--  Logging via SLF4J  -->
+        <log4j.version>2.23.1</log4j.version>
+        <!--  Jakarta Validation (ex-Bean Validation API) -->
+        <jakarta.validation.version>3.1.0</jakarta.validation.version>
+
+
+    </properties>
+
+    <dependencies>
+        <!--  Spring MVC : framework principal de l'application web -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-webmvc</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!--  Spring Security Web (HTTP Firewall inclus) -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-web</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+        <!-- Jakarta Servlet API -->
+        <dependency>
+            <groupId>jakarta.servlet</groupId>
+            <artifactId>jakarta.servlet-api</artifactId>
+            <version>${jakarta.servlet.version}</version>
+            <scope>provided</scope> <!-- car elle est fournie par le conteneur (Tomcat) -->
+        </dependency>
+        <!-- API JPA Jakarta (utilisé par Hibernate & Spring Data JPA) -->
+        <dependency>
+            <groupId>jakarta.persistence</groupId>
+            <artifactId>jakarta.persistence-api</artifactId>
+            <version>${jakarta.persistence.version}</version>
+        </dependency>
+        <!--  Hibernate ORM : moteur principal de persistance JPA -->
+        <dependency>
+            <groupId>org.hibernate.orm</groupId>
+            <artifactId>hibernate-core</artifactId>
+            <version>${hibernate.version}</version>
+        </dependency>
+        <!--  Intégration de Spring avec Hibernate / JPA -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-jpa</artifactId>
+            <version>${spring.data.jpa.version}</version>
+        </dependency>
+        <!--  PostgreSQL JDBC Driver (driver relationnel principal) -->
+        <dependency>
+            <groupId>org.postgresql</groupId>
+            <artifactId>postgresql</artifactId>
+            <version>${postgresql.version}</version>
+        </dependency>
+        <!--  Intégration MongoDB avec Spring Data -->
+        <dependency>
+            <groupId>org.springframework.data</groupId>
+            <artifactId>spring-data-mongodb</artifactId>
+            <version>${mongodb.version}</version>
+        </dependency>
+
+        <!--  JJWT API (interface de haut niveau) -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-api</artifactId>
+            <version>${jjwt.version}</version>
+        </dependency>
+
+        <!--  JJWT Implémentation (cryptographie, encodage/décodage) -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-impl</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope> <!-- fourni au runtime uniquement -->
+        </dependency>
+
+        <!--  JJWT JSON support avec Jackson -->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt-jackson</artifactId>
+            <version>${jjwt.version}</version>
+            <scope>runtime</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>com.fasterxml.jackson.core</groupId>
+                    <artifactId>jackson-databind</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--  Jackson-databind corrigé (2.15.4) -->
+        <dependency>
+            <groupId>com.fasterxml.jackson.core</groupId>
+            <artifactId>jackson-databind</artifactId>
+            <version>2.15.4</version>
+        </dependency>
+        <!--  Lombok pour génération automatique de code (compile-time) -->
+        <dependency>
+            <groupId>org.projectlombok</groupId>
+            <artifactId>lombok</artifactId>
+            <version>${lombok.version}</version>
+            <scope>provided</scope> <!-- car utilisé uniquement à la compilation -->
+        </dependency>
+        <!--  Log4j2 backend pour SLF4J (version sécurisée et maintenue) -->
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-slf4j2-impl</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-core</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.apache.logging.log4j</groupId>
+            <artifactId>log4j-api</artifactId>
+            <version>${log4j.version}</version>
+        </dependency>
+
+        <!--  Jakarta Validation API (pour @Valid, @NotNull...) -->
+        <dependency>
+            <groupId>jakarta.validation</groupId>
+            <artifactId>jakarta.validation-api</artifactId>
+            <version>${jakarta.validation.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-core</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter</artifactId>
+            <version>5.10.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-test</artifactId>
+            <version>${spring.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-core</artifactId>
+            <version>5.10.0</version>
+            <scope>test</scope>
+        </dependency>
+    </dependencies>
+
+    <build>
+        <plugins>
+            <!-- ✅ Active la conservation des noms de paramètres -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+                <version>3.11.0</version> <!-- Tu peux ajuster la version -->
+                <configuration>
+                    <source>17</source>
+                    <target>17</target>
+                    <compilerArgs>
+                        <arg>-parameters</arg>
+                    </compilerArgs>
+                </configuration>
+            </plugin>
+
+            <!-- ...autres plugins éventuels... -->
+        </plugins>
+    </build>
+
+</project>

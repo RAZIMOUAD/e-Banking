@@ -1,0 +1,48 @@
+<section class="relative w-full overflow-hidden bg-gray-900 text-white py-24">
+  <!-- Background image floutée -->
+  <img
+    ngSrc="assets/hero/icons/cta-bg.webp"
+    width="6000"
+    height="4000"
+    alt="Modern fintech background"
+    class="absolute inset-0 w-full h-full object-cover opacity-20 blur-sm z-0"
+  />
+
+
+  <!-- Overlay noir semi-transparent -->
+  <div class="absolute inset-0 bg-black/50 z-10"></div>
+
+  <!-- Contenu principal -->
+  <div class="relative z-20 max-w-4xl mx-auto text-center px-6">
+    <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
+      Ready to take control of your finances?
+    </h2>
+    <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
+      Join thousands of businesses who simplified their banking experience with our platform.
+    </p>
+
+    <!-- Carte virtuelle flottante -->
+    <div class="mb-12 flex justify-center">
+      <div class="w-80 h-48 bg-gradient-to-br from-gray-100 to-white rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-700 border border-gray-200">
+        <img
+          ngSrc="assets/hero/cards/virtual-card.webp"
+          width="686"
+          height="446"
+          alt="Bank Card"
+          class="w-full h-full object-cover rounded-xl"
+        />
+      </div>
+    </div>
+
+    <!-- Bouton CTA avec aura -->
+    <div class="relative inline-block">
+      <div class="absolute -inset-1 bg-emerald-500 blur-xl opacity-70 rounded-full z-0"></div>
+      <a
+        href="/register"
+        class="relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 transition duration-300 z-10"
+      >
+        Get started now
+      </a>
+    </div>
+  </div>
+</section>

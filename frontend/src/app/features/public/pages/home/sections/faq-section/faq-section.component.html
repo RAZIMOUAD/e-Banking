@@ -1,0 +1,54 @@
+<section class="w-full py-24 bg-white text-gray-900">
+  <!-- ✅ Titre principal de la section -->
+  <div class="text-center mb-16 px-6">
+    <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight mb-4">
+      Got questions?
+    </h2>
+    <p class="text-lg text-gray-600 max-w-2xl mx-auto">
+      Here’s everything you need to know before getting started. Can’t find the answer you’re looking for? Contact our support team anytime.
+    </p>
+  </div>
+
+  <div class="max-w-7xl mx-auto grid grid-cols-1 md:grid-cols-3 gap-12 px-6">
+    <!-- Bloc 1 : Navigation verticale -->
+    <div class="space-y-4 border-l border-gray-300 pl-4">
+      <h2 class="text-xl font-semibold mb-6">Explore by topic</h2>
+      <ul>
+        <li *ngFor="let item of faqItems; let i = index">
+          <button
+            (click)="select(i)"
+            class="block text-left w-full py-2 px-3 border-l-4 transition-all duration-300"
+            [ngClass]="{
+              'border-black text-black font-semibold': selectedIndex === i,
+              'border-transparent text-gray-500 hover:text-black': selectedIndex !== i
+            }"
+          >
+            {{ item.question }}
+          </button>
+        </li>
+      </ul>
+    </div>
+
+    <!-- Bloc 2 : Carte centrale -->
+    <div
+      class="bg-gray-50 rounded-xl p-6 shadow-lg opacity-0 translate-y-4 animate-fade-in transition-all duration-500"
+    >
+      <h3 class="text-xl font-bold mb-2">{{ faqItems[selectedIndex].question }}</h3>
+      <p class="text-sm text-gray-500 mb-4">{{ faqItems[selectedIndex].subtitle }}</p>
+      <p class="text-base text-gray-700 leading-relaxed">
+        {{ faqItems[selectedIndex].answer }}
+      </p>
+    </div>
+
+    <!-- Bloc 3 : Image liée -->
+    <div class="flex items-center justify-center">
+      <img
+        [ngSrc]="faqItems[selectedIndex].image"
+        width="500"
+        height="340"
+        [alt]="faqItems[selectedIndex].question"
+        class="w-full max-w-md rounded-xl shadow-xl scale-95 opacity-0 animate-fade-scale object-cover transition duration-700 ease-in-out"
+      />
+    </div>
+  </div>
+</section>

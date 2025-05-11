@@ -1,0 +1,48 @@
+###########################
+# 📁 Dossiers à ignorer
+###########################
+
+# Java / Maven
+/target/
+*.class
+*.jar
+*.war
+*.log
+
+# IntelliJ IDEA
+.idea/
+*.iml
+*.iws
+out/
+run/
+
+# Logs
+*.log.*
+logs/
+spring.log
+
+# Lombok
+/generated/
+*.lombok.config
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Docker & environnement local
+.env
+*.pid
+.docker/
+docker-compose.override.yml
+
+# JetBrains run configs
+/.run/
+
+# Local DB (au cas où)
+*.h2.db
+*.mv.db
+
+# Tests générés
+/coverage/
+test-output/
+jacoco.exec

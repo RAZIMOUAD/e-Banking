@@ -1,0 +1,11 @@
+
+:host {
+  display: block;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  img {
+    will-change: transform;
+    transform-style: preserve-3d;
+  }
+}

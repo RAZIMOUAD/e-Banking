@@ -1,0 +1,66 @@
+<section class="relative bg-gradient-to-br from-[#0d0d28] via-[#191932] to-[#0f0f1f] text-white overflow-hidden pt-20 pb-16 px-6"
+           data-aos="fade-up">
+
+<div class="absolute inset-0 bg-white/5 backdrop-blur-sm z-0"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto space-y-16">
+    <!-- Titre & Intro -->
+    <div class="text-center space-y-6">
+      <div class="inline-flex items-center gap-2 px-4 py-1 rounded-full bg-indigo-500/10 text-indigo-400 text-sm font-medium">
+        <lucide-icon name="ShieldCheck" class="w-5 h-5" />
+        Bank-Level Protocols
+      </div>
+      <h2 class="text-4xl md:text-5xl font-extra bold leading-tight">
+        Bank-level <span class="text-indigo-400">Security</span> & Beyond
+      </h2>
+      <p class="text-gray-300 max-w-2xl mx-auto text-lg">
+        Designed to surpass conventional banking security with advanced biometric authentication,
+        real-time fraud analysis, and end-to-end encrypted audit trails.
+      </p>
+    </div>
+
+    <!-- Toggle Buttons -->
+    <div class="flex justify-center gap-6">
+      <button
+        (click)="selected = 'standard'"
+        [ngClass]="{
+          'bg-white/10 border border-white/20 shadow-md scale-105': selected === 'standard',
+          'hover:bg-white/5': selected !== 'standard'
+        }"
+        class="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300"
+      >
+        <lucide-icon name="Bank" class="w-5 h-5 text-white" />
+        Standard Bank
+      </button>
+      <button
+        (click)="selected = 'ebank'"
+        [ngClass]="{
+          'bg-indigo-600 text-white shadow-lg scale-105': selected === 'ebank',
+          'hover:bg-indigo-500/70': selected !== 'ebank'
+        }"
+        class="flex items-center gap-2 px-6 py-3 rounded-full text-sm font-semibold transition-all duration-300"
+      >
+        <lucide-icon name="Rocket" class="w-5 h-5 text-white" />
+        E-Banking 2.0
+      </button>
+    </div>
+
+    <!-- Dynamic Cards -->
+    <div class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 px-4 mt-10">
+      <ng-container *ngFor="let item of comparisonData[selected]">
+        <div
+          class="group bg-white/5 backdrop-blur-xl border border-white/10 rounded-2xl p-6 shadow-[0_0_30px_rgba(99,102,241,0.1)] transform transition-all hover:scale-[1.04] hover:shadow-[0_0_60px_rgba(99,102,241,0.3)]"
+          data-aos="fade-up"
+        >
+          <div class="flex items-center gap-3 mb-4">
+            <lucide-icon [name]="item.icon" class="w-6 h-6 text-indigo-400 group-hover:scale-110 transition-transform duration-300" />
+            <h3 class="text-lg font-semibold">{{ item.title }}</h3>
+          </div>
+          <p class="text-sm text-gray-300 leading-relaxed">
+            {{ item.description }}
+          </p>
+        </div>
+      </ng-container>
+    </div>
+  </div>
+</section>

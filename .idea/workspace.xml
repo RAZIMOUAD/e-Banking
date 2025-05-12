@@ -10,53 +10,65 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef85c4fb-78f8-47ac-ba37-8e88de00979f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/.idea/compiler.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/encodings.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/jarRepositories.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/misc.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/.idea/vcs.xml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/config/DatabaseConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker-compose.yml" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker/backend.Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/docker/frontend.Dockerfile" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/.dockerignore" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/card-showcase/card-showcase.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/card-showcase/card-showcase.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/card-showcase/card-showcase.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/cta-final/cta-final.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/cta-final/cta-final.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/cta-final/cta-final.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/faq-section/faq-section.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/faq-section/faq-section.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/faq-section/faq-section.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/partner-carousel/partner-carousel.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/partner-carousel/partner-carousel.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/partner-carousel/partner-carousel.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/shared/components/footer/footer.component.css" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/shared/components/footer/footer.component.html" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/shared/components/footer/footer.component.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/shared/modules/banking-lucide-icons.module.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/backgrounds/modern-building-glass.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/cards/bank-card-atlas.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/cards/virtual-card.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/faq/faq-1.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/faq/faq-2.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/faq/faq-3.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/faq/faq-4.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/icons/cta-bg.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/logos/binance.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/logos/mastercard.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/logos/monzo.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/logos/n26.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/logos/revolut.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/logos/stripe.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/logos/visa.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/logos/wise.svg" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/mobile-ui/Analytics.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/mobile-ui/security.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/people/woman-smiling.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/assets/hero/people/woman-smiling2.webp" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/pom.xml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/TechStats/TechStats.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/TechStats/TechStats.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/architecture-block/architecture-block.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/architecture-block/architecture-block.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/architecture-block/architecture-block.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/final-cta-tech/final-cta-tech.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/final-cta-tech/final-cta-tech.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/hero-tech/hero-tech.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/hero-tech/hero-tech.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/hero-tech/hero-tech.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/security-comparison/security-comparaison.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/security-comparison/security-comparaison.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/security-comparison/security-comparaison.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/vision-timeline/vision-timeline.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/vision-timeline/vision-timeline.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/agent-section/agent-section.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/agent-section/agent-section.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/agent-section/agent-section.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/client-section/client-section.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/client-section/client-section.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/client-section/client-section.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/comparer-section/comparer-section.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/comparer-section/comparer-section.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/comparer-section/comparer-section.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/final-cta/final-cta-section.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/final-cta/final-cta-section.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/final-cta/final-cta-section.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/hero-section/hero-section.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/hero-section/hero-section.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/hero-section/hero-section.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/roles.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/roles.component.html" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/roles.component.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/public.routes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/shared/directives/count-up.directive.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/features/abstract41g.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/features/bg-card.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/features/cloud-infra-bg.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/features/eBank-modular-diagram.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/roles/admin.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/roles/agent-dash.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/roles/agent.png" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/roles/client-pay.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/roles/dashboard.svg" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/roles/glitch-fxs.mp4" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/assets/roles/user.png" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/features.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/features.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/features.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/features/features.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/cta-final/cta-final.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/home/sections/cta-final/cta-final.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/shared/components/footer/footer.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/shared/components/footer/footer.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/shared/components/navbar/navbar.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/shared/components/navbar/navbar.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/shared/modules/banking-lucide-icons.module.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/shared/modules/banking-lucide-icons.module.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -67,16 +79,29 @@
     <option name="RECENT_TEMPLATES">
       <list>
         <option value="Class" />
+        <option value="TypeScript File" />
       </list>
     </option>
   </component>
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
-  <component name="KubernetesApiPersistence"><![CDATA[{}]]></component>
-  <component name="KubernetesApiProvider"><![CDATA[{
-  "isMigrated": true
-}]]></component>
+  <component name="GitHubPullRequestSearchHistory">{
+  &quot;lastFilter&quot;: {
+    &quot;state&quot;: &quot;OPEN&quot;,
+    &quot;assignee&quot;: &quot;RAZIMOUAD&quot;
+  }
+}</component>
+  <component name="GithubPullRequestsUISettings">{
+  &quot;selectedUrlAndAccountId&quot;: {
+    &quot;url&quot;: &quot;https://github.com/RAZIMOUAD/e-Banking.git&quot;,
+    &quot;accountId&quot;: &quot;72f78549-3206-4089-b8bb-82b4841e387f&quot;
+  }
+}</component>
+  <component name="KubernetesApiPersistence">{}</component>
+  <component name="KubernetesApiProvider">{
+  &quot;isMigrated&quot;: true
+}</component>
   <component name="LogFilters">
     <option name="FILTER_ERRORS" value="false" />
     <option name="FILTER_WARNINGS" value="false" />
@@ -84,37 +109,52 @@
     <option name="FILTER_DEBUG" value="true" />
     <option name="CUSTOM_FILTER" />
   </component>
-  <component name="ProjectColorInfo"><![CDATA[{
-  "associatedIndex": 3
-}]]></component>
+  <component name="ProblemsViewState">
+    <option name="selectedTabId" value="CurrentFile" />
+  </component>
+  <component name="ProjectColorInfo">{
+  &quot;associatedIndex&quot;: 3
+}</component>
   <component name="ProjectId" id="2wxk3h8jPseiFGB7u6GMcasm4yU" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Maven.ebanking-2.0 [clean].executor": "Run",
-    "Maven.ebanking-2.0 [install].executor": "Run",
-    "Maven.ebanking-2.0 [verify].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "Tomcat Server.Tomcat 10.1.34.executor": "Run",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Project",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.0",
-    "settings.editor.selected.configurable": "Docker",
-    "settings.editor.splitter.proportion": "0.2609582",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Maven.ebanking-2.0 [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ebanking-2.0 [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ebanking-2.0 [verify].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;Tomcat Server.Tomcat 10.1.34.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;C:/Users/dell/E-BANK/ebanking-2.0/frontend/src/assets/features&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Project&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.0&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Docker&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.2609582&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;C:\\Users\\dell\\E-BANK\\ebanking-2.0\\frontend\\node_modules\\typescript\\lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\assets\features" />
+    </key>
+    <key name="MoveFile.RECENT_KEYS">
+      <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\app\features\public\pages" />
+      <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\assets\features" />
+      <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\assets\roles" />
+    </key>
+  </component>
   <component name="RunManager">
     <configuration name="Tomcat 10.1.34" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.34" ALTERNATIVE_JRE_ENABLED="true" ALTERNATIVE_JRE_PATH="temurin-17" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
@@ -232,6 +272,13 @@
       <option name="presentableId" value="Default" />
       <updated>1746990414917</updated>
       <workItem from="1746990416064" duration="2245000" />
+      <workItem from="1746993573918" duration="684000" />
+      <workItem from="1747039987219" duration="13611000" />
+      <workItem from="1747059911898" duration="558000" />
+      <workItem from="1747060568825" duration="124000" />
+      <workItem from="1747067772261" duration="115000" />
+      <workItem from="1747067909036" duration="8187000" />
+      <workItem from="1747076219089" duration="13000" />
     </task>
     <servers />
   </component>

@@ -45,7 +45,7 @@ const bankingIcons = {
   Bell: icons.Bell,
   BellRing: icons.BellRing,
   BellOff: icons.BellOff,
-
+  Bug : icons.Bug,
   // 📁 Documents & contrats
   FileText: icons.FileText,
   FileCheck: icons.FileCheck,
@@ -53,7 +53,9 @@ const bankingIcons = {
   FilePlus: icons.FilePlus,
   ClipboardList: icons.ClipboardList,
   Folder: icons.Folder,
-
+  Rocket: icons.Rocket,
+  Split: icons.Split,
+  PanelTopClose:icons.PanelTopClose,
   // 🔐 Sécurité & authentification
   Lock: icons.Lock,
   Unlock: icons.Unlock,
@@ -63,18 +65,20 @@ const bankingIcons = {
   ScanFace: icons.ScanFace,
   Eye: icons.Eye,
   EyeOff: icons.EyeOff,
+  Shield: icons.Shield,
 
   // ⚙️ Paramètres & support
   Settings: icons.Settings,
   HelpCircle: icons.HelpCircle,
   Info: icons.Info,
   AlertTriangle: icons.AlertTriangle,
+  AlertCircle: icons.AlertCircle,
   LifeBuoy: icons.LifeBuoy,
   Phone: icons.Phone,
   Mail: icons.Mail,
   MapPin: icons.MapPin,
   Globe: icons.Globe,
-
+  ServerOff: icons.ServerOff,
   // 🧭 Navigation & dashboard
   Home: icons.Home,
   LayoutDashboard: icons.LayoutDashboard,
@@ -82,7 +86,7 @@ const bankingIcons = {
   ChevronRight: icons.ChevronRight,
   ArrowLeft: icons.ArrowLeft,
   ArrowRight: icons.ArrowRight,
-
+  Activity: icons.Activity,
   // ✏️ Actions générales
   Plus: icons.Plus,
   Edit: icons.Edit,

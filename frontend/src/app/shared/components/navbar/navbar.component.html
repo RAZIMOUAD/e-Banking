@@ -13,21 +13,24 @@
         <a routerLink="/features" class="text-[#F3F4F6] hover:text-[#10B981] transition-colors duration-200 font-medium">
           Features
         </a>
-        <a routerLink="/resources" class="text-[#F3F4F6] hover:text-[#10B981] transition-colors duration-200 font-medium">
-          Resources
+        <a routerLink="/roles" class="text-[#F3F4F6] hover:text-[#10B981] transition-colors duration-200 font-medium">
+          Ecosystem
+        </a>
+        <a routerLink="/contact" class="text-[#F3F4F6] hover:text-[#10B981] transition-colors duration-200 font-medium">
+          Get in Touch
         </a>
       </div>
 
-      <!-- Logo centré (absolu centré horizontalement) -->
+      <!-- Logo centré -->
       <div class="absolute left-1/2 transform -translate-x-1/2">
         <a routerLink="/" class="text-white text-lg font-bold tracking-wider">
           E-BANKING
         </a>
       </div>
 
-      <!-- Bloc droit : boutons desktop + burger mobile -->
+      <!-- Bloc droit : desktop + burger -->
       <div class="flex items-center gap-4">
-        <!-- Boutons desktop -->
+        <!-- Desktop buttons -->
         <div class="hidden lg:flex items-center gap-4">
           <a routerLink="/login"
              class="px-4 py-2 text-sm text-[#F3F4F6] hover:text-[#10B981] transition-colors duration-200 font-medium"
@@ -43,7 +46,7 @@
           </a>
         </div>
 
-        <!-- Burger mobile -->
+        <!-- Burger -->
         <div class="lg:hidden">
           <button (click)="toggleMobileMenu()" class="text-[#F3F4F6] focus:outline-none">
             <svg class="h-6 w-6" fill="none" stroke="currentColor" stroke-width="2"
@@ -57,14 +60,15 @@
     </div>
   </div>
 
-  <!-- Menu mobile (off-canvas) -->
+  <!-- Menu mobile -->
   <div
     class="mobile-menu w-full bg-[#1A1A1A] lg:hidden px-4 py-6 space-y-4 text-[#F3F4F6] font-medium transition-all duration-300"
     [ngClass]="{ 'open': isMobileMenuOpen() }"
   >
     <a routerLink="/" (click)="closeMobileMenu()" class="block hover:text-[#10B981]">Start</a>
     <a routerLink="/features" (click)="closeMobileMenu()" class="block hover:text-[#10B981]">Features</a>
-    <a routerLink="/resources" (click)="closeMobileMenu()" class="block hover:text-[#10B981]">Resources</a>
+    <a routerLink="/roles" (click)="closeMobileMenu()" class="block hover:text-[#10B981]">Ecosystem</a>
+    <a routerLink="/contact" (click)="closeMobileMenu()" class="block hover:text-[#10B981]">Get in Touch</a>
     <a routerLink="/login" (click)="closeMobileMenu()" class="block hover:text-[#10B981]">Log in</a>
     <a
       routerLink="/register"

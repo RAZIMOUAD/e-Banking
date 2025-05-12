@@ -1,0 +1,18 @@
+:host {
+  display: block;
+  position: relative;
+  z-index: 10;
+}
+
+img {
+  transition: transform 0.3s ease;
+}
+
+img:hover {
+  transform: scale(1.05);
+}
+
+svg {
+  pointer-events: none;
+  z-index: 0;
+}

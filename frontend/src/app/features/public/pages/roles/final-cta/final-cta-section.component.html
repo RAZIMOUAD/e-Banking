@@ -1,0 +1,35 @@
+<section class="relative text-white bg-black overflow-hidden py-32 px-6">
+  <!-- Vidéo de fond glitch/hacking -->
+  <video autoplay muted loop playsinline class="absolute inset-0 w-full h-full object-cover opacity-80">
+    <source src="/assets/roles/glitch-fxs.mp4" type="video/mp4" />
+  </video>
+
+  <!-- Couche de fond sombre -->
+  <div class="absolute inset-0 bg-black/80 backdrop-blur-sm"></div>
+
+  <!-- Contenu -->
+  <div class="relative z-10 max-w-5xl mx-auto text-center space-y-10 animate-fade-up">
+    <h2 class="text-4xl md:text-5xl font-black tracking-wide leading-tight text-red-600">
+      What if you miss the next revolution?
+    </h2>
+
+    <p class="text-lg text-gray-300 max-w-2xl mx-auto">
+      Every day you wait, others are investing, building, growing.<br>
+      Don’t be the one who watches. Be the one who acts.
+    </p>
+
+    <div class="flex justify-center gap-6 mt-10 flex-wrap">
+      <a
+        routerLink="/register"
+        class="px-6 py-3 rounded-full text-white bg-gradient-to-r from-red-500 to-pink-600 hover:scale-105 hover:shadow-2xl transition-all font-bold text-lg"
+      >
+        Join the Movement
+      </a>
+      <a
+        routerLink="/features"
+        class="px-6 py-3 rounded-full border border-gray-600 text-gray-300 hover:border-white hover:text-white transition-all"
+      >
+        I’ll Think About It...</a>
+    </div>
+  </div>
+</section>

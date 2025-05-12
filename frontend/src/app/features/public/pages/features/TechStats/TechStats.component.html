@@ -1,0 +1,56 @@
+<!-- tech-stats.component.html -->
+<section
+  class="relative bg-gradient-to-tr from-[#0a0a23] via-[#1a1a40] to-black text-white overflow-hidden py-32 px-6"
+  data-aos="fade-up"
+>
+  <!-- Vidéo de fond technique (optionnelle, désactivée mobile) -->
+  <video
+    autoplay
+    muted
+    loop
+    playsinline
+    class="absolute inset-0 w-full h-full object-cover opacity-40 z-0 hidden md:block"
+  >
+    <source src="/assets/features/cloud-infra-bg.mp4" type="video/mp4" />
+  </video>
+
+  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm z-0"></div>
+
+  <div class="relative z-10 max-w-7xl mx-auto text-center space-y-16">
+    <div class="space-y-6">
+      <h2 class="text-4xl md:text-5xl font-bold">
+        Built for Scale. <span class="text-indigo-400">Ready for Millions.</span>
+      </h2>
+      <p class="text-gray-300 max-w-2xl mx-auto text-lg">
+        Our infrastructure is engineered to sustain enterprise-grade traffic and demanding performance scenarios,
+        all while maintaining resilience and low latency.
+      </p>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-3 gap-8 text-center mt-12">
+      <!-- Stat 1 -->
+      <div class="space-y-2">
+        <div class="text-5xl font-extrabold text-white">
+          <span appCountUp [endVal]="99.98">0</span>%
+        </div>
+        <p class="text-sm text-gray-400 uppercase tracking-wider">Uptime garanti</p>
+      </div>
+
+      <!-- Stat 2 -->
+      <div class="space-y-2">
+        <div class="text-5xl font-extrabold text-white">
+          <span appCountUp [endVal]="200">0</span><span class="text-xl">ms</span>
+        </div>
+        <p class="text-sm text-gray-400 uppercase tracking-wider">Temps moyen API</p>
+      </div>
+
+      <!-- Stat 3 -->
+      <div class="space-y-2">
+        <div class="text-5xl font-extrabold text-white">
+          <span appCountUp [endVal]="1000000">0</span>+
+        </div>
+        <p class="text-sm text-gray-400 uppercase tracking-wider">Transactions simulées</p>
+      </div>
+    </div>
+  </div>
+</section>

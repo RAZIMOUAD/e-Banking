@@ -44,8 +44,10 @@
         <log4j.version>2.23.1</log4j.version>
         <!--  Jakarta Validation (ex-Bean Validation API) -->
         <jakarta.validation.version>3.1.0</jakarta.validation.version>
-
-
+        <!-- JUnit 5 Version -->
+        <junit.version>5.10.1</junit.version>
+        <!-- Mockito Version -->
+        <mockito.version>5.10.0</mockito.version>
     </properties>
 
     <dependencies>
@@ -62,6 +64,14 @@
             <artifactId>spring-security-web</artifactId>
             <version>${spring.security.version}</version>
         </dependency>
+
+        <!-- Spring Security Config - Nécessaire pour les annotations de configuration de sécurité -->
+        <dependency>
+            <groupId>org.springframework.security</groupId>
+            <artifactId>spring-security-config</artifactId>
+            <version>${spring.security.version}</version>
+        </dependency>
+
         <!-- Jakarta Servlet API -->
         <dependency>
             <groupId>jakarta.servlet</groupId>
@@ -69,35 +79,53 @@
             <version>${jakarta.servlet.version}</version>
             <scope>provided</scope> <!-- car elle est fournie par le conteneur (Tomcat) -->
         </dependency>
+
         <!-- API JPA Jakarta (utilisé par Hibernate & Spring Data JPA) -->
         <dependency>
             <groupId>jakarta.persistence</groupId>
             <artifactId>jakarta.persistence-api</artifactId>
             <version>${jakarta.persistence.version}</version>
         </dependency>
+
         <!--  Hibernate ORM : moteur principal de persistance JPA -->
         <dependency>
             <groupId>org.hibernate.orm</groupId>
             <artifactId>hibernate-core</artifactId>
             <version>${hibernate.version}</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>javax.persistence</groupId>
+                    <artifactId>javax.persistence-api</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
         <!--  Intégration de Spring avec Hibernate / JPA -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-jpa</artifactId>
             <version>${spring.data.jpa.version}</version>
         </dependency>
+
         <!--  PostgreSQL JDBC Driver (driver relationnel principal) -->
         <dependency>
             <groupId>org.postgresql</groupId>
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
         </dependency>
+
         <!--  Intégration MongoDB avec Spring Data -->
         <dependency>
             <groupId>org.springframework.data</groupId>
             <artifactId>spring-data-mongodb</artifactId>
             <version>${mongodb.version}</version>
+        </dependency>
+
+        <!-- MongoDB Java Driver - Nécessaire pour les classes MongoClient -->
+        <dependency>
+            <groupId>org.mongodb</groupId>
+            <artifactId>mongodb-driver-sync</artifactId>
+            <version>4.11.1</version>
         </dependency>
 
         <!--  JJWT API (interface de haut niveau) -->
@@ -128,12 +156,14 @@
                 </exclusion>
             </exclusions>
         </dependency>
+
         <!--  Jackson-databind corrigé (2.15.4) -->
         <dependency>
             <groupId>com.fasterxml.jackson.core</groupId>
             <artifactId>jackson-databind</artifactId>
             <version>2.15.4</version>
         </dependency>
+
         <!--  Lombok pour génération automatique de code (compile-time) -->
         <dependency>
             <groupId>org.projectlombok</groupId>
@@ -141,6 +171,7 @@
             <version>${lombok.version}</version>
             <scope>provided</scope> <!-- car utilisé uniquement à la compilation -->
         </dependency>
+
         <!--  Log4j2 backend pour SLF4J (version sécurisée et maintenue) -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -166,6 +197,7 @@
             <artifactId>jakarta.validation-api</artifactId>
             <version>${jakarta.validation.version}</version>
         </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -177,13 +209,31 @@
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
         </dependency>
+
+        <!-- === DÉPENDANCES DE TEST === -->
+        <!-- JUnit 5 - API principale et moteur -->
         <dependency>
             <groupId>org.junit.jupiter</groupId>
-            <artifactId>junit-jupiter</artifactId>
-            <version>5.10.1</version>
+            <artifactId>junit-jupiter-api</artifactId>
+            <version>${junit.version}</version>
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-engine</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.junit.jupiter</groupId>
+            <artifactId>junit-jupiter-params</artifactId>
+            <version>${junit.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Spring Test avec support JUnit 5 -->
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-test</artifactId>
@@ -191,32 +241,84 @@
             <scope>test</scope>
         </dependency>
 
+        <!-- Mockito pour les tests unitaires -->
         <dependency>
             <groupId>org.mockito</groupId>
             <artifactId>mockito-core</artifactId>
-            <version>5.10.0</version>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <dependency>
+            <groupId>org.mockito</groupId>
+            <artifactId>mockito-junit-jupiter</artifactId>
+            <version>${mockito.version}</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- Support MongoDB pour tests -->
+        <dependency>
+            <groupId>de.flapdoodle.embed</groupId>
+            <artifactId>de.flapdoodle.embed.mongo</artifactId>
+            <version>4.11.1</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- H2 Database pour tests SQL en mémoire -->
+        <dependency>
+            <groupId>com.h2database</groupId>
+            <artifactId>h2</artifactId>
+            <version>2.2.224</version>
+            <scope>test</scope>
+        </dependency>
+
+        <!-- AssertJ pour des assertions fluides -->
+        <dependency>
+            <groupId>org.assertj</groupId>
+            <artifactId>assertj-core</artifactId>
+            <version>3.24.2</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
 
     <build>
         <plugins>
-            <!-- ✅ Active la conservation des noms de paramètres -->
+            <!-- Configuration du compilateur avec conservation des noms de paramètres -->
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
-                <version>3.11.0</version> <!-- Tu peux ajuster la version -->
+                <version>3.11.0</version>
                 <configuration>
                     <source>17</source>
                     <target>17</target>
+                    <release>17</release> <!-- Utilisez release plutôt que source/target -->
                     <compilerArgs>
                         <arg>-parameters</arg>
                     </compilerArgs>
                 </configuration>
             </plugin>
 
-            <!-- ...autres plugins éventuels... -->
+            <!-- Configuration du plugin Surefire pour les tests JUnit 5 -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-surefire-plugin</artifactId>
+                <version>3.2.2</version>
+                <configuration>
+                    <includes>
+                        <include>**/*Test.java</include>
+                    </includes>
+                </configuration>
+            </plugin>
+
+            <!-- Plugin WAR pour le packaging -->
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-war-plugin</artifactId>
+                <version>3.4.0</version>
+                <configuration>
+                    <failOnMissingWebXml>false</failOnMissingWebXml>
+                </configuration>
+            </plugin>
         </plugins>
     </build>
-
 </project>

@@ -1,4 +1,5 @@
 package com.ebanking.core.config;
+
 import jakarta.persistence.EntityManagerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
@@ -10,9 +11,9 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 
-
 import javax.sql.DataSource;
 import java.util.Properties;
+
 @Configuration
 @EnableTransactionManagement
 @EnableJpaRepositories(basePackages = "com.ebanking.core.repository")
@@ -22,9 +23,9 @@ public class DatabaseConfig {
     public DataSource dataSource() {
         DriverManagerDataSource ds = new DriverManagerDataSource();
         ds.setDriverClassName("org.postgresql.Driver");
-        ds.setUrl("jdbc:postgresql://localhost:5432/ebanking_db");
-        ds.setUsername("postgres");
-        ds.setPassword("your_password");
+        ds.setUrl("jdbc:postgresql://pg-3bb6ecbc-khaliltahoun-513e.i.aivencloud.com:16291/ebankingdb?sslmode=require");
+        ds.setUsername("avnadmin");
+        ds.setPassword("AVNS_0XZH_V21HYsRuuAyE0l");
         return ds;
     }
 

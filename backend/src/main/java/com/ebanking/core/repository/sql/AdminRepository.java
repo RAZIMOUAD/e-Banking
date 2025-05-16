@@ -7,7 +7,7 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
-
+/*
 @Repository
 public interface AdminRepository extends JpaRepository<Admin, Long> {
 
@@ -32,4 +32,4 @@ public interface AdminRepository extends JpaRepository<Admin, Long> {
 
     @Query("SELECT a FROM Admin a JOIN a.roles r WHERE r = :role")
     List<Admin> findAdminsByRole(@Param("role") String role);
-}
+}*/

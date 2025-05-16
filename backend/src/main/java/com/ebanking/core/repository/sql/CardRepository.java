@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+/*
 @Repository
 public interface CardRepository extends JpaRepository<Card, Long> {
 
@@ -43,4 +43,4 @@ public interface CardRepository extends JpaRepository<Card, Long> {
     List<Card> findCardsExpiringBetween(
             @Param("startDate") Date startDate,
             @Param("endDate") Date endDate);
-}
+}*/

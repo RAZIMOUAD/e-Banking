@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
-
+/*
 @Repository
 public interface BudgetRepository extends JpaRepository<Budget, Long> {
 
@@ -39,4 +39,4 @@ public interface BudgetRepository extends JpaRepository<Budget, Long> {
 
     @Query("SELECT COUNT(b) FROM Budget b WHERE b.user.id = :userId AND b.isActive = true")
     long countActiveBudgetsByUserId(@Param("userId") Long userId);
-}
+}*/

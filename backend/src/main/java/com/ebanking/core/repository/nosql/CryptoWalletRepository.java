@@ -9,7 +9,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+/*
 @Repository
 public interface CryptoWalletRepository extends MongoRepository<CryptoWallet, String> {
 
@@ -40,4 +40,4 @@ public interface CryptoWalletRepository extends MongoRepository<CryptoWallet, St
 
     @Query("{ 'balances': { $exists: true, $not: { $size: 0 } } }")
     List<CryptoWallet> findWalletsWithBalances();
-}
+}*/

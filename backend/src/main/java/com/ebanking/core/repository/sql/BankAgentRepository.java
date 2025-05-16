@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+/*
 @Repository
 public interface BankAgentRepository extends JpaRepository<BankAgent, Long> {
 
@@ -34,4 +34,4 @@ public interface BankAgentRepository extends JpaRepository<BankAgent, Long> {
 
     @Query("SELECT ba FROM BankAgent ba JOIN ba.roles r WHERE r = :role")
     List<BankAgent> findAgentsByRole(@Param("role") String role);
-}
+}*/

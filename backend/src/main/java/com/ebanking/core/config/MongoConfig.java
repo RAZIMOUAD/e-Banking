@@ -16,12 +16,12 @@ import org.slf4j.LoggerFactory;
 
 import java.util.concurrent.TimeUnit;
 
-@Configuration
-@EnableMongoRepositories(basePackages = "com.ebanking.core.repository.nosql")
-@PropertySource("classpath:application.properties") // Assurez-vous que ce fichier existe
-public class MongoConfig extends AbstractMongoClientConfiguration {
+//@Configuration
+//@EnableMongoRepositories(basePackages = "com.ebanking.core.repository.nosql")
+//@PropertySource("classpath:application.properties") // Assurez-vous que ce fichier existe
+public class MongoConfig  {
 
-    private static final Logger logger = LoggerFactory.getLogger(MongoConfig.class);
+  /*  private static final Logger logger = LoggerFactory.getLogger(MongoConfig.class);
 
     // ATTENTION: Pour la sécurité en production, utilisez des variables d'environnement
     // ou un gestionnaire de secrets comme Vault plutôt que de hardcoder la chaîne de connexion
@@ -86,5 +86,5 @@ public class MongoConfig extends AbstractMongoClientConfiguration {
             // En environnement de production, vous pourriez vouloir échouer au démarrage
             // throw new RuntimeException("MongoDB health check failed", e);
         }
-    }
+    }*/
 }

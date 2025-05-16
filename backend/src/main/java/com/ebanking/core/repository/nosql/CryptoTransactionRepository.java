@@ -10,7 +10,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+/*
 @Repository
 public interface CryptoTransactionRepository extends MongoRepository<CryptoTransaction, String> {
 
@@ -47,4 +47,4 @@ public interface CryptoTransactionRepository extends MongoRepository<CryptoTrans
 
     @Query(value = "{ 'status': 'CONFIRMED' }", count = true)
     long countConfirmedTransactions();
-}
+}*/

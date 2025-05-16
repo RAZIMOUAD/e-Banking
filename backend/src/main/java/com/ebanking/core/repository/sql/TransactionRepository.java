@@ -14,7 +14,7 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
-
+/*
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
 
@@ -52,4 +52,4 @@ public interface TransactionRepository extends JpaRepository<Transaction, Long> 
     BigDecimal sumAmountByUserAndCategory(
             @Param("userId") Long userId,
             @Param("categoryId") Long categoryId);
-}
+}*/

@@ -10,7 +10,7 @@ import org.springframework.stereotype.Repository;
 import java.math.BigDecimal;
 import java.util.List;
 import java.util.Optional;
-
+/*
 @Repository
 public interface AccountRepository extends JpaRepository<Account, Long> {
 
@@ -35,4 +35,4 @@ public interface AccountRepository extends JpaRepository<Account, Long> {
 
     @Query("SELECT COUNT(a) FROM Account a WHERE a.user.id = :userId AND a.isActive = true")
     long countActiveAccountsByUserId(@Param("userId") Long userId);
-}
+}*/

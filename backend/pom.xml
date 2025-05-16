@@ -23,7 +23,7 @@
         <!--  Version principale de Spring Framework -->
         <spring.version>6.1.14</spring.version>
         <!--  Version stable et compatible avec Spring 6.1.13 -->
-        <spring.security.version>6.3.5</spring.security.version>
+        <spring.security.version>6.4.4</spring.security.version>
         <!--  Jakarta Servlet API (obligatoire avec Tomcat 10.1+) -->
         <jakarta.servlet.version>6.0.0</jakarta.servlet.version>
         <!-- Jakarta Persistence (ex-JPA), version 3.1 pour Hibernate 6.3 -->
@@ -262,7 +262,21 @@
             <artifactId>de.flapdoodle.embed.mongo</artifactId>
             <version>4.11.1</version>
             <scope>test</scope>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.apache.commons</groupId>
+                    <artifactId>commons-compress</artifactId>
+                </exclusion>
+            </exclusions>
         </dependency>
+
+        <dependency>
+            <groupId>org.apache.commons</groupId>
+            <artifactId>commons-compress</artifactId>
+            <version>1.26.0</version>
+            <scope>test</scope>
+        </dependency>
+
 
         <!-- H2 Database pour tests SQL en mémoire -->
         <dependency>

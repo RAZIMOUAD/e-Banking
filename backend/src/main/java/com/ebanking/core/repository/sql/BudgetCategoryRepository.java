@@ -9,7 +9,7 @@ import org.springframework.stereotype.Repository;
 
 import java.math.BigDecimal;
 import java.util.List;
-
+/*
 @Repository
 public interface BudgetCategoryRepository extends JpaRepository<BudgetCategory, Long> {
 
@@ -42,4 +42,4 @@ public interface BudgetCategoryRepository extends JpaRepository<BudgetCategory, 
 
     @Query("SELECT SUM(bc.spentAmount) FROM BudgetCategory bc WHERE bc.budget.id = :budgetId")
     BigDecimal getTotalSpentAmountByBudgetId(@Param("budgetId") Long budgetId);
-}
+}*/

@@ -7,7 +7,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-
+/*
 @Repository
 public interface AuditLogRepository extends MongoRepository<AuditLog, String> {
 
@@ -40,4 +40,4 @@ public interface AuditLogRepository extends MongoRepository<AuditLog, String> {
 
     @Query("{ 'timestamp': { $gte: ?0 }, 'userIp': { $in: ?1 } }")
     List<AuditLog> findByTimestampAfterAndIpAddressIn(Date timestamp, List<String> ipAddresses);
-}
+}*/

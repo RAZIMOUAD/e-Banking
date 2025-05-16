@@ -8,7 +8,7 @@ import org.springframework.stereotype.Repository;
 
 import java.util.Date;
 import java.util.List;
-
+/*
 @Repository
 public interface SecurityLogRepository extends MongoRepository<SecurityLog, String> {
 
@@ -46,4 +46,4 @@ public interface SecurityLogRepository extends MongoRepository<SecurityLog, Stri
 
     @Query(value = "{ 'eventStatus': 'BLOCKED' }", count = true)
     long countBlockedEvents();
-}
+}*/

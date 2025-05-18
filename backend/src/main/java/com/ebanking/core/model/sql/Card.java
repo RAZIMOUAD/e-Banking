@@ -2,7 +2,7 @@ package com.ebanking.core.model.sql;
 
 import jakarta.persistence.*;
 import java.util.Date;
-
+/*
 @Entity
 @Table(name = "cards")
 public class Card {
@@ -190,4 +190,4 @@ public class Card {
     public void setAccount(Account account) {
         this.account = account;
     }
-}
+}*/

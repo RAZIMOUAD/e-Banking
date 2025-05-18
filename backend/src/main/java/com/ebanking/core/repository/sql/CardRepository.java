@@ -1,7 +1,6 @@
 package com.ebanking.core.repository.sql;
 
-import com.ebanking.core.model.sql.Account;
-import com.ebanking.core.model.sql.Card;
+
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;

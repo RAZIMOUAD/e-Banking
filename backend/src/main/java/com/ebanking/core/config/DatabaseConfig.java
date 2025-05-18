@@ -19,8 +19,8 @@ import java.util.Properties;
 
 @Configuration
 @EnableTransactionManagement
-@EnableJpaAuditing(auditorAwareRef = "auditorAware")
-@EnableJpaRepositories(basePackages = "com.ebanking.core.repository")
+@EnableJpaAuditing(auditorAwareRef = "auditorProvider")
+@EnableJpaRepositories(basePackages = "com.ebanking.core.repository.sql")
 public class DatabaseConfig {
 
     @Bean
@@ -37,7 +37,7 @@ public class DatabaseConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(ds);
-        emf.setPackagesToScan("com.ebanking.core.entity");
+        emf.setPackagesToScan("com.ebanking.core.domain");
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Properties props = new Properties();
@@ -54,8 +54,7 @@ public class DatabaseConfig {
         return new JpaTransactionManager(emf);
     }
     @Bean
-    public AuditorAware<String> auditorAware() {
+    public AuditorAware<Long> auditorProvider() {
         return new ApplicationAuditAware();
     }
-
 }

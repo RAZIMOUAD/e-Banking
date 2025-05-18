@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
+/*
 @Entity
 @Table(name = "budget_categories")
 public class BudgetCategory {
-
+/*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -186,4 +186,4 @@ public class BudgetCategory {
                 .multiply(new BigDecimal(100))
                 .doubleValue();
     }
-}
+}*/

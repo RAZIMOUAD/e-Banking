@@ -1,5 +1,6 @@
-package com.ebanking.core.domain.base;
+package com.ebanking.core.domain.base.role;
 
+import com.ebanking.core.domain.base.UserRole;
 import com.ebanking.core.domain.base.enums.RoleType;
 import jakarta.persistence.*;
 import lombok.*;
@@ -29,7 +30,9 @@ public class Role {
 
     @Column(name = "niveau_acces")
     private Integer niveauAcces;
-    // ✅ Ajoute la relation inverse
+
+    @Builder.Default
     @OneToMany(mappedBy = "role", cascade = CascadeType.ALL, orphanRemoval = true)
     private Set<UserRole> userRoles = new HashSet<>();
+
 }

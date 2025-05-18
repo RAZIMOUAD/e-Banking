@@ -48,6 +48,8 @@
         <junit.version>5.10.1</junit.version>
         <!-- Mockito Version -->
         <mockito.version>5.10.0</mockito.version>
+        <!-- JavaMail Version -->
+        <javamail.version>2.0.1</javamail.version>
     </properties>
 
     <dependencies>
@@ -142,6 +144,11 @@
             <version>${jjwt.version}</version>
             <scope>runtime</scope> <!-- fourni au runtime uniquement -->
         </dependency>
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>10.9.0</version>
+        </dependency>
 
         <!--  JJWT JSON support avec Jackson -->
         <dependency>
@@ -171,7 +178,6 @@
             <version>${lombok.version}</version>
             <scope>provided</scope> <!-- car utilisé uniquement à la compilation -->
         </dependency>
-
         <!--  Log4j2 backend pour SLF4J (version sécurisée et maintenue) -->
         <dependency>
             <groupId>org.apache.logging.log4j</groupId>
@@ -198,6 +204,13 @@
             <version>${jakarta.validation.version}</version>
         </dependency>
 
+        <!-- Spring support for JavaMail -->
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-context-support</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
         <dependency>
             <groupId>org.springframework</groupId>
             <artifactId>spring-context</artifactId>
@@ -208,6 +221,18 @@
             <groupId>org.springframework</groupId>
             <artifactId>spring-core</artifactId>
             <version>${spring.version}</version>
+        </dependency>
+        <dependency>
+            <groupId>org.springframework</groupId>
+            <artifactId>spring-aspects</artifactId>
+            <version>${spring.version}</version>
+        </dependency>
+
+        <!-- Jakarta Mail -->
+        <dependency>
+            <groupId>com.sun.mail</groupId>
+            <artifactId>jakarta.mail</artifactId>
+            <version>${javamail.version}</version> <!-- ou la version la plus récente stable -->
         </dependency>
 
         <!-- === DÉPENDANCES DE TEST === -->

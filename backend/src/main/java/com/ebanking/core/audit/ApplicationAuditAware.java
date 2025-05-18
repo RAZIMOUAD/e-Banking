@@ -1,14 +1,27 @@
 package com.ebanking.core.audit;
 
+import com.ebanking.core.domain.base.user.User;
 import org.springframework.data.domain.AuditorAware;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 
 import java.util.Optional;
 
-public class ApplicationAuditAware implements AuditorAware<String> {
-
+public class ApplicationAuditAware implements AuditorAware<Long> {
     @Override
-    public Optional<String> getCurrentAuditor() {
-        // ⛔️ À améliorer plus tard pour détecter l’utilisateur connecté
-        return Optional.of("system"); // Par défaut
+    public Optional<Long> getCurrentAuditor() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+
+        if (authentication == null ||
+                !authentication.isAuthenticated() ||
+                authentication instanceof AnonymousAuthenticationToken
+        ) {
+            return Optional.empty();
+        }
+
+        User userPrincipal = (User) authentication.getPrincipal();
+        return Optional.ofNullable(userPrincipal.getId());
     }
 }
+

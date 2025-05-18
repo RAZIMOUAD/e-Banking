@@ -1,0 +1,143 @@
+<div class="relative w-full h-screen overflow-hidden font-sans">
+
+  <!-- 🎬 Vidéo d’arrière-plan -->
+  <video autoplay muted loop class="absolute inset-0 w-full h-full object-cover">
+    <source src="assets/videos/register-bg.mp4" type="video/mp4" />
+    Your browser does not support the video tag.
+  </video>
+
+  <!-- 🌫️ Effet glassmorphism -->
+  <div class="absolute inset-0 bg-black bg-opacity-50 backdrop-blur-xl z-10"></div>
+
+  <!-- 🧾 Contenu principal -->
+  <div class="relative z-20 flex items-center justify-center h-full px-6 sm:px-8 lg:px-16 py-12">
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 w-full max-w-7xl items-center">
+
+      <!-- 📝 Formulaire d'inscription -->
+      <div class="bg-white/90 p-10 rounded-3xl shadow-2xl backdrop-blur-lg border border-white/20 w-full max-w-xl">
+        <h2 class="text-4xl font-bold mb-8 text-gray-900 tracking-tight">Créer votre compte</h2>
+
+        <form [formGroup]="registerForm" (ngSubmit)="onSubmit()" class="space-y-5">
+          <ng-container *ngFor="let field of steps[currentStep].fields">
+            <input
+              *ngIf="field !== 'genre'"
+              [formControlName]="field"
+              [type]="field === 'email' ? 'email' : field === 'password' ? 'password' : field === 'dateNaissance' ? 'date' : 'text'"
+              [placeholder]="field === 'numTel' ? 'Téléphone' : field.charAt(0).toUpperCase() + field.slice(1)"
+              class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-gray-800 shadow-sm transition"
+            />
+
+            <select
+              *ngIf="field === 'genre'"
+              formControlName="genre"
+              class="w-full px-4 py-3 rounded-xl border border-gray-300 focus:outline-none focus:ring-2 focus:ring-emerald-500 bg-white text-gray-800 shadow-sm"
+            >
+              <option value="">Sélectionner le genre</option>
+              <option value="HOMME">Homme</option>
+              <option value="FEMME">Femme</option>
+            </select>
+          </ng-container>
+
+          <div class="flex justify-between items-center pt-4">
+            <button type="button" *ngIf="currentStep > 0" (click)="previousStep()"
+                    class="text-emerald-700 hover:text-emerald-800 font-semibold">← Précédent</button>
+
+            <ng-container *ngIf="!isLastStep(); else submitBtn">
+              <button type="button" (click)="nextStep()"
+                      class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-xl shadow-md transition">
+                Suivant →
+              </button>
+            </ng-container>
+
+            <ng-template #submitBtn>
+              <button type="submit" [disabled]="loading"
+                      class="bg-emerald-600 hover:bg-emerald-700 text-white px-6 py-2 rounded-xl shadow-md transition">
+                <span *ngIf="!loading">S’inscrire</span>
+                <span *ngIf="loading" class="animate-pulse">Enregistrement...</span>
+              </button>
+            </ng-template>
+          </div>
+
+          <div *ngIf="errorMessage" class="text-red-600 mt-2 text-sm">
+            {{ errorMessage }}
+          </div>
+        </form>
+      </div>
+
+      <!-- 💳 Carte utilisateur -->
+      <div class="flex justify-center items-center h-full">
+        <app-register-card
+          class="transform scale-125 max-w-[400px] w-full transition duration-300 ease-in-out drop-shadow-2xl"
+          [nom]="registerForm.get('nom')?.value"
+          [prenom]="registerForm.get('prenom')?.value"
+          [cin]="registerForm.get('cin')?.value"
+          [dateNaissance]="registerForm.get('dateNaissance')?.value"
+          [nationalite]="registerForm.get('nationalite')?.value"
+          [genre]="registerForm.get('genre')?.value"
+          [adresse]="registerForm.get('adresse')?.value"
+          [numTel]="registerForm.get('numTel')?.value"
+          [email]="registerForm.get('email')?.value"
+        />
+      </div>
+
+      <!-- 🔗 Bouton connexion -->
+      <div class="absolute bottom-8 right-10 z-30">
+        <a routerLink="/login"
+           class="text-white bg-emerald-600 hover:bg-emerald-700 px-5 py-2 rounded-xl shadow-lg text-sm font-medium transition-all">
+          Déjà inscrit ? Se connecter
+        </a>
+      </div>
+    </div>
+  </div>
+
+  <!-- ✅ Bloc d’activation (overlay sécurisé) -->
+  <div *ngIf="showActivation" class="fixed inset-0 z-50 bg-black/60 backdrop-blur-sm flex items-center justify-center">
+    <div class="bg-white rounded-3xl shadow-2xl p-8 w-full max-w-md mx-auto text-center relative border border-emerald-200 animate-fade-in">
+      <div class="flex items-center justify-center mb-4">
+        <svg class="w-12 h-12 text-emerald-600" fill="none" stroke="currentColor" stroke-width="2"
+             viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round"
+                d="M12 11c0 1.105-.895 2-2 2s-2-.895-2-2 .895-2 2-2 2 .895 2 2zm0 0v2a2 2 0 104 0v-2M12 7c1.105 0 2-.895 2-2s-.895-2-2-2-2 .895-2 2 .895 2 2 2z"/>
+        </svg>
+      </div>
+
+      <h2 class="text-2xl font-bold text-gray-800 mb-2">Vérification du compte</h2>
+      <p class="text-sm text-gray-600 mb-6">
+        Un code de validation a été envoyé à <span class="font-semibold text-emerald-700">{{ registeredEmail }}</span>.
+      </p>
+
+      <form [formGroup]="activationForm" (ngSubmit)="onActivate()" class="space-y-4">
+        <input
+          formControlName="code"
+          type="text"
+          maxlength="8"
+          placeholder="••••••••"
+          inputmode="numeric"
+          class="w-full px-5 py-3 border-2 border-emerald-300 text-center text-lg tracking-widest font-mono rounded-xl focus:outline-none focus:ring-2 focus:ring-emerald-500 transition"
+        />
+
+        <button
+          type="submit"
+          [disabled]="activationForm.invalid || loading"
+          class="w-full bg-emerald-600 hover:bg-emerald-700 text-white font-semibold py-3 rounded-xl transition shadow-lg"
+        >
+          Valider le code
+        </button>
+
+        <div *ngIf="activationError" class="text-red-600 text-sm mt-1 font-medium">
+          {{ activationError }}
+        </div>
+      </form>
+
+      <div *ngIf="loading" class="mt-4 text-sm text-gray-500 animate-pulse">
+        Vérification en cours...
+      </div>
+
+      <button type="button" (click)="showActivation = false"
+              class="absolute top-3 right-4 text-gray-500 hover:text-gray-700 transition">
+        ✕
+      </button>
+    </div>
+  </div>
+
+</div>

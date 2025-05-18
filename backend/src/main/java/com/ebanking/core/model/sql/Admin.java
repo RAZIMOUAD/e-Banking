@@ -1,11 +1,11 @@
 package com.ebanking.core.model.sql;
 
 import jakarta.persistence.*;
-
+/*
 @Entity
 @Table(name = "admins")
 public class Admin extends User {
-
+/*
     @Column(name = "admin_level")
     @Enumerated(EnumType.STRING)
     private AdminLevel adminLevel;
@@ -83,4 +83,4 @@ public class Admin extends User {
     public void setCanManageSystem(boolean canManageSystem) {
         this.canManageSystem = canManageSystem;
     }
-}
+}*/

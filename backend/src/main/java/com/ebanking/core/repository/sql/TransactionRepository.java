@@ -1,8 +1,6 @@
 package com.ebanking.core.repository.sql;
 
-import com.ebanking.core.model.sql.Account;
-import com.ebanking.core.model.sql.BudgetCategory;
-import com.ebanking.core.model.sql.Transaction;
+
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.JpaRepository;

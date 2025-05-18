@@ -1,6 +1,6 @@
 package com.ebanking.core.repository.nosql;
 
-import com.ebanking.core.model.nosql.AuditLog;
+
 import org.springframework.data.mongodb.repository.MongoRepository;
 import org.springframework.data.mongodb.repository.Query;
 import org.springframework.stereotype.Repository;

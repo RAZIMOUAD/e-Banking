@@ -2,11 +2,11 @@ package com.ebanking.core.model.sql;
 
 import jakarta.persistence.*;
 import java.util.Date;
-
+/*
 @Entity
 @Table(name = "bank_agents")
 public class BankAgent extends User {
-
+/*
     @Column(name = "employee_id", nullable = false, unique = true)
     private String employeeId;
 
@@ -85,4 +85,4 @@ public class BankAgent extends User {
     public void setAccessLevel(AccessLevel accessLevel) {
         this.accessLevel = accessLevel;
     }
-}
+}*/

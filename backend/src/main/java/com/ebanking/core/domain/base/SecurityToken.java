@@ -1,5 +1,6 @@
 package com.ebanking.core.domain.base;
 
+import com.ebanking.core.domain.base.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import java.util.Date;
@@ -17,11 +18,11 @@ public class SecurityToken {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, length = 6)
+    @Column(nullable = false, length = 8)
     private String code;
 
     @Column(nullable = false, length = 20)
-    private String type; // Exemple : "2FA", "RESET_PASSWORD"
+    private String type; // Exemple : "2FA", "RESET_PASSWORD","VERIFY_EMAIL"
 
     @Column(nullable = false)
     private boolean usageUnique;

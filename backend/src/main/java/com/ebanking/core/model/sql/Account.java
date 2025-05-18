@@ -5,11 +5,11 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashSet;
 import java.util.Set;
-
+/*
 @Entity
 @Table(name = "accounts")
 public class Account {
-
+/*
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -183,4 +183,4 @@ public class Account {
         this.cards.add(card);
         card.setAccount(this);
     }
-}
+}*/

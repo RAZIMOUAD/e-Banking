@@ -1,5 +1,7 @@
 package com.ebanking.core.domain.base;
 
+import com.ebanking.core.domain.base.role.Role;
+import com.ebanking.core.domain.base.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 

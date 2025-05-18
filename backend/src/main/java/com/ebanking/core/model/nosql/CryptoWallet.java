@@ -6,10 +6,10 @@ import java.math.BigDecimal;
 import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
-
+/*
 @Document(collection = "crypto_wallets")
 public class CryptoWallet {
-
+/*
     @Id
     private String id;
 
@@ -160,4 +160,4 @@ public class CryptoWallet {
                 ", balances=" + balances.size() + " cryptocurrencies" +
                 '}';
     }
-}
+}*/

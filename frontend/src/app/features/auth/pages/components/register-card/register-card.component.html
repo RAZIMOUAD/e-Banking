@@ -1,0 +1,45 @@
+<div class="relative w-full max-w-sm h-[240px] bg-gradient-to-br from-[#0f172a] via-[#1e293b] to-[#065f46] rounded-2xl text-white shadow-2xl overflow-hidden p-5 font-sans tracking-tight">
+
+  <!-- ✨ Effet shine -->
+  <div class="absolute top-0 left-0 w-full h-full bg-gradient-to-r from-transparent via-white/10 to-transparent animate-shine"></div>
+
+  <!-- 🏦 Header carte -->
+  <div class="flex justify-between items-center">
+    <h2 class="text-xl font-semibold uppercase tracking-wider text-gray-100">E-BANKING</h2>
+    <img
+      ngSrc="/assets/features/visa.svg"
+      alt="logo visa"
+      width="48"
+      height="32"
+      class="w-12 h-auto"
+      priority
+    />
+  </div>
+
+  <!-- 👤 Infos principales -->
+  <div class="mt-6 space-y-1">
+    <p class="text-[11px] uppercase text-gray-400">Nom du titulaire</p>
+    <p class="text-xl font-bold uppercase text-gray-100">{{ fullName || 'Nom Prénom' }}</p>
+
+    <p class="text-[11px] uppercase text-gray-400 mt-3">Identifiant (CIN)</p>
+    <p class="text-md font-medium text-gray-100">{{ cin || 'XXXXXXX' }}</p>
+  </div>
+
+  <!-- 📅 Date de naissance -->
+  <div class="absolute bottom-4 left-5 text-xs text-gray-300 space-y-0.5">
+    <p class="uppercase text-[10px]">Date de naissance</p>
+    <p class="font-semibold text-sm">{{ dateNaissance || 'JJ/MM/AAAA' }}</p>
+  </div>
+
+  <!-- 🔰 Logo -->
+  <div class="absolute bottom-4 right-5">
+    <img
+      ngSrc="/assets/features/abstract41g.svg"
+      alt="logo"
+      width="48"
+      height="48"
+      class="h-12 opacity-90"
+      loading="lazy"
+    />
+  </div>
+</div>

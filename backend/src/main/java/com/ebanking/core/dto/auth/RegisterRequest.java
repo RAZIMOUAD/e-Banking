@@ -1,9 +1,7 @@
 package com.ebanking.core.dto.auth;
 
-import com.ebanking.core.domain.base.role.Role;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
-import jakarta.validation.constraints.NotNull;
 import lombok.*;
 
 import java.util.Date;

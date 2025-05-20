@@ -1,4 +1,10 @@
 package com.ebanking.core.service.stats;
 
-public class StatsService {
+
+
+
+import com.ebanking.core.dto.stats.StatsResponse;
+
+public interface StatsService {
+    StatsResponse getStats();
 }

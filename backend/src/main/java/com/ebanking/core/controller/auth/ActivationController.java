@@ -2,7 +2,6 @@ package com.ebanking.core.controller.auth;
 
 import com.ebanking.core.dto.auth.ActivationRequest;
 import com.ebanking.core.service.auth.ActivationService;
-import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;

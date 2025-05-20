@@ -44,7 +44,6 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         System.out.println("Tentative d'authentification : " + request.getEmail());
 
-        // Étape 1 : vérifier les identifiants
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -57,15 +56,34 @@ public class AuthenticationService {
 
         System.out.println("✅ Utilisateur trouvé : " + user.getEmail());
 
-        // ✉️ Étape 2 : envoi du code SMS 2FA pour tout le monde (même si twoFactorEnabled = false)
-        twilioVerifyService.sendVerificationCode(user.getPersonne().getNumTel());
+        // Vérifier si l'utilisateur a le rôle CLIENT
+        boolean isClient = user.getUserRoles().stream()
+                .anyMatch(userRole -> userRole.getRole().getName().name().equalsIgnoreCase("CLIENT"));
 
-        // 🔁 Ne pas encore générer les tokens
+        if (isClient) {
+            // Envoi du code 2FA par SMS uniquement pour les clients
+            twilioVerifyService.sendVerificationCode(user.getPersonne().getNumTel());
+
+            return AuthenticationResponse.builder()
+                    .message("2FA_REQUIRED")
+                    .requires2FA(true)
+                    .build();
+        }
+
+        // Admin ou Agent : connexion immédiate sans 2FA
+        var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
+
         return AuthenticationResponse.builder()
-                .message("2FA_REQUIRED")
-                .requires2FA(true)
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .requires2FA(false)
                 .build();
     }
+
+
 
 
 

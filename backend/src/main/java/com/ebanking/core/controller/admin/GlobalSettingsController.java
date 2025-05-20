@@ -1,11 +1,10 @@
-package com.ebanking.core.controller.globalsettings;
+package com.ebanking.core.controller.admin;
 
 import com.ebanking.core.dto.globalsettings.GlobalSettingsRequest;
 import com.ebanking.core.dto.globalsettings.GlobalSettingsResponse;
 import com.ebanking.core.service.globalsettings.GlobalSettingsService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
 
 @RestController

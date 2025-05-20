@@ -1,6 +1,7 @@
 package com.ebanking.core.repository.sql;
 
 
+import com.ebanking.core.domain.base.enums.RoleType;
 import com.ebanking.core.domain.base.user.User;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
@@ -18,6 +19,14 @@ public interface UserRepository extends JpaRepository<User, Long> {
 
     Optional<User> findByEmail(String email);
     Optional<User> findByUsernameOrEmail(String username, String email);
+    // UserRepository.java
+    @Query("SELECT COUNT(ur.user) FROM UserRole ur WHERE ur.role.name = :role")
+    int countByRole(@Param("role") RoleType role);
+
+
+
+
+
 
   /*  boolean existsByUsername(String username);
 

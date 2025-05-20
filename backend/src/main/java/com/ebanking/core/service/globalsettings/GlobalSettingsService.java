@@ -1,4 +1,9 @@
-package com.ebanking.core.service.GlobalSettings;
+package com.ebanking.core.service.globalsettings;
 
-public class GlobalSettingsService {
+import com.ebanking.core.dto.globalsettings.GlobalSettingsRequest;
+import com.ebanking.core.dto.globalsettings.GlobalSettingsResponse;
+
+public interface GlobalSettingsService {
+    GlobalSettingsResponse get();
+    GlobalSettingsResponse update(GlobalSettingsRequest request);
 }

@@ -1,4 +1,12 @@
-package com.ebanking.core.domain.base.admin;
+package com.ebanking.core.domain.base.personne;
 
-public class AdminPersonne {
+import jakarta.persistence.Entity;
+import lombok.*;
+import lombok.experimental.SuperBuilder;
+
+@Entity
+@SuperBuilder
+@AllArgsConstructor // ✅ fournit le constructeur complet
+public class AdminPersonne extends Personne {
+    // Ne redéfinis PAS de constructeur manuellement ici
 }

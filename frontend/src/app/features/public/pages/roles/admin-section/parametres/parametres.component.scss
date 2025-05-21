@@ -1,0 +1,126 @@
+.parametres-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+
+  @media (max-width: 768px) {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 16px;
+  }
+
+  .page-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    color: #0f172a; /* Slate 900 */
+  }
+
+  .page-subtitle {
+    margin: 4px 0 0;
+    color: #64748b; /* Slate 500 */
+    font-size: 14px;
+  }
+}
+
+.settings-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+
+  ::ng-deep .mat-mdc-tab-header {
+    background-color: #f8fafc; /* Slate 50 */
+    border-bottom: 1px solid #e2e8f0; /* Slate 200 */
+  }
+
+  ::ng-deep .mat-mdc-tab-body-content {
+    padding: 24px;
+  }
+}
+
+.settings-form {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+
+  .form-row {
+    display: flex;
+    gap: 24px;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+    }
+
+    mat-form-field {
+      flex: 1;
+    }
+
+    &.full-width {
+      flex: 1 0 100%;
+    }
+  }
+
+  .toggle-field {
+    display: flex;
+    flex-direction: column;
+    flex: 1;
+    padding: 12px 16px;
+    border-radius: 4px;
+    border: 1px solid #e2e8f0; /* Slate 200 */
+    min-height: 56px;
+
+    label {
+      font-size: 12px;
+      font-weight: 500;
+      color: #64748b; /* Slate 500 */
+      margin-bottom: 8px;
+    }
+
+    .hint-text {
+      font-size: 12px;
+      color: #94a3b8; /* Slate 400 */
+      margin-top: 8px;
+    }
+  }
+
+  mat-divider {
+    margin: 12px 0;
+  }
+
+  .form-actions {
+    display: flex;
+    justify-content: flex-end;
+    margin-top: 16px;
+
+    button {
+      mat-icon {
+        margin-right: 8px;
+      }
+    }
+  }
+}
+
+.notification-section {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  margin-bottom: 24px;
+
+  h3 {
+    font-size: 16px;
+    font-weight: 500;
+    margin: 0 0 8px;
+    color: #0f172a; /* Slate 900 */
+  }
+}
+
+.full-width {
+  width: 100%;
+}

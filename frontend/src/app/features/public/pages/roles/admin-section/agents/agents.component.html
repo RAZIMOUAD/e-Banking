@@ -1,0 +1,147 @@
+<div class="agents-container" [@fadeInOut]>
+  <!-- Page header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">Agents Management</h1>
+      <p class="page-subtitle">Manage all banking agents from this interface</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="openAgentDialog()">
+      <mat-icon>add</mat-icon>
+      Add New Agent
+    </button>
+  </div>
+
+  <!-- Filters section -->
+  <mat-card class="filters-card">
+    <mat-card-content>
+      <div class="filters-container">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search Agents</mat-label>
+          <input matInput (keyup)="onSearch($event)" placeholder="Search by name, email or phone">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <div class="status-filters">
+          <mat-chip-listbox [value]="statusFilter" (change)="onStatusFilterChange($event.value)">
+            <mat-chip-option value="all" selected>All</mat-chip-option>
+            <mat-chip-option value="Active">Active</mat-chip-option>
+            <mat-chip-option value="Inactive">Inactive</mat-chip-option>
+            <mat-chip-option value="Suspended">Suspended</mat-chip-option>
+          </mat-chip-listbox>
+        </div>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Agents table -->
+  <mat-card class="agents-table-card">
+    <mat-card-content>
+      <table mat-table [dataSource]="filteredData" matSort class="agents-table">
+        <!-- ID Column -->
+        <ng-container matColumnDef="id">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+          <td mat-cell *matCellDef="let agent">{{ agent.id }}</td>
+        </ng-container>
+
+        <!-- Name Column -->
+        <ng-container matColumnDef="name">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+          <td mat-cell *matCellDef="let agent">{{ agent.name }}</td>
+        </ng-container>
+
+        <!-- Email Column -->
+        <ng-container matColumnDef="email">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Email</th>
+          <td mat-cell *matCellDef="let agent">{{ agent.email }}</td>
+        </ng-container>
+
+        <!-- Phone Column -->
+        <ng-container matColumnDef="phone">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Phone</th>
+          <td mat-cell *matCellDef="let agent">{{ agent.phone }}</td>
+        </ng-container>
+
+        <!-- Status Column -->
+        <ng-container matColumnDef="status">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+          <td mat-cell *matCellDef="let agent">
+            <span class="status-badge" [ngClass]="agent.status.toLowerCase()">
+              {{ agent.status }}
+            </span>
+          </td>
+        </ng-container>
+
+        <!-- Registration Date Column -->
+        <ng-container matColumnDef="registrationDate">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Registration</th>
+          <td mat-cell *matCellDef="let agent">{{ agent.registrationDate | date }}</td>
+        </ng-container>
+
+        <!-- Last Active Column -->
+        <ng-container matColumnDef="lastActive">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Active</th>
+          <td mat-cell *matCellDef="let agent">{{ agent.lastActive | date:'short' }}</td>
+        </ng-container>
+
+        <!-- Transactions Count Column -->
+        <ng-container matColumnDef="transactionsCount">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Transactions</th>
+          <td mat-cell *matCellDef="let agent">{{ agent.transactionsCount }}</td>
+        </ng-container>
+
+        <!-- Actions Column -->
+        <ng-container matColumnDef="actions">
+          <th mat-header-cell *matHeaderCellDef>Actions</th>
+          <td mat-cell *matCellDef="let agent">
+            <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Agent actions">
+              <mat-icon>more_vert</mat-icon>
+            </button>
+            <mat-menu #menu="matMenu">
+              <button mat-menu-item (click)="openAgentDialog(agent)">
+                <mat-icon>edit</mat-icon>
+                <span>Edit</span>
+              </button>
+              <button mat-menu-item [matMenuTriggerFor]="statusMenu">
+                <mat-icon>swap_horiz</mat-icon>
+                <span>Change Status</span>
+              </button>
+              <button mat-menu-item (click)="deleteAgent(agent.id)">
+                <mat-icon>delete</mat-icon>
+                <span>Delete</span>
+              </button>
+            </mat-menu>
+            <mat-menu #statusMenu="matMenu">
+              <button mat-menu-item (click)="changeAgentStatus(agent.id, 'Active')" *ngIf="agent.status !== 'Active'">
+                <span class="status-indicator active"></span>
+                <span>Active</span>
+              </button>
+              <button mat-menu-item (click)="changeAgentStatus(agent.id, 'Inactive')" *ngIf="agent.status !== 'Inactive'">
+                <span class="status-indicator inactive"></span>
+                <span>Inactive</span>
+              </button>
+              <button mat-menu-item (click)="changeAgentStatus(agent.id, 'Suspended')" *ngIf="agent.status !== 'Suspended'">
+                <span class="status-indicator suspended"></span>
+                <span>Suspended</span>
+              </button>
+            </mat-menu>
+          </td>
+        </ng-container>
+
+        <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+        <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
+      </table>
+
+      <!-- No data message -->
+      <div class="no-data" *ngIf="filteredData.length === 0">
+        <mat-icon>search_off</mat-icon>
+        <p>No agents found matching your criteria</p>
+        <button mat-button color="primary" (click)="searchTerm = ''; statusFilter = 'all'; applyFilters()">
+          Clear Filters
+        </button>
+      </div>
+
+      <!-- Paginator -->
+      <mat-paginator [pageSizeOptions]="[5, 10, 25, 50]" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

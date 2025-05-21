@@ -1,0 +1,269 @@
+.dashboard-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 16px;
+
+  .page-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    color: #0f172a; /* Slate 900 */
+  }
+
+  .page-subtitle {
+    margin: 4px 0 0;
+    color: #64748b; /* Slate 500 */
+    font-size: 14px;
+  }
+
+  .date-range-picker {
+    mat-form-field {
+      width: 180px;
+    }
+  }
+}
+
+.metrics-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+  gap: 24px;
+  margin-bottom: 16px;
+}
+
+.metric-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+
+  &:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 6px 12px rgba(0, 0, 0, 0.12);
+  }
+
+  &.users {
+    border-left: 4px solid #3b82f6; /* Blue 500 */
+    .metric-icon {
+      background-color: rgba(59, 130, 246, 0.1);
+      color: #3b82f6;
+    }
+  }
+
+  &.transactions {
+    border-left: 4px solid #10b981; /* Emerald 500 */
+    .metric-icon {
+      background-color: rgba(16, 185, 129, 0.1);
+      color: #10b981;
+    }
+  }
+
+  &.revenue {
+    border-left: 4px solid #f59e0b; /* Amber 500 */
+    .metric-icon {
+      background-color: rgba(245, 158, 11, 0.1);
+      color: #f59e0b;
+    }
+  }
+
+  &.agents {
+    border-left: 4px solid #8b5cf6; /* Violet 500 */
+    .metric-icon {
+      background-color: rgba(139, 92, 246, 0.1);
+      color: #8b5cf6;
+    }
+  }
+}
+
+.metric-content {
+  display: flex;
+  align-items: center;
+  padding: 6px;
+}
+
+.metric-icon {
+  width: 48px;
+  height: 48px;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 16px;
+
+  mat-icon {
+    font-size: 24px;
+    height: 24px;
+    width: 24px;
+  }
+}
+
+.metric-details {
+  flex: 1;
+
+  .metric-title {
+    margin: 0;
+    font-size: 14px;
+    color: #64748b; /* Slate 500 */
+    font-weight: 500;
+  }
+
+  .metric-value {
+    margin: 6px 0;
+    font-size: 24px;
+    font-weight: 600;
+    color: #0f172a; /* Slate 900 */
+  }
+
+  .metric-change {
+    display: flex;
+    align-items: center;
+    font-size: 12px;
+
+    mat-icon {
+      font-size: 14px;
+      height: 14px;
+      width: 14px;
+      margin-right: 4px;
+    }
+
+    &.positive {
+      color: #10b981; /* Emerald 500 */
+    }
+
+    &.negative {
+      color: #ef4444; /* Red 500 */
+    }
+  }
+}
+
+.charts-section {
+  .chart-row {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 24px;
+
+    @media (max-width: 1024px) {
+      grid-template-columns: 1fr;
+    }
+  }
+}
+
+.chart-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+  mat-card-header {
+    padding: 16px;
+    display: flex;
+    align-items: center;
+
+    mat-card-title {
+      margin: 0;
+      font-size: 16px;
+      font-weight: 600;
+    }
+
+    .chart-actions {
+      margin-left: auto;
+    }
+  }
+
+  .chart-container {
+    height: 300px;
+    position: relative;
+    padding: 16px;
+  }
+}
+
+.recent-activity {
+  margin-top: 24px;
+
+  mat-card {
+    border-radius: 12px;
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+
+    mat-card-header {
+      padding: 16px;
+      display: flex;
+      align-items: center;
+
+      mat-card-title {
+        margin: 0;
+        font-size: 16px;
+        font-weight: 600;
+      }
+
+      .spacer {
+        flex: 1;
+      }
+    }
+
+    mat-card-content {
+      padding: 0;
+    }
+  }
+}
+
+.activity-table {
+  width: 100%;
+
+  th {
+    font-weight: 500;
+    color: #64748b; /* Slate 500 */
+    white-space: nowrap;
+  }
+
+  td {
+    padding: 12px 16px;
+    font-size: 14px;
+
+    .transaction-type {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+
+      &.deposit {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: #10b981; /* Emerald 500 */
+      }
+
+      &.withdrawal {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #ef4444; /* Red 500 */
+      }
+
+      &.transfer {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: #3b82f6; /* Blue 500 */
+      }
+    }
+
+    .status-badge {
+      padding: 4px 8px;
+      border-radius: 4px;
+      font-size: 12px;
+      font-weight: 500;
+
+      &.completed {
+        background-color: rgba(16, 185, 129, 0.1);
+        color: #10b981; /* Emerald 500 */
+      }
+
+      &.pending {
+        background-color: rgba(245, 158, 11, 0.1);
+        color: #f59e0b; /* Amber 500 */
+      }
+
+      &.failed {
+        background-color: rgba(239, 68, 68, 0.1);
+        color: #ef4444; /* Red 500 */
+      }
+    }
+  }
+}

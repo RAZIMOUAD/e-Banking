@@ -15,7 +15,7 @@ import {
 @Injectable({ providedIn: 'root' }) // ✅ moderne, standalone-style pour service
 export class AuthService {
   private readonly tokenKey = 'access_token';
-  private readonly API_URL = `${environment.apiUrl}/auth`;
+  private readonly API_URL = `${environment.apiBaseUrl}/auth`;
 
   constructor(private http: HttpClient, private router: Router) {}
 

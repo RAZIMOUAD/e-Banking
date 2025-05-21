@@ -1,6 +1,7 @@
 import { Routes } from '@angular/router';
 import { publicRoutes } from '@features/public/public.routes';
-import { adminRoutes } from '@features/public/pages/roles/admin-section/admin.routes';
+// Changez cette importation pour pointer vers le nouvel emplacement
+import { adminRoutes } from '@features/admin/admin.routes';
 
 export const routes: Routes = [
   ...publicRoutes,

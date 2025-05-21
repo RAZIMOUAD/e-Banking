@@ -1,0 +1,117 @@
+<!-- Main layout for admin dashboard -->
+<div class="admin-dashboard-container">
+  <mat-sidenav-container class="sidenav-container">
+    <mat-sidenav #sidenav mode="side" opened class="sidenav">
+      <div class="sidenav-header">
+        <img src="assets/roles/logo.png" alt="E-Banking Logo" class="logo">
+        <h2>Admin Portal</h2>
+      </div>
+
+      <mat-nav-list>
+        <a mat-list-item routerLink="dashboard" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>dashboard</mat-icon>
+          <span matListItemTitle>Dashboard</span>
+        </a>
+
+        <a mat-list-item routerLink="agents" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>people</mat-icon>
+          <span matListItemTitle>Agents</span>
+        </a>
+
+        <a mat-list-item routerLink="devises" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>currency_exchange</mat-icon>
+          <span matListItemTitle>Currencies</span>
+        </a>
+
+        <a mat-list-item routerLink="audit" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>fact_check</mat-icon>
+          <span matListItemTitle>Audit</span>
+        </a>
+
+        <a mat-list-item routerLink="parametres" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>settings</mat-icon>
+          <span matListItemTitle>Settings</span>
+        </a>
+
+        <a mat-list-item routerLink="logs" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>receipt_long</mat-icon>
+          <span matListItemTitle>Logs</span>
+        </a>
+      </mat-nav-list>
+    </mat-sidenav>
+
+    <mat-sidenav-content>
+      <!-- Top header bar -->
+      <mat-toolbar class="top-toolbar">
+        <button mat-icon-button (click)="sidenav.toggle()" aria-label="Toggle sidebar">
+          <mat-icon>menu</mat-icon>
+        </button>
+
+        <div class="toolbar-spacer"></div>
+
+        <div class="toolbar-actions">
+          <!-- Notification Button with Badge -->
+          <button mat-icon-button class="notifications-button" [matMenuTriggerFor]="notificationsMenu" aria-label="Notifications">
+            <mat-icon>notifications</mat-icon>
+            <span class="notification-badge" *ngIf="notificationCount > 0">{{ notificationCount }}</span>
+          </button>
+
+          <!-- Notification Menu -->
+          <mat-menu #notificationsMenu="matMenu" class="notification-menu" xPosition="before" [overlapTrigger]="false">
+            <div class="notification-menu-header">
+              <h3>Notifications</h3>
+              <button mat-button color="primary" (click)="markAllAsRead()">Mark all as read</button>
+            </div>
+            <div class="notification-items">
+              <div class="notification-item" *ngFor="let notification of notifications" (click)="markAsRead(notification.id)">
+                <div class="notification-icon" [ngClass]="getNotificationIconClass(notification.icon)">
+                  <mat-icon>{{ notification.icon }}</mat-icon>
+                </div>
+                <div class="notification-content">
+                  <div class="notification-title">{{ notification.title }}</div>
+                  <div class="notification-time">{{ notification.time | date:'short' }}</div>
+                </div>
+              </div>
+
+              <!-- Empty state for notifications -->
+              <div class="no-notifications" *ngIf="notifications.length === 0">
+                <mat-icon>notifications_off</mat-icon>
+                <p>No new notifications</p>
+              </div>
+            </div>
+          </mat-menu>
+
+          <!-- User Profile Button -->
+          <button mat-button class="user-profile-button" [matMenuTriggerFor]="userMenu" aria-label="User menu">
+
+            <mat-icon>account_circle</mat-icon>
+            <span>{{ currentUser.name || 'Admin' }}</span>
+            <mat-icon class="dropdown-icon">arrow_drop_down</mat-icon>
+          </button>
+
+          <!-- User Menu -->
+          <mat-menu #userMenu="matMenu" [overlapTrigger]="false">
+            <button mat-menu-item>
+              <mat-icon>person</mat-icon>
+              <span>Profile</span>
+            </button>
+            <button mat-menu-item>
+              <mat-icon>settings</mat-icon>
+              <span>Account Settings</span>
+            </button>
+            <mat-divider></mat-divider>
+            <button mat-menu-item (click)="logout()">
+              <mat-icon>exit_to_app</mat-icon>
+              <span>Logout</span>
+            </button>
+          </mat-menu>
+        </div>
+      </mat-toolbar>
+
+      <!-- Main content area -->
+      <div class="content-container">
+        <router-outlet></router-outlet>
+      </div>
+    </mat-sidenav-content>
+  </mat-sidenav-container>
+</div>

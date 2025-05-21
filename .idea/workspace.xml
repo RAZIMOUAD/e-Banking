@@ -10,25 +10,9 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef85c4fb-78f8-47ac-ba37-8e88de00979f" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/services/admin/agent.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/services/admin/devise.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/core/services/admin/global-settings.service.ts" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.scss" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/angular.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/angular.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package-lock.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package-lock.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/package.json" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/package.json" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.config.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.config.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.routes.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/services/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.css" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/controller/admin/AgentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/controller/admin/AgentController.java" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/roles.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/roles.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/roles.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/roles.component.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/environments/environment.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/environments/environment.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/index.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/index.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.scss" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/public/pages/roles/admin-section/admin-section.component.scss" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -293,7 +277,7 @@
       <workItem from="1747574112911" duration="6841000" />
       <workItem from="1747581888201" duration="7062000" />
       <workItem from="1747596670325" duration="8776000" />
-      <workItem from="1747792068645" duration="1315000" />
+      <workItem from="1747792068645" duration="3243000" />
     </task>
     <servers />
   </component>

@@ -8,35 +8,34 @@
       </div>
 
       <mat-nav-list>
-        <!-- Use a simpler structure that works better with Angular Material's default layout -->
-        <a mat-list-item routerLink="dashboard" routerLinkActive="active">
-          <mat-icon aria-hidden="true">dashboard</mat-icon>
-          <span>Dashboard</span>
+        <a mat-list-item routerLink="dashboard" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>dashboard</mat-icon>
+          <span matListItemTitle>Dashboard</span>
         </a>
 
-        <a mat-list-item routerLink="agents" routerLinkActive="active">
-          <mat-icon aria-hidden="true">people</mat-icon>
-          <span>Agents</span>
+        <a mat-list-item routerLink="agents" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>people</mat-icon>
+          <span matListItemTitle>Agents</span>
         </a>
 
-        <a mat-list-item routerLink="devises" routerLinkActive="active">
-          <mat-icon aria-hidden="true">currency_exchange</mat-icon>
-          <span>Currencies</span>
+        <a mat-list-item routerLink="devises" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>currency_exchange</mat-icon>
+          <span matListItemTitle>Currencies</span>
         </a>
 
-        <a mat-list-item routerLink="audit" routerLinkActive="active">
-          <mat-icon aria-hidden="true">fact_check</mat-icon>
-          <span>Audit</span>
+        <a mat-list-item routerLink="audit" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>fact_check</mat-icon>
+          <span matListItemTitle>Audit</span>
         </a>
 
-        <a mat-list-item routerLink="parametres" routerLinkActive="active">
-          <mat-icon aria-hidden="true">settings</mat-icon>
-          <span>Settings</span>
+        <a mat-list-item routerLink="parametres" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>settings</mat-icon>
+          <span matListItemTitle>Settings</span>
         </a>
 
-        <a mat-list-item routerLink="logs" routerLinkActive="active">
-          <mat-icon aria-hidden="true">receipt_long</mat-icon>
-          <span>Logs</span>
+        <a mat-list-item routerLink="logs" routerLinkActive="mdc-list-item--activated">
+          <mat-icon matListItemIcon>receipt_long</mat-icon>
+          <span matListItemTitle>Logs</span>
         </a>
       </mat-nav-list>
     </mat-sidenav>

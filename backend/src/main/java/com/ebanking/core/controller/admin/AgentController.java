@@ -13,7 +13,7 @@ import java.util.List;
 @RestController
 @RequestMapping("/api/v1/admin/agents")
 @RequiredArgsConstructor
-//@PreAuthorize("hasRole('ADMIN')")
+@PreAuthorize("hasRole('ADMIN')")
 public class AgentController {
 
     private final AgentService agentService;

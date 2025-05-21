@@ -1,3 +1,45 @@
+/* Add this at the top of your existing styles */
+::ng-deep {
+  .mat-drawer-inner-container {
+    overflow: hidden !important;
+  }
+
+  .sidenav {
+    .mat-mdc-list-item {
+      height: auto !important;
+      display: flex !important;
+      flex-direction: column !important;
+      justify-content: center !important;
+      align-items: center !important;
+      padding: 16px 0 !important;
+      margin: 4px 8px !important;
+
+      .mdc-list-item__content {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        justify-content: center !important;
+        width: 100% !important;
+      }
+
+      .mat-mdc-list-item-icon {
+        color: white !important;
+        margin: 0 auto 8px auto !important;
+      }
+
+      .mdc-list-item__primary-text {
+        color: white !important;
+        text-align: center !important;
+        width: 100% !important;
+        margin: 0 !important;
+      }
+
+      &.mdc-list-item--activated {
+        background-color: #3b82f6 !important;
+      }
+    }
+  }
+}
 .admin-dashboard-container {
   height: 100vh;
   display: flex;

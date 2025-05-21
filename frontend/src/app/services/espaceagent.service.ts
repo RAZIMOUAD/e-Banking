@@ -6,11 +6,11 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class EspaceagentService {
-  private baseUrl ="http://localhost:9090/api/v1/agent/clients";
+  private baseUrl ="http://localhost:9090";
   private clients: Observable<any> | undefined;
   constructor(private _httpService: HttpClient){ }
   getAllClients(): Observable<any> {
-    this.clients = this._httpService.get<any>("http://localhost:9090/api/v1/agent/clients");
+    this.clients = this._httpService.get<any>(`${this.baseUrl}/api/v1/agent/clients`);
      return this.clients;
 
   }

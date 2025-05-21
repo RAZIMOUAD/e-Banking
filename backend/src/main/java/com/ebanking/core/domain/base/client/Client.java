@@ -1,8 +1,7 @@
 package com.ebanking.core.domain.base.client;
 
 import com.ebanking.core.domain.base.personne.Personne;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 

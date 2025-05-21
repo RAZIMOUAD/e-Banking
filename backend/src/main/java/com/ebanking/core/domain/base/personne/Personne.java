@@ -14,7 +14,7 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
-public abstract class Personne {
+public  class Personne {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

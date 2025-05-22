@@ -1,10 +1,10 @@
 package com.ebanking.core.config.initializer;
 
+import com.ebanking.core.domain.base.UserRole;
+import com.ebanking.core.domain.base.admin.Admin;
 import com.ebanking.core.domain.base.enums.RoleType;
-import com.ebanking.core.domain.base.personne.AdminPersonne;
 import com.ebanking.core.domain.base.role.Role;
 import com.ebanking.core.domain.base.user.User;
-import com.ebanking.core.domain.base.UserRole;
 import com.ebanking.core.repository.sql.RoleRepository;
 import com.ebanking.core.repository.sql.UserRepository;
 import jakarta.annotation.PostConstruct;
@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Component;
 
 import java.util.Date;
-import java.util.Optional;
 
 @Component
 @RequiredArgsConstructor
@@ -34,31 +33,34 @@ public class AdminInitializer {
 
     @PostConstruct
     public void createAdminIfNotExists() {
-        Optional<User> existingAdmin = userRepository.findByEmail(adminEmail);
-        if (existingAdmin.isPresent()) {
-            log.info("🔁 Admin déjà existant avec email : {}", adminEmail);
-            return;
-        }
+        userRepository.findByEmail(adminEmail).ifPresentOrElse(
+                admin -> log.info("🔁 Compte admin déjà existant : {}", adminEmail),
+                this::createAdminAccount
+        );
+    }
+
+    private void createAdminAccount() {
+        log.info("⚙️ Création du compte admin par défaut...");
 
         Role adminRole = roleRepository.findByName(RoleType.ADMIN)
-                .orElseThrow(() -> new RuntimeException("Rôle ADMIN introuvable dans la base"));
+                .orElseThrow(() -> new IllegalStateException("❌ Le rôle ADMIN est introuvable en base."));
 
-        AdminPersonne personne = AdminPersonne.builder()
+        Admin adminPersonne = Admin.builder()
                 .nom("Super")
                 .prenom("Admin")
                 .genre("Homme")
                 .nationalite("Marocaine")
-                .numTel("0000000000")
+                .numTel("+212600000000")
                 .adresse("ENSA Marrakech")
                 .cin("AA123456")
                 .dateNaissance(new Date())
                 .build();
 
-        User admin = User.builder()
+        User adminUser = User.builder()
                 .email(adminEmail)
-                .username(adminEmail) // ✅ AJOUT ESSENTIEL ICI
+                .username(adminEmail)
                 .motDePasse(passwordEncoder.encode(adminPassword))
-                .personne(personne)
+                .personne(adminPersonne)
                 .verifie(true)
                 .bloque(false)
                 .isActive(true)
@@ -66,15 +68,15 @@ public class AdminInitializer {
                 .twoFactorEnabled(false)
                 .build();
 
-
         UserRole userRole = UserRole.builder()
-                .user(admin)
+                .user(adminUser)
                 .role(adminRole)
                 .build();
 
-        admin.getUserRoles().add(userRole); // ❗ important pour persister via cascade
+        adminUser.getUserRoles().add(userRole);
 
-        userRepository.save(admin);
+        userRepository.save(adminUser);
+
         log.info("✅ Compte admin créé avec succès : {}", adminEmail);
     }
 }

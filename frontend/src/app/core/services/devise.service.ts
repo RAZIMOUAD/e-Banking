@@ -26,7 +26,7 @@ export interface DeviseResponse {
   providedIn: 'root'
 })
 export class DeviseService {
-  private apiUrl = `${environment.apiBaseUrl}/api/v1/admin/devises`;
+  private apiUrl = `${environment.apiBaseUrl}/admin/devises`;
 
   constructor(private http: HttpClient) { }
 

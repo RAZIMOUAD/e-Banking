@@ -45,8 +45,9 @@ public class JwtService {
     public String generateToken(Map<String, Object> extraClaims, UserDetails userDetails) {
         Instant now = Instant.now();
         Instant expiration = now.plusMillis(jwtExpiration);
-
         User user = (User) userDetails;
+
+        String typePersonne = user.getPersonne() != null ? user.getPersonne().getTypePersonne() : null;
 
         return Jwts.builder()
                 .setHeaderParam("typ", "JWT")
@@ -54,6 +55,11 @@ public class JwtService {
                 .claim("roles", user.getAuthorities().stream()
                         .map(GrantedAuthority::getAuthority)
                         .toList())
+
+                .claim("primaryRole", user.getUserRoles().stream()
+                        .map(userRole -> userRole.getRole().getName().name())
+                        .findFirst().orElse("UNKNOWN"))
+                .claim("typePersonne", typePersonne)
                 .claim("userId", user.getId())
                 .claim("verifie", user.isVerifie())
                 .claim("twoFactorEnabled", user.isTwoFactorEnabled())
@@ -64,6 +70,7 @@ public class JwtService {
                 .setExpiration(Date.from(expiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
+
     }
 
     public String generateRefreshToken(User user) {
@@ -73,6 +80,11 @@ public class JwtService {
                 .setExpiration(new Date(System.currentTimeMillis() + refreshTokenExpiration))
                 .signWith(getSigningKey(), SignatureAlgorithm.HS256)
                 .compact();
+    }
+
+    public void revokeAndSaveNewToken(User user, String jwtToken) {
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
     }
 
     public void saveUserToken(User user, String jwtToken) {
@@ -99,7 +111,7 @@ public class JwtService {
     public String extractUsername(String token) {
         try {
             return extractClaim(token, Claims::getSubject);
-        } catch (JwtException e) {
+        } catch (IllegalStateException e) {
             return null;
         }
     }
@@ -109,14 +121,12 @@ public class JwtService {
         return claimsResolver.apply(claims);
     }
 
-    private boolean isTokenExpired(String token) {
-        return extractExpiration(token).before(new Date());
-    }
-
     public boolean isTokenValid(String token, UserDetails userDetails) {
         String username = extractUsername(token);
+        User user = (User) userDetails;
         return username != null &&
-                username.equals(userDetails.getUsername()) &&
+                username.equals(user.getUsername()) &&
+                user.isVerifie() &&
                 !isTokenExpired(token);
     }
 
@@ -124,11 +134,19 @@ public class JwtService {
         return extractClaim(token, Claims::getExpiration);
     }
 
+    private boolean isTokenExpired(String token) {
+        return extractExpiration(token).before(new Date());
+    }
+
     private Claims extractAllClaims(String token) {
-        return Jwts.parserBuilder()
-                .setSigningKey(getSigningKey())
-                .build()
-                .parseClaimsJws(token)
-                .getBody();
+        try {
+            return Jwts.parserBuilder()
+                    .setSigningKey(getSigningKey())
+                    .build()
+                    .parseClaimsJws(token)
+                    .getBody();
+        } catch (JwtException e) {
+            throw new IllegalStateException("Token JWT invalide ou expiré", e);
+        }
     }
 }

@@ -1,6 +1,5 @@
 package com.ebanking.core.service.auth;
 
-
 import com.ebanking.core.domain.base.enums.TokenType;
 import com.ebanking.core.domain.base.token.Token;
 import com.ebanking.core.domain.base.user.User;
@@ -10,7 +9,6 @@ import com.ebanking.core.dto.auth.RegisterRequest;
 import com.ebanking.core.repository.sql.RoleRepository;
 import com.ebanking.core.repository.sql.TokenRepository;
 import com.ebanking.core.repository.sql.UserRepository;
-
 import com.ebanking.core.service.token.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -56,7 +54,7 @@ public class AuthenticationService {
 
         System.out.println("✅ Utilisateur trouvé : " + user.getEmail());
 
-        // Vérifier si l'utilisateur a le rôle CLIENT
+        // Vérification du rôle principal pour déterminer le flux d'authentification
         boolean isClient = user.getUserRoles().stream()
                 .anyMatch(userRole -> userRole.getRole().getName().name().equalsIgnoreCase("CLIENT"));
 
@@ -75,18 +73,21 @@ public class AuthenticationService {
         var refreshToken = jwtService.generateRefreshToken(user);
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
+        // juste pour log ne touche pas la méthode en elle meme
+        String primaryRole = user.getUserRoles().stream()
+                .map(userRole -> userRole.getRole().getName().name())
+                .findFirst()
+                .orElse("UNKNOWN");
+        System.out.println("🛡️ Rôle principal détecté : " + primaryRole);
 
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
                 .requires2FA(false)
                 .build();
+
+
     }
-
-
-
-
-
 
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
@@ -139,4 +140,3 @@ public class AuthenticationService {
         }
     }
 }
-

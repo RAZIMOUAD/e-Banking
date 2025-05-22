@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient, HttpErrorResponse } from '@angular/common/http';
 import { Router } from '@angular/router';
-import { Observable, throwError } from 'rxjs';
+import {map, Observable, throwError} from 'rxjs';
 import { catchError } from 'rxjs/operators';
 import { jwtDecode } from 'jwt-decode';
 import { environment } from '../../../environments/environment';
@@ -11,10 +11,11 @@ import {
   AuthenticationResponse,
   DecodedToken
 } from '@core/models/auth.model';
+import { AUTH_TOKEN_KEY } from '@core/constants/storage-keys';
 
-@Injectable({ providedIn: 'root' }) // ✅ moderne, standalone-style pour service
+@Injectable({ providedIn: 'root' })
 export class AuthService {
-  private readonly tokenKey = 'access_token';
+  private readonly tokenKey = AUTH_TOKEN_KEY;
   private readonly API_URL = `${environment.apiBaseUrl}/auth`;
 
   constructor(private http: HttpClient, private router: Router) {}
@@ -23,17 +24,23 @@ export class AuthService {
     return this.http.post<AuthenticationResponse>(`${this.API_URL}/register`, data)
       .pipe(catchError(err => this.handleError(err)));
   }
+
   verifyTwoFactorCode(payload: { email: string; code: string }): Observable<AuthenticationResponse> {
-    return this.http.post<AuthenticationResponse>(
-      `${this.API_URL}/verify-2fa`,
-      payload
-    );
+    return this.http.post<AuthenticationResponse>(`${this.API_URL}/verify-2fa`, payload);
   }
 
   login(credentials: LoginPayload): Observable<AuthenticationResponse> {
-    return this.http.post<AuthenticationResponse>(`${this.API_URL}/authenticate`, credentials)
-      .pipe(catchError(err => this.handleError(err)));
+    return this.http.post<any>(`${this.API_URL}/authenticate`, credentials).pipe(
+      map(res => ({
+        accessToken: res.access_token,
+        refreshToken: res.refresh_token,
+        message: res.message,
+        requires2FA: res.requires2FA,
+      })),
+      catchError(err => this.handleError(err))
+    );
   }
+
 
   activateAccount(payload: { email: string; code: string }): Observable<string> {
     return this.http.post<string>(`${this.API_URL}/activate`, payload)
@@ -42,7 +49,7 @@ export class AuthService {
 
   handleLoginResponse(response: AuthenticationResponse): void {
     if (!response.accessToken) {
-      this.logout();
+      console.error('❌ Token manquant dans la réponse d’authentification');
       return;
     }
 
@@ -50,18 +57,26 @@ export class AuthService {
 
     try {
       const decoded = jwtDecode<DecodedToken>(response.accessToken);
-      this.redirectBasedOnRoles(this.extractRoles(decoded));
-    } catch {
-      this.logout();
+      const roles = this.extractRoles(decoded);
+
+      console.log('🎫 Token décodé:', decoded);
+      console.log('🎯 Rôles détectés:', roles);
+
+      this.redirectBasedOnRoles(roles);
+    } catch (error) {
+      console.error('❌ Erreur de décodage JWT:', error);
     }
   }
 
-
   private redirectBasedOnRoles(roles: string[]): void {
-    const path = roles.includes('ROLE_ADMIN') ? '/admin/dashboard' :
-      roles.includes('ROLE_CLIENT') ? '/client/account' :
-        roles.includes('ROLE_AGENT') ? '/agent/dashboard' : '/';
-    this.router.navigate([path]).then(() => false);
+    console.log('📦 Redirection en fonction des rôles :', roles);
+    const path =
+      roles.includes('ROLE_ADMIN') ? '/admin/dashboard' :
+        roles.includes('ROLE_AGENT') ? '/agent/dashboard' :
+          roles.includes('ROLE_CLIENT') ? '/client/dashboard' :
+            '/';
+
+    this.router.navigateByUrl(path);
   }
 
   isLoggedIn(): boolean {
@@ -87,8 +102,9 @@ export class AuthService {
   }
 
   logout(): void {
+    console.trace('🔒 Logout triggered');
     localStorage.removeItem(this.tokenKey);
-    this.router.navigate(['/login']).then(() => false);
+    this.router.navigate(['/login']);
   }
 
   private handleError(error: HttpErrorResponse): Observable<never> {
@@ -102,6 +118,4 @@ export class AuthService {
   private extractRoles(decoded: DecodedToken): string[] {
     return decoded.roles || (decoded.role ? [decoded.role] : []);
   }
-
-
 }

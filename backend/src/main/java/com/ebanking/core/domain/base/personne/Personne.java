@@ -14,11 +14,14 @@ import java.util.Date;
 @NoArgsConstructor
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
+@DiscriminatorColumn(name = "type_personne", discriminatorType = DiscriminatorType.STRING)
+
 public abstract class Personne {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     private String nom;
     private String prenom;
     private Date dateNaissance;
@@ -33,6 +36,9 @@ public abstract class Personne {
 
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
+
+    @Column(name = "type_personne", insertable = false, updatable = false)
+    private String typePersonne;
 
     @PrePersist
     protected void onCreate() {

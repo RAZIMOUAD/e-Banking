@@ -1,6 +1,7 @@
 package com.ebanking.core.domain.base.client;
 
 import com.ebanking.core.domain.base.personne.Personne;
+import jakarta.persistence.DiscriminatorValue;
 import jakarta.persistence.Entity;
 import jakarta.persistence.Table;
 import lombok.*;
@@ -12,6 +13,7 @@ import java.util.Date;
 @Table(name = "clients")
 @Getter
 @Setter
+@DiscriminatorValue("CLIENT")
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder

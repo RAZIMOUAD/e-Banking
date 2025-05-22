@@ -50,7 +50,7 @@ export interface GlobalSettingsResponse {
   providedIn: 'root'
 })
 export class SettingsService {
-  private apiUrl = `${environment.apiBaseUrl}/api/v1/admin/settings`;
+  private apiUrl = `${environment.apiBaseUrl}/admin/settings`;
 
   constructor(private http: HttpClient) { }
 

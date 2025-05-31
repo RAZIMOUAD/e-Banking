@@ -18,6 +18,14 @@ import java.util.Optional;
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
     //Optional<Transaction> findByTransactionReference(String transactionReference);
+    @Query(value = "SELECT COUNT(*) FROM transactions WHERE DATE(createdAt) = CURRENT_DATE", nativeQuery = true)
+    long countToday();
 
+
+
+
+
+    @Query("SELECT SUM(t.montant) FROM Transaction t")
+    Double sumTotalAmount();
 
 }

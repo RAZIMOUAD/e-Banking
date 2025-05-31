@@ -1,8 +1,10 @@
 package com.ebanking.core.domain.base.personne;
 
+import com.ebanking.core.domain.base.user.User;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 
 import java.util.Date;
 
@@ -15,7 +17,6 @@ import java.util.Date;
 @AllArgsConstructor
 @Inheritance(strategy = InheritanceType.JOINED)
 @DiscriminatorColumn(name = "type_personne", discriminatorType = DiscriminatorType.STRING)
-
 public abstract class Personne {
 
     @Id
@@ -40,13 +41,18 @@ public abstract class Personne {
     @Column(name = "type_personne", insertable = false, updatable = false)
     private String typePersonne;
 
+    // ✅ Lien inverse vers User (pour éviter boucle JSON)
+    @OneToOne(mappedBy = "personne")
+    @JsonBackReference
+    private User user;
+
     @PrePersist
     protected void onCreate() {
         this.createdAt = this.updatedAt = new Date();
-        }
+    }
+
     @PreUpdate
     protected void onUpdate() {
         this.updatedAt = new Date();
     }
-
 }

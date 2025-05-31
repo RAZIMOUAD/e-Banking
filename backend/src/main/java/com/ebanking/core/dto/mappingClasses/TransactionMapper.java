@@ -5,18 +5,15 @@ import com.ebanking.core.model.mappers.TransactionMapped;
 
 public class TransactionMapper {
 
-    public static TransactionMapped toTransaction(Transaction transaction) {
-         TransactionMapped transactionMapped = new TransactionMapped();
-         transactionMapped.setReference(transaction.getReference());
-         transactionMapped.setMontant(transaction.getMontant());
-         transactionMapped.setCible(transaction.getCible());
-         transactionMapped.setSource(transaction.getSource());
-         transactionMapped.setStatut(transaction.getStatut());
-         transactionMapped.setType(transaction.getType());
-         transactionMapped.setDate(transaction.getDate());
-
-         return transactionMapped;
-
-    }
-
+     public static TransactionMapped toTransaction(Transaction transaction) {
+          return TransactionMapped.builder()
+                  .reference(transaction.getReference())
+                  .montant(transaction.getMontant())
+                  .type(transaction.getType())
+                  .date(transaction.getDate())
+                  .statut(transaction.getStatut())
+                  .ibanSource(transaction.getSource() != null ? transaction.getSource().getIBAN() : null)
+                  .ibanCible(transaction.getCible() != null ? transaction.getCible().getIBAN() : null)
+                  .build();
+     }
 }

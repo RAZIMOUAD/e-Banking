@@ -37,7 +37,8 @@ public class DatabaseConfig {
     public LocalContainerEntityManagerFactoryBean entityManagerFactory(DataSource ds) {
         LocalContainerEntityManagerFactoryBean emf = new LocalContainerEntityManagerFactoryBean();
         emf.setDataSource(ds);
-        emf.setPackagesToScan("com.ebanking.core.domain");
+        emf.setPackagesToScan("com.ebanking.core.domain", "com.ebanking.core.model.sql");
+
         emf.setJpaVendorAdapter(new HibernateJpaVendorAdapter());
 
         Properties props = new Properties();

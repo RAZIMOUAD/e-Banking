@@ -5,6 +5,7 @@ import { provideAnimations } from '@angular/platform-browser/animations';
 import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ApiInterceptor } from '@core/interceptors/api.interceptor';
+
 import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {

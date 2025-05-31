@@ -20,7 +20,6 @@ import java.util.Date;
 @RequiredArgsConstructor
 @Slf4j
 public class AdminInitializer {
-
     private final UserRepository userRepository;
     private final RoleRepository roleRepository;
     private final PasswordEncoder passwordEncoder;
@@ -79,4 +78,7 @@ public class AdminInitializer {
 
         log.info("✅ Compte admin créé avec succès : {}", adminEmail);
     }
+
+
+
 }

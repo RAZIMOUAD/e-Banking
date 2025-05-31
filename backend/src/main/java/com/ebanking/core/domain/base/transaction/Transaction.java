@@ -1,7 +1,12 @@
 package com.ebanking.core.domain.base.transaction;
 
+
+import com.ebanking.core.domain.base.CompteBancaire.CompteBancaire;
+import com.ebanking.core.domain.base.client.Client;
 import jakarta.persistence.*;
 import lombok.*;
+import lombok.experimental.SuperBuilder;
+
 import java.util.Date;
 
 @Entity
@@ -9,17 +14,29 @@ import java.util.Date;
 @Getter @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-@Builder
+@SuperBuilder
+@Inheritance(strategy = InheritanceType.JOINED)
 public class Transaction {
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private Double montant;
+    private String reference;
+    private double montant;
+    private String type;
 
     @Temporal(TemporalType.TIMESTAMP)
-    private Date createdAt;
+    private Date date;
 
-    // relation vers l’expéditeur, le destinataire, etc. à ajouter
+    private String statut;
+    private String mode;
+    private String motif;
+
+    @ManyToOne
+    @JoinColumn(name = "source_id")
+    private CompteBancaire source;
+
+    @ManyToOne
+    @JoinColumn(name = "cible_id")
+    private CompteBancaire cible;
 }

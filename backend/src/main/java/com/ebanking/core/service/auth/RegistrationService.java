@@ -23,6 +23,8 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
+import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
 
@@ -73,7 +75,7 @@ public class RegistrationService {
                 .numTel(request.getNumTel())
                 .adresse(request.getAdresse())
                 .cin(request.getCin())
-                .dateEnrolement(new Date())
+                .dateEnrolement(LocalDateTime.now())
                 .valideParAgent(false)
                 .status("EN_ATTENTE")
                 .build();

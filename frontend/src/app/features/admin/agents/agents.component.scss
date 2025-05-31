@@ -1,0 +1,159 @@
+.agents-container {
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+}
+
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 8px;
+
+  .page-title {
+    font-size: 24px;
+    font-weight: 600;
+    margin: 0;
+    color: #0f172a; /* Slate 900 */
+  }
+
+  .page-subtitle {
+    margin: 4px 0 0;
+    color: #64748b; /* Slate 500 */
+    font-size: 14px;
+  }
+}
+
+.filters-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  margin-bottom: 16px;
+
+  .filters-container {
+    display: flex;
+    align-items: center;
+    gap: 24px;
+    flex-wrap: wrap;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .search-field {
+      flex: 1;
+      min-width: 250px;
+    }
+
+    .status-filters {
+      ::ng-deep .mat-chip-option.mat-mdc-standard-chip.active {
+        background-color: #3b82f6; /* Blue 500 */
+        color: white;
+      }
+
+      ::ng-deep .mat-chip-option.mat-mdc-standard-chip.inactive {
+        background-color: #94a3b8; /* Slate 400 */
+        color: white;
+      }
+
+      ::ng-deep .mat-chip-option.mat-mdc-standard-chip.suspended {
+        background-color: #f59e0b; /* Amber 500 */
+        color: white;
+      }
+    }
+  }
+}
+
+.agents-table-card {
+  border-radius: 12px;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+
+  .agents-table {
+    width: 100%;
+
+    th {
+      background-color: #f8fafc; /* Slate 50 */
+      font-weight: 500;
+      color: #64748b; /* Slate 500 */
+      white-space: nowrap;
+    }
+
+    td {
+      padding: 12px 16px;
+      font-size: 14px;
+
+      .status-badge {
+        padding: 4px 8px;
+        border-radius: 4px;
+        font-size: 12px;
+        font-weight: 500;
+
+        &.active {
+          background-color: rgba(16, 185, 129, 0.1);
+          color: #10b981; /* Emerald 500 */
+        }
+
+        &.inactive {
+          background-color: rgba(148, 163, 184, 0.1);
+          color: #64748b; /* Slate 500 */
+        }
+
+        &.suspended {
+          background-color: rgba(245, 158, 11, 0.1);
+          color: #f59e0b; /* Amber 500 */
+        }
+      }
+    }
+
+    tr.mat-row {
+      transition: background-color 0.2s ease;
+
+      &:hover {
+        background-color: #f8fafc; /* Slate 50 */
+      }
+    }
+  }
+
+  .no-data {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    padding: 48px 0;
+    color: #64748b; /* Slate 500 */
+
+    mat-icon {
+      font-size: 48px;
+      height: 48px;
+      width: 48px;
+      margin-bottom: 16px;
+      opacity: 0.5;
+    }
+
+    p {
+      margin: 0 0 16px;
+      font-size: 16px;
+    }
+  }
+}
+
+.status-indicator {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  margin-right: 8px;
+
+  &.active {
+    background-color: #10b981; /* Emerald 500 */
+  }
+
+  &.inactive {
+    background-color: #64748b; /* Slate 500 */
+  }
+
+  &.suspended {
+    background-color: #f59e0b; /* Amber 500 */
+  }
+}

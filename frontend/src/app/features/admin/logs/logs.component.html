@@ -1,0 +1,152 @@
+<div class="logs-container" [@fadeInOut]>
+  <!-- Page header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">System Logs</h1>
+      <p class="page-subtitle">Monitor system performance and troubleshoot issues</p>
+    </div>
+    <button mat-raised-button color="primary" (click)="exportToFile()">
+      <mat-icon>file_download</mat-icon>
+      Export Logs
+    </button>
+  </div>
+
+  <!-- Log detail view -->
+  <mat-card class="log-detail-card" *ngIf="selectedLog">
+    <mat-card-header>
+      <div class="level-indicator" [ngClass]="selectedLog.level.toLowerCase()">
+        {{ selectedLog.level }}
+      </div>
+      <mat-card-title>{{ selectedLog.message }}</mat-card-title>
+      <mat-card-subtitle>
+        {{ selectedLog.timestamp | date:'medium' }} - {{ selectedLog.source }}
+      </mat-card-subtitle>
+      <button mat-icon-button (click)="clearSelectedLog()" class="close-button">
+        <mat-icon>close</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-content>
+      <div class="log-details-content">
+        <pre>{{ selectedLog.details }}</pre>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Filters card -->
+  <mat-card class="filters-card" [class.reduced-margin]="selectedLog">
+    <mat-card-content>
+      <div class="filters-container">
+        <mat-form-field appearance="outline" class="search-field">
+          <mat-label>Search Logs</mat-label>
+          <input matInput (keyup)="onSearch($event)" placeholder="Search by message, source, or details">
+          <mat-icon matSuffix>search</mat-icon>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Log Level</mat-label>
+          <mat-select [(value)]="levelFilter" (selectionChange)="applyFilters()">
+            <mat-option value="all">All Levels</mat-option>
+            <mat-option *ngFor="let level of getLevelFilters()" [value]="level">{{ level }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Source</mat-label>
+          <mat-select [(value)]="sourceFilter" (selectionChange)="applyFilters()">
+            <mat-option value="all">All Sources</mat-option>
+            <mat-option *ngFor="let source of getSourceFilters()" [value]="source">{{ source }}</mat-option>
+          </mat-select>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>Start Date</mat-label>
+          <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" (dateChange)="onDateRangeChange()">
+          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+          <mat-datepicker #startPicker></mat-datepicker>
+        </mat-form-field>
+
+        <mat-form-field appearance="outline">
+          <mat-label>End Date</mat-label>
+          <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate" (dateChange)="onDateRangeChange()">
+          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+          <mat-datepicker #endPicker></mat-datepicker>
+        </mat-form-field>
+
+        <button mat-stroked-button color="primary" (click)="resetFilters()" class="reset-button">
+          <mat-icon>refresh</mat-icon>
+          Reset Filters
+        </button>
+      </div>
+    </mat-card-content>
+  </mat-card>
+
+  <!-- Logs table -->
+  <mat-card class="logs-table-card">
+    <mat-card-content>
+      <div class="table-container">
+        <table mat-table [dataSource]="filteredData" matSort class="logs-table">
+          <!-- ID Column -->
+          <ng-container matColumnDef="id">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
+            <td mat-cell *matCellDef="let log">{{ log.id }}</td>
+          </ng-container>
+
+          <!-- Timestamp Column -->
+          <ng-container matColumnDef="timestamp">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
+            <td mat-cell *matCellDef="let log">{{ log.timestamp | date:'medium' }}</td>
+          </ng-container>
+
+          <!-- Level Column -->
+          <ng-container matColumnDef="level">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Level</th>
+            <td mat-cell *matCellDef="let log">
+              <span class="level-badge" [ngClass]="log.level.toLowerCase()">
+                {{ log.level }}
+              </span>
+            </td>
+          </ng-container>
+
+          <!-- Source Column -->
+          <ng-container matColumnDef="source">
+            <th mat-header-cell *matHeaderCellDef mat-sort-header>Source</th>
+            <td mat-cell *matCellDef="let log">{{ log.source }}</td>
+          </ng-container>
+
+          <!-- Message Column -->
+          <ng-container matColumnDef="message">
+            <th mat-header-cell *matHeaderCellDef>Message</th>
+            <td mat-cell *matCellDef="let log" class="message-cell">
+              <span class="message-text">{{ log.message }}</span>
+            </td>
+          </ng-container>
+
+          <!-- Actions Column -->
+          <ng-container matColumnDef="actions">
+            <th mat-header-cell *matHeaderCellDef></th>
+            <td mat-cell *matCellDef="let log">
+              <button mat-icon-button color="primary" (click)="viewLogDetails(log)" matTooltip="View Details">
+                <mat-icon>visibility</mat-icon>
+              </button>
+            </td>
+          </ng-container>
+
+          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+          <tr mat-row *matRowDef="let row; columns: displayedColumns;" (click)="viewLogDetails(row)" class="clickable-row"></tr>
+        </table>
+
+        <!-- No data message -->
+        <div class="no-data" *ngIf="filteredData.length === 0">
+          <mat-icon>search_off</mat-icon>
+          <p>No logs found matching your criteria</p>
+          <button mat-button color="primary" (click)="resetFilters()">
+            Clear Filters
+          </button>
+        </div>
+      </div>
+
+      <!-- Paginator -->
+      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
+    </mat-card-content>
+  </mat-card>
+</div>

@@ -1,13 +1,30 @@
-import {ApplicationConfig, provideZoneChangeDetection} from '@angular/core';
-import { provideRouter } from '@angular/router';
+import { ApplicationConfig } from '@angular/core';
+import {provideRouter, withDebugTracing} from '@angular/router';
 import { routes } from './app.routes';
-import {provideHttpClient} from "@angular/common/http";
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import { provideAnimations } from '@angular/platform-browser/animations';
+import { provideHttpClient, withInterceptors, withInterceptorsFromDi } from '@angular/common/http';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ApiInterceptor } from '@core/interceptors/api.interceptor';
+
+import { provideToastr } from 'ngx-toastr';
 
 export const appConfig: ApplicationConfig = {
-  providers: [provideZoneChangeDetection({ eventCoalescing: true }),
-    provideRouter(routes),
-    provideHttpClient(),
-    provideAnimationsAsync(),
+  providers: [
+    provideRouter(routes, withDebugTracing()),
+    provideAnimations(),
+    provideHttpClient(
+      withInterceptorsFromDi()
+    ),
+    {
+      provide: HTTP_INTERCEPTORS,
+      useClass: ApiInterceptor,
+      multi: true
+    },
+    // Configuration pour les toasts (alternative à MatSnackBar)
+    provideToastr({
+      timeOut: 3000,
+      positionClass: 'toast-top-right',
+      preventDuplicates: true,
+    })
   ]
 };

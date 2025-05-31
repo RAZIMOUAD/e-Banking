@@ -16,7 +16,7 @@ export const AuthGuardUser: CanActivateFn = () => {
     const decoded: any = jwtDecode(token);
     const roles: string[] = decoded?.roles || [];
 
-    if (roles.includes('ROLE_USER')) {
+    if (roles.includes('ROLE_CLIENT')) {
       return true;
     }
   } catch (err) {

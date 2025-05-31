@@ -1,6 +1,5 @@
 package com.ebanking.core.service.auth;
 
-
 import com.ebanking.core.domain.base.enums.TokenType;
 import com.ebanking.core.domain.base.token.Token;
 import com.ebanking.core.domain.base.user.User;
@@ -10,7 +9,6 @@ import com.ebanking.core.dto.auth.RegisterRequest;
 import com.ebanking.core.repository.sql.RoleRepository;
 import com.ebanking.core.repository.sql.TokenRepository;
 import com.ebanking.core.repository.sql.UserRepository;
-
 import com.ebanking.core.service.token.JwtService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
@@ -44,7 +42,6 @@ public class AuthenticationService {
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
         System.out.println("Tentative d'authentification : " + request.getEmail());
 
-        // Étape 1 : vérifier les identifiants
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
                         request.getEmail(),
@@ -57,18 +54,40 @@ public class AuthenticationService {
 
         System.out.println("✅ Utilisateur trouvé : " + user.getEmail());
 
-        // ✉️ Étape 2 : envoi du code SMS 2FA pour tout le monde (même si twoFactorEnabled = false)
-        twilioVerifyService.sendVerificationCode(user.getPersonne().getNumTel());
+        // Vérification du rôle principal pour déterminer le flux d'authentification
+        boolean isClient = user.getUserRoles().stream()
+                .anyMatch(userRole -> userRole.getRole().getName().name().equalsIgnoreCase("CLIENT"));
 
-        // 🔁 Ne pas encore générer les tokens
+        if (isClient) {
+            // Envoi du code 2FA par SMS uniquement pour les clients
+            twilioVerifyService.sendVerificationCode(user.getPersonne().getNumTel());
+
+            return AuthenticationResponse.builder()
+                    .message("2FA_REQUIRED")
+                    .requires2FA(true)
+                    .build();
+        }
+
+        // Admin ou Agent : connexion immédiate sans 2FA
+        var jwtToken = jwtService.generateToken(user);
+        var refreshToken = jwtService.generateRefreshToken(user);
+        revokeAllUserTokens(user);
+        saveUserToken(user, jwtToken);
+        // juste pour log ne touche pas la méthode en elle meme
+        String primaryRole = user.getUserRoles().stream()
+                .map(userRole -> userRole.getRole().getName().name())
+                .findFirst()
+                .orElse("UNKNOWN");
+        System.out.println("🛡️ Rôle principal détecté : " + primaryRole);
+
         return AuthenticationResponse.builder()
-                .message("2FA_REQUIRED")
-                .requires2FA(true)
+                .accessToken(jwtToken)
+                .refreshToken(refreshToken)
+                .requires2FA(false)
                 .build();
+
+
     }
-
-
-
 
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()
@@ -121,4 +140,3 @@ public class AuthenticationService {
         }
     }
 }
-

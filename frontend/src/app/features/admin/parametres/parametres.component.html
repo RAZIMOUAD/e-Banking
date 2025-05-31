@@ -1,0 +1,269 @@
+<div class="parametres-container" [@fadeInOut]>
+  <!-- Page header -->
+  <div class="page-header">
+    <div>
+      <h1 class="page-title">System Parameters</h1>
+      <p class="page-subtitle">Configure global system settings and preferences</p>
+    </div>
+    <button mat-stroked-button color="warn" (click)="resetToDefaults()">
+      <mat-icon>restore</mat-icon>
+      Reset to Defaults
+    </button>
+  </div>
+
+  <!-- Settings tabs card -->
+  <mat-card class="settings-card">
+    <mat-tab-group animationDuration="300ms">
+      <!-- System Settings Tab -->
+      <mat-tab label="System">
+        <form [formGroup]="systemForm" (ngSubmit)="saveSystemSettings()" class="settings-form">
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Default Currency</mat-label>
+              <mat-select formControlName="defaultCurrency">
+                <mat-option *ngFor="let currency of availableCurrencies" [value]="currency.code">
+                  {{ currency.code }} - {{ currency.name }}
+                </mat-option>
+              </mat-select>
+              <mat-error *ngIf="systemForm.get('defaultCurrency')?.hasError('required')">
+                Default currency is required
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Transaction Fee (%)</mat-label>
+              <input matInput type="number" formControlName="transactionFeePercentage">
+              <mat-hint>Percentage applied to each transaction</mat-hint>
+              <mat-error *ngIf="systemForm.get('transactionFeePercentage')?.hasError('required')">
+                Transaction fee is required
+              </mat-error>
+              <mat-error *ngIf="systemForm.get('transactionFeePercentage')?.hasError('min')">
+                Value must be greater than or equal to 0
+              </mat-error>
+              <mat-error *ngIf="systemForm.get('transactionFeePercentage')?.hasError('max')">
+                Value must be less than or equal to 100
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Minimum Transaction Fee</mat-label>
+              <input matInput type="number" formControlName="minimumTransactionFee">
+              <mat-hint>Minimum fee applied regardless of transaction size</mat-hint>
+              <mat-error *ngIf="systemForm.get('minimumTransactionFee')?.hasError('required')">
+                Minimum fee is required
+              </mat-error>
+              <mat-error *ngIf="systemForm.get('minimumTransactionFee')?.hasError('min')">
+                Value must be greater than or equal to 0
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Maximum Transaction Fee</mat-label>
+              <input matInput type="number" formControlName="maximumTransactionFee">
+              <mat-hint>Maximum fee cap for large transactions</mat-hint>
+              <mat-error *ngIf="systemForm.get('maximumTransactionFee')?.hasError('required')">
+                Maximum fee is required
+              </mat-error>
+              <mat-error *ngIf="systemForm.get('maximumTransactionFee')?.hasError('min')">
+                Value must be greater than or equal to 0
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Daily Transaction Limit</mat-label>
+              <input matInput type="number" formControlName="dailyTransactionLimit">
+              <mat-hint>Maximum amount a user can transact in a day</mat-hint>
+              <mat-error *ngIf="systemForm.get('dailyTransactionLimit')?.hasError('required')">
+                Daily limit is required
+              </mat-error>
+              <mat-error *ngIf="systemForm.get('dailyTransactionLimit')?.hasError('min')">
+                Value must be greater than or equal to 0
+              </mat-error>
+            </mat-form-field>
+
+            <div class="toggle-field">
+              <label>Maintenance Mode</label>
+              <mat-slide-toggle formControlName="maintenanceMode" color="primary"></mat-slide-toggle>
+              <span class="hint-text">Temporarily disable user access for system maintenance</span>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Support Email</mat-label>
+              <input matInput type="email" formControlName="supportEmail">
+              <mat-error *ngIf="systemForm.get('supportEmail')?.hasError('required')">
+                Support email is required
+              </mat-error>
+              <mat-error *ngIf="systemForm.get('supportEmail')?.hasError('email')">
+                Please enter a valid email address
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Support Phone</mat-label>
+              <input matInput formControlName="supportPhone">
+              <mat-error *ngIf="systemForm.get('supportPhone')?.hasError('required')">
+                Support phone is required
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-actions">
+            <button mat-raised-button color="primary" type="submit">
+              <mat-icon>save</mat-icon>
+              Save System Settings
+            </button>
+          </div>
+        </form>
+      </mat-tab>
+
+      <!-- Security Settings Tab -->
+      <mat-tab label="Security">
+        <form [formGroup]="securityForm" (ngSubmit)="saveSecuritySettings()" class="settings-form">
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Password Expiry (days)</mat-label>
+              <input matInput type="number" formControlName="passwordExpiryDays">
+              <mat-hint>Days until users must reset their password (0 = never)</mat-hint>
+              <mat-error *ngIf="securityForm.get('passwordExpiryDays')?.hasError('required')">
+                Password expiry is required
+              </mat-error>
+              <mat-error *ngIf="securityForm.get('passwordExpiryDays')?.hasError('min')">
+                Value must be greater than or equal to 0
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Maximum Login Attempts</mat-label>
+              <input matInput type="number" formControlName="maxLoginAttempts">
+              <mat-hint>Number of failed attempts before account lockout</mat-hint>
+              <mat-error *ngIf="securityForm.get('maxLoginAttempts')?.hasError('required')">
+                Maximum login attempts is required
+              </mat-error>
+              <mat-error *ngIf="securityForm.get('maxLoginAttempts')?.hasError('min')">
+                Value must be at least 1
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline">
+              <mat-label>Lockout Duration (minutes)</mat-label>
+              <input matInput type="number" formControlName="lockoutDurationMinutes">
+              <mat-hint>Time accounts remain locked after failed login attempts</mat-hint>
+              <mat-error *ngIf="securityForm.get('lockoutDurationMinutes')?.hasError('required')">
+                Lockout duration is required
+              </mat-error>
+              <mat-error *ngIf="securityForm.get('lockoutDurationMinutes')?.hasError('min')">
+                Value must be at least 1
+              </mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline">
+              <mat-label>Session Timeout (minutes)</mat-label>
+              <input matInput type="number" formControlName="sessionTimeoutMinutes">
+              <mat-hint>Inactive time before users are automatically logged out</mat-hint>
+              <mat-error *ngIf="securityForm.get('sessionTimeoutMinutes')?.hasError('required')">
+                Session timeout is required
+              </mat-error>
+              <mat-error *ngIf="securityForm.get('sessionTimeoutMinutes')?.hasError('min')">
+                Value must be at least 1
+              </mat-error>
+            </mat-form-field>
+          </div>
+
+          <div class="form-row">
+            <div class="toggle-field">
+              <label>Require Two-Factor Authentication</label>
+              <mat-slide-toggle formControlName="requireTwoFactor" color="primary"></mat-slide-toggle>
+              <span class="hint-text">Require 2FA for all user accounts</span>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="full-width">
+              <mat-label>Allowed IP Addresses</mat-label>
+              <input matInput formControlName="allowedIpAddresses">
+              <mat-hint>Comma-separated list of allowed IP addresses (leave empty to allow all)</mat-hint>
+            </mat-form-field>
+          </div>
+
+          <div class="form-actions">
+            <button mat-raised-button color="primary" type="submit">
+              <mat-icon>shield</mat-icon>
+              Save Security Settings
+            </button>
+          </div>
+        </form>
+      </mat-tab>
+
+      <!-- Notification Settings Tab -->
+      <mat-tab label="Notifications">
+        <form [formGroup]="notificationForm" (ngSubmit)="saveNotificationSettings()" class="settings-form">
+          <div class="notification-section">
+            <h3>Notification Channels</h3>
+            <div class="toggle-field">
+              <label>Email Notifications</label>
+              <mat-slide-toggle formControlName="enableEmailNotifications" color="primary"></mat-slide-toggle>
+            </div>
+
+            <div class="toggle-field">
+              <label>SMS Notifications</label>
+              <mat-slide-toggle formControlName="enableSmsNotifications" color="primary"></mat-slide-toggle>
+            </div>
+
+            <div class="toggle-field">
+              <label>Push Notifications</label>
+              <mat-slide-toggle formControlName="enablePushNotifications" color="primary"></mat-slide-toggle>
+            </div>
+          </div>
+
+          <mat-divider></mat-divider>
+
+          <div class="notification-section">
+            <h3>Notification Types</h3>
+            <div class="toggle-field">
+              <label>Transaction Notifications</label>
+              <mat-slide-toggle formControlName="transactionNotifications" color="primary"></mat-slide-toggle>
+              <span class="hint-text">Notify users about deposits, withdrawals, and transfers</span>
+            </div>
+
+            <div class="toggle-field">
+              <label>Login Notifications</label>
+              <mat-slide-toggle formControlName="loginNotifications" color="primary"></mat-slide-toggle>
+              <span class="hint-text">Notify users about account logins and security events</span>
+            </div>
+
+            <div class="toggle-field">
+              <label>Marketing Notifications</label>
+              <mat-slide-toggle formControlName="marketingNotifications" color="primary"></mat-slide-toggle>
+              <span class="hint-text">Send promotional offers and updates to users</span>
+            </div>
+
+            <div class="toggle-field">
+              <label>System Notifications</label>
+              <mat-slide-toggle formControlName="systemNotifications" color="primary"></mat-slide-toggle>
+              <span class="hint-text">Notify users about maintenance and system changes</span>
+            </div>
+          </div>
+
+          <div class="form-actions">
+            <button mat-raised-button color="primary" type="submit">
+              <mat-icon>notifications</mat-icon>
+              Save Notification Settings
+            </button>
+          </div>
+        </form>
+      </mat-tab>
+    </mat-tab-group>
+  </mat-card>
+</div>

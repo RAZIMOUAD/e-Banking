@@ -1,4 +1,4 @@
-package com.ebanking.core.repository;
+package com.ebanking.core.repository.sql;
 
 import com.ebanking.core.domain.base.UserRole;
 import org.springframework.data.jpa.repository.JpaRepository;

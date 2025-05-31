@@ -2,32 +2,38 @@ package com.ebanking.core.controller.agent;
 
 
 import com.ebanking.core.model.mappers.Abonne;
-import com.ebanking.core.model.mappers.Person;
+import com.ebanking.core.model.mappers.TransactionMapped;
 import com.ebanking.core.service.client.ClientService;
+import com.ebanking.core.service.transaction.TransactionService;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.prepost.PreAuthorize;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.*;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @RestController
 @RequestMapping("/api/v1/agent")
+@CrossOrigin(value="http://localhost:4200/")
 public class AgentController {
     @Autowired
     ClientService clientService;
 
-    @GetMapping("/clients")
-    public List<Abonne> getAllAbonnes(){
-       return clientService.getAllClient();
+    @Autowired
+    TransactionService transactionService;
+
+    @GetMapping(value="/clients",produces = MediaType.APPLICATION_JSON_VALUE)
+    public ResponseEntity<List<Abonne>> getClients() {
+        System.out.println("dsdsds");
+        List<Abonne> clients = clientService.getAllClient();
+        System.out.println("sdwxcddfsd"+ clients.size());
+        return ResponseEntity.ok(clients);
     }
 
-    @GetMapping("/person/{id}")
-    public Person getPerson(@PathVariable("id") Long id){
-        return clientService.getPersonById(id);
+    @GetMapping("/transactions")
+    public ResponseEntity<List<TransactionMapped>> getTransactions() {
+         List<TransactionMapped> transactions = transactionService.allTransactions();
+         return ResponseEntity.ok(transactions);
     }
 
 

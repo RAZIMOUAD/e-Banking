@@ -8,10 +8,14 @@ import {Observable} from "rxjs";
 export class EspaceagentService {
   private baseUrl ="http://localhost:9090";
   private clients: Observable<any> | undefined;
+  private transactions: Observable<any> | undefined;
   constructor(private _httpService: HttpClient){ }
   getAllClients(): Observable<any> {
     this.clients = this._httpService.get<any>(`${this.baseUrl}/api/v1/agent/clients`);
      return this.clients;
+  }
 
+  getAllTransactions(): Observable<any> {
+    return this.transactions = this._httpService.get<any>(`${this.baseUrl}/api/v1/transactions`);
   }
 }

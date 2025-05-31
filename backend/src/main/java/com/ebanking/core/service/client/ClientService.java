@@ -2,12 +2,11 @@ package com.ebanking.core.service.client;
 
 import com.ebanking.core.domain.base.client.Client;
 import com.ebanking.core.domain.base.personne.Personne;
+import com.ebanking.core.domain.base.user.User;
 import com.ebanking.core.dto.mappingClasses.ClientMapper;
-import com.ebanking.core.dto.mappingClasses.PersonneMapper;
 import com.ebanking.core.model.mappers.Abonne;
-import com.ebanking.core.model.mappers.Person;
 import com.ebanking.core.repository.sql.ClientRepository;
-import com.ebanking.core.repository.sql.PersonneRepository;
+import com.ebanking.core.repository.sql.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -20,7 +19,7 @@ public class ClientService {
     @Autowired
     private ClientRepository clientRepository;
      @Autowired
-    private PersonneRepository personneRepository;
+    private UserRepository userRepository;
 
     public Abonne getClientbyId(Long id ){
         Client clt = clientRepository.findById(id).get();
@@ -30,22 +29,14 @@ public class ClientService {
         List<Client> clients = clientRepository.findAll();
         List<Abonne> abonnes = new ArrayList<>();
         for (Client clt : clients) {
-            abonnes.add(getClientbyId(clt.getId()));
+                abonnes.add(ClientMapper.toAbonne(clt));
+
         }
+        System.out.println("abonne " + abonnes.size());
         return abonnes;
     }
 
-    public Person getPersonById(Long id){
-        System.out.println("djfsfhdjdhfjf");
-        Optional<Personne> per = personneRepository.findById(id);
-         if(per.isPresent()){
-             Personne personne = per.get();
-             return PersonneMapper.toPerson(personne);
-         }
-         else {
-             return null;
-         }
-    }
+
 
 
 }

@@ -3,19 +3,11 @@
   <database-model serializer="dbm" dbms="POSTGRES" family-id="POSTGRES" format-version="4.53">
     <root id="1">
       <DateStyle>mdy</DateStyle>
-      <Grants>1||-9223372036854775808|c|G
-1||10|c|G
-1||10|C|G
-1||10|T|G
-4||-9223372036854775808|c|G
-4||10|c|G
-4||10|C|G
-4||10|T|G
-14642||10|c|G
+      <Grants>14642||10|c|G
 14642||10|C|G
 14642||-9223372036854775808|T|G
 14642||10|T|G</Grants>
-      <IntrospectionStateNumber>32769</IntrospectionStateNumber>
+      <IntrospectionStateNumber>125282</IntrospectionStateNumber>
       <ServerVersion>16.9</ServerVersion>
       <StartupTime>1747668441</StartupTime>
       <TimeZones>true ACDT
@@ -1420,7 +1412,7 @@ true posixrules
 14277||10|C|G
 14277||-9223372036854775808|U|G
 14277||10|U|G</Grants>
-      <IntrospectionStateNumber>32769</IntrospectionStateNumber>
+      <IntrospectionStateNumber>125282</IntrospectionStateNumber>
       <ObjectId>16447</ObjectId>
       <OwnerName>avnadmin</OwnerName>
     </database>
@@ -4881,13 +4873,21 @@ timescaledb.disable_load=on</Config>
     <schema id="271" parent="4" name="public">
       <Comment>standard public schema</Comment>
       <Current>1</Current>
-      <IntrospectionStateNumber>32769</IntrospectionStateNumber>
-      <LastIntrospectionLocalTimestamp>2025-05-20.09:56:41</LastIntrospectionLocalTimestamp>
+      <IntrospectionStateNumber>125282</IntrospectionStateNumber>
+      <LastIntrospectionLocalTimestamp>2025-05-30.23:47:04</LastIntrospectionLocalTimestamp>
       <ObjectId>2200</ObjectId>
       <StateNumber>523</StateNumber>
       <OwnerName>pg_database_owner</OwnerName>
     </schema>
-    <sequence id="272" parent="271" name="devises_id_seq">
+    <sequence id="272" parent="271" name="comptes_bancaires_id_seq">
+      <ObjectId>24816</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>60103</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <OwnerName>avnadmin</OwnerName>
+    </sequence>
+    <sequence id="273" parent="271" name="devises_id_seq">
       <ObjectId>24703</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
@@ -4895,7 +4895,7 @@ timescaledb.disable_load=on</Config>
       <StoredType>bigint|0s</StoredType>
       <OwnerName>avnadmin</OwnerName>
     </sequence>
-    <sequence id="273" parent="271" name="global_settings_id_seq">
+    <sequence id="274" parent="271" name="global_settings_id_seq">
       <ObjectId>24712</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
@@ -4903,7 +4903,15 @@ timescaledb.disable_load=on</Config>
       <StoredType>bigint|0s</StoredType>
       <OwnerName>avnadmin</OwnerName>
     </sequence>
-    <sequence id="274" parent="271" name="personnes_id_seq">
+    <sequence id="275" parent="271" name="historique_comptes_id_seq">
+      <ObjectId>24825</ObjectId>
+      <SequenceIdentity>1</SequenceIdentity>
+      <StartValue>1</StartValue>
+      <StateNumber>60104</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <OwnerName>avnadmin</OwnerName>
+    </sequence>
+    <sequence id="276" parent="271" name="personnes_id_seq">
       <ObjectId>24591</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
@@ -4911,7 +4919,7 @@ timescaledb.disable_load=on</Config>
       <StoredType>bigint|0s</StoredType>
       <OwnerName>avnadmin</OwnerName>
     </sequence>
-    <sequence id="275" parent="271" name="roles_id_seq">
+    <sequence id="277" parent="271" name="roles_id_seq">
       <ObjectId>24600</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
@@ -4919,7 +4927,7 @@ timescaledb.disable_load=on</Config>
       <StoredType>bigint|0s</StoredType>
       <OwnerName>avnadmin</OwnerName>
     </sequence>
-    <sequence id="276" parent="271" name="security_tokens_id_seq">
+    <sequence id="278" parent="271" name="security_tokens_id_seq">
       <ObjectId>24608</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
@@ -4927,7 +4935,7 @@ timescaledb.disable_load=on</Config>
       <StoredType>bigint|0s</StoredType>
       <OwnerName>avnadmin</OwnerName>
     </sequence>
-    <sequence id="277" parent="271" name="tokens_id_seq">
+    <sequence id="279" parent="271" name="tokens_id_seq">
       <ObjectId>24615</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
@@ -4935,15 +4943,15 @@ timescaledb.disable_load=on</Config>
       <StoredType>integer|0s</StoredType>
       <OwnerName>avnadmin</OwnerName>
     </sequence>
-    <sequence id="278" parent="271" name="transactions_id_seq">
-      <ObjectId>24719</ObjectId>
+    <sequence id="280" parent="271" name="transactions_id_seq">
+      <ObjectId>24933</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
-      <StateNumber>30453</StateNumber>
+      <StateNumber>125223</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <OwnerName>avnadmin</OwnerName>
     </sequence>
-    <sequence id="279" parent="271" name="user_roles_id_seq">
+    <sequence id="281" parent="271" name="user_roles_id_seq">
       <ObjectId>24625</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
@@ -4951,7 +4959,7 @@ timescaledb.disable_load=on</Config>
       <StoredType>bigint|0s</StoredType>
       <OwnerName>avnadmin</OwnerName>
     </sequence>
-    <sequence id="280" parent="271" name="users_id_seq">
+    <sequence id="282" parent="271" name="users_id_seq">
       <ObjectId>24632</ObjectId>
       <SequenceIdentity>1</SequenceIdentity>
       <StartValue>1</StartValue>
@@ -4959,141 +4967,153 @@ timescaledb.disable_load=on</Config>
       <StoredType>bigint|0s</StoredType>
       <OwnerName>avnadmin</OwnerName>
     </sequence>
-    <table id="281" parent="271" name="adminpersonne">
-      <ObjectId>24693</ObjectId>
-      <StateNumber>26559</StateNumber>
+    <table id="283" parent="271" name="adminpersonne">
+      <ObjectId>24811</ObjectId>
+      <StateNumber>60116</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="282" parent="271" name="admins">
+    <table id="284" parent="271" name="admins">
       <ObjectId>24576</ObjectId>
       <StateNumber>9604</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="283" parent="271" name="agents">
+    <table id="285" parent="271" name="agents">
       <ObjectId>24581</ObjectId>
       <StateNumber>9605</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="284" parent="271" name="clients">
+    <table id="286" parent="271" name="clients">
       <ObjectId>24586</ObjectId>
-      <StateNumber>9606</StateNumber>
+      <StateNumber>60102</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="285" parent="271" name="devises">
+    <table id="287" parent="271" name="comptes_bancaires">
+      <ObjectId>24817</ObjectId>
+      <StateNumber>60118</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>avnadmin</OwnerName>
+    </table>
+    <table id="288" parent="271" name="devises">
       <ObjectId>24704</ObjectId>
       <StateNumber>27297</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="286" parent="271" name="global_settings">
+    <table id="289" parent="271" name="global_settings">
       <ObjectId>24713</ObjectId>
       <StateNumber>28867</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="287" parent="271" name="personnes">
-      <ObjectId>24592</ObjectId>
-      <StateNumber>9604</StateNumber>
+    <table id="290" parent="271" name="historique_comptes">
+      <ObjectId>24826</ObjectId>
+      <StateNumber>60119</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="288" parent="271" name="roles">
+    <table id="291" parent="271" name="personnes">
+      <ObjectId>24592</ObjectId>
+      <StateNumber>45189</StateNumber>
+      <AccessMethodId>2</AccessMethodId>
+      <OwnerName>avnadmin</OwnerName>
+    </table>
+    <table id="292" parent="271" name="roles">
       <ObjectId>24601</ObjectId>
       <StateNumber>9609</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="289" parent="271" name="security_tokens">
+    <table id="293" parent="271" name="security_tokens">
       <ObjectId>24609</ObjectId>
       <StateNumber>9607</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="290" parent="271" name="tokens">
+    <table id="294" parent="271" name="tokens">
       <ObjectId>24616</ObjectId>
       <StateNumber>9608</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="291" parent="271" name="transactions">
-      <ObjectId>24720</ObjectId>
-      <StateNumber>30453</StateNumber>
+    <table id="295" parent="271" name="transactions">
+      <ObjectId>24934</ObjectId>
+      <StateNumber>125224</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="292" parent="271" name="user_roles">
+    <table id="296" parent="271" name="user_roles">
       <ObjectId>24626</ObjectId>
       <StateNumber>9609</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <table id="293" parent="271" name="users">
+    <table id="297" parent="271" name="users">
       <ObjectId>24633</ObjectId>
       <StateNumber>9607</StateNumber>
       <AccessMethodId>2</AccessMethodId>
       <OwnerName>avnadmin</OwnerName>
     </table>
-    <column id="294" parent="281" name="id">
+    <column id="298" parent="283" name="id">
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>26558</StateNumber>
+      <StateNumber>60101</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="295" parent="281" name="fkqd32hetr6l7u1frr1gooff4e9">
+    <foreign-key id="299" parent="283" name="fkqd32hetr6l7u1frr1gooff4e9">
       <ColNames>id</ColNames>
-      <ObjectId>24698</ObjectId>
-      <StateNumber>26559</StateNumber>
+      <ObjectId>24839</ObjectId>
+      <StateNumber>60116</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>24592</RefTableId>
     </foreign-key>
-    <index id="296" parent="281" name="adminpersonne_pkey">
+    <index id="300" parent="283" name="adminpersonne_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>24696</ObjectId>
+      <ObjectId>24814</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>26558</StateNumber>
+      <StateNumber>60101</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="297" parent="281" name="adminpersonne_pkey">
+    <key id="301" parent="283" name="adminpersonne_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>24697</ObjectId>
+      <ObjectId>24815</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>26558</StateNumber>
-      <UnderlyingIndexId>24696</UnderlyingIndexId>
+      <StateNumber>60101</StateNumber>
+      <UnderlyingIndexId>24814</UnderlyingIndexId>
     </key>
-    <column id="298" parent="282" name="fonction">
+    <column id="302" parent="284" name="fonction">
       <Position>1</Position>
       <StateNumber>9582</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="299" parent="282" name="niveauacces">
+    <column id="303" parent="284" name="niveauacces">
       <Position>2</Position>
       <StateNumber>9582</StateNumber>
       <StoredType>varchar(100)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="300" parent="282" name="id">
+    <column id="304" parent="284" name="id">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>9582</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="301" parent="282" name="fkwmedckpnbviybq0wjpnnhebk">
+    <foreign-key id="305" parent="284" name="fkwmedckpnbviybq0wjpnnhebk">
       <ColNames>id</ColNames>
       <ObjectId>24653</ObjectId>
       <StateNumber>9604</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>24592</RefTableId>
     </foreign-key>
-    <index id="302" parent="282" name="admins_pkey">
+    <index id="306" parent="284" name="admins_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24579</ObjectId>
@@ -5102,46 +5122,46 @@ timescaledb.disable_load=on</Config>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="303" parent="282" name="admins_pkey">
+    <key id="307" parent="284" name="admins_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24580</ObjectId>
       <Primary>1</Primary>
       <StateNumber>9582</StateNumber>
       <UnderlyingIndexId>24579</UnderlyingIndexId>
     </key>
-    <column id="304" parent="283" name="dateembauche">
+    <column id="308" parent="285" name="dateembauche">
       <Position>1</Position>
       <StateNumber>9583</StateNumber>
       <StoredType>date|0s</StoredType>
       <TypeId>1082</TypeId>
     </column>
-    <column id="305" parent="283" name="matricule">
+    <column id="309" parent="285" name="matricule">
       <Position>2</Position>
       <StateNumber>9583</StateNumber>
       <StoredType>varchar(50)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="306" parent="283" name="service">
+    <column id="310" parent="285" name="service">
       <Position>3</Position>
       <StateNumber>9583</StateNumber>
       <StoredType>varchar(100)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="307" parent="283" name="id">
+    <column id="311" parent="285" name="id">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>9583</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="308" parent="283" name="fkcllid7f6edcblqgdmd3kcja6a">
+    <foreign-key id="312" parent="285" name="fkcllid7f6edcblqgdmd3kcja6a">
       <ColNames>id</ColNames>
       <ObjectId>24658</ObjectId>
       <StateNumber>9605</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>24592</RefTableId>
     </foreign-key>
-    <index id="309" parent="283" name="uk_rhfrq6fkktf06naw7e55hygcj">
+    <index id="313" parent="285" name="uk_rhfrq6fkktf06naw7e55hygcj">
       <ColNames>matricule</ColNames>
       <ObjectId>24641</ObjectId>
       <StateNumber>9592</StateNumber>
@@ -5151,7 +5171,7 @@ timescaledb.disable_load=on</Config>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <index id="310" parent="283" name="agents_pkey">
+    <index id="314" parent="285" name="agents_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24584</ObjectId>
@@ -5160,67 +5180,182 @@ timescaledb.disable_load=on</Config>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="311" parent="283" name="agents_pkey">
+    <key id="315" parent="285" name="agents_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24585</ObjectId>
       <Primary>1</Primary>
       <StateNumber>9583</StateNumber>
       <UnderlyingIndexId>24584</UnderlyingIndexId>
     </key>
-    <key id="312" parent="283" name="uk_rhfrq6fkktf06naw7e55hygcj">
+    <key id="316" parent="285" name="uk_rhfrq6fkktf06naw7e55hygcj">
       <ObjectId>24642</ObjectId>
       <StateNumber>9592</StateNumber>
       <UnderlyingIndexId>24641</UnderlyingIndexId>
     </key>
-    <column id="313" parent="284" name="dateenrolement">
+    <column id="317" parent="286" name="dateenrolement">
       <Position>1</Position>
-      <StateNumber>9584</StateNumber>
+      <StateNumber>43354</StateNumber>
       <StoredType>timestamp(6)|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <column id="314" parent="284" name="status">
+    <column id="318" parent="286" name="status">
       <Position>2</Position>
       <StateNumber>9584</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="315" parent="284" name="valideparagent">
+    <column id="319" parent="286" name="valideparagent">
       <Position>3</Position>
       <StateNumber>9584</StateNumber>
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="316" parent="284" name="id">
+    <column id="320" parent="286" name="id">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>9584</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="317" parent="284" name="fkr0dtulak5eb41gv160h2wg371">
+    <column id="321" parent="286" name="user_id">
+      <Position>5</Position>
+      <StateNumber>60102</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <foreign-key id="322" parent="286" name="fkr0dtulak5eb41gv160h2wg371">
       <ColNames>id</ColNames>
       <ObjectId>24663</ObjectId>
       <StateNumber>9606</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>24592</RefTableId>
     </foreign-key>
-    <index id="318" parent="284" name="clients_pkey">
+    <foreign-key id="323" parent="286" name="fktiuqdledq2lybrds2k3rfqrv4">
+      <ColNames>user_id</ColNames>
+      <ObjectId>24844</ObjectId>
+      <StateNumber>60117</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>24633</RefTableId>
+    </foreign-key>
+    <index id="324" parent="286" name="clients_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24589</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>9584</StateNumber>
+      <StateNumber>43354</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="319" parent="284" name="clients_pkey">
+    <index id="325" parent="286" name="uk_smrp6gi0tckq1w5rnd7boyowu">
+      <ColNames>user_id</ColNames>
+      <ObjectId>24837</ObjectId>
+      <StateNumber>60115</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="326" parent="286" name="clients_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24590</ObjectId>
       <Primary>1</Primary>
       <StateNumber>9584</StateNumber>
       <UnderlyingIndexId>24589</UnderlyingIndexId>
     </key>
-    <column id="320" parent="285" name="id">
+    <key id="327" parent="286" name="uk_smrp6gi0tckq1w5rnd7boyowu">
+      <ObjectId>24838</ObjectId>
+      <StateNumber>60115</StateNumber>
+      <UnderlyingIndexId>24837</UnderlyingIndexId>
+    </key>
+    <column id="328" parent="287" name="id">
+      <DefaultExpression>nextval(&apos;comptes_bancaires_id_seq&apos;::regclass)</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>60103</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <SequenceId>24816</SequenceId>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="329" parent="287" name="iban">
+      <Position>2</Position>
+      <StateNumber>60103</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="330" parent="287" name="actif">
+      <NotNull>1</NotNull>
+      <Position>3</Position>
+      <StateNumber>60103</StateNumber>
+      <StoredType>boolean|0s</StoredType>
+      <TypeId>16</TypeId>
+    </column>
+    <column id="331" parent="287" name="datecreation">
+      <Position>4</Position>
+      <StateNumber>60103</StateNumber>
+      <StoredType>date|0s</StoredType>
+      <TypeId>1082</TypeId>
+    </column>
+    <column id="332" parent="287" name="devise">
+      <Position>5</Position>
+      <StateNumber>60103</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="333" parent="287" name="plafond">
+      <NotNull>1</NotNull>
+      <Position>6</Position>
+      <StateNumber>60103</StateNumber>
+      <StoredType>double precision|0s</StoredType>
+      <TypeId>701</TypeId>
+    </column>
+    <column id="334" parent="287" name="solde">
+      <NotNull>1</NotNull>
+      <Position>7</Position>
+      <StateNumber>60103</StateNumber>
+      <StoredType>double precision|0s</StoredType>
+      <TypeId>701</TypeId>
+    </column>
+    <column id="335" parent="287" name="soldedisponible">
+      <NotNull>1</NotNull>
+      <Position>8</Position>
+      <StateNumber>60103</StateNumber>
+      <StoredType>double precision|0s</StoredType>
+      <TypeId>701</TypeId>
+    </column>
+    <column id="336" parent="287" name="type">
+      <Position>9</Position>
+      <StateNumber>60103</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="337" parent="287" name="client_id">
+      <Position>10</Position>
+      <StateNumber>60103</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <foreign-key id="338" parent="287" name="fkl89t8i96ye6e4mxpe31exomx6">
+      <ColNames>client_id</ColNames>
+      <ObjectId>24849</ObjectId>
+      <StateNumber>60118</StateNumber>
+      <RefKeyColPositions>4</RefKeyColPositions>
+      <RefTableId>24586</RefTableId>
+    </foreign-key>
+    <index id="339" parent="287" name="comptes_bancaires_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24823</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>60103</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="340" parent="287" name="comptes_bancaires_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24824</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>60103</StateNumber>
+      <UnderlyingIndexId>24823</UnderlyingIndexId>
+    </key>
+    <column id="341" parent="288" name="id">
       <DefaultExpression>nextval(&apos;devises_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5229,28 +5364,28 @@ timescaledb.disable_load=on</Config>
       <SequenceId>24703</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="321" parent="285" name="code">
+    <column id="342" parent="288" name="code">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>27297</StateNumber>
       <StoredType>varchar(10)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="322" parent="285" name="libelle">
+    <column id="343" parent="288" name="libelle">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>27297</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="323" parent="285" name="tauxconversion">
+    <column id="344" parent="288" name="tauxconversion">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>27297</StateNumber>
       <StoredType>numeric(10,4 digit)|0s</StoredType>
       <TypeId>1700</TypeId>
     </column>
-    <index id="324" parent="285" name="devises_pkey">
+    <index id="345" parent="288" name="devises_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24708</ObjectId>
@@ -5259,7 +5394,7 @@ timescaledb.disable_load=on</Config>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="325" parent="285" name="uk_ixotxbwadltfs8mate3ciswg1">
+    <index id="346" parent="288" name="uk_ixotxbwadltfs8mate3ciswg1">
       <ColNames>code</ColNames>
       <ObjectId>24710</ObjectId>
       <StateNumber>27299</StateNumber>
@@ -5269,19 +5404,19 @@ timescaledb.disable_load=on</Config>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="326" parent="285" name="devises_pkey">
+    <key id="347" parent="288" name="devises_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24709</ObjectId>
       <Primary>1</Primary>
       <StateNumber>27297</StateNumber>
       <UnderlyingIndexId>24708</UnderlyingIndexId>
     </key>
-    <key id="327" parent="285" name="uk_ixotxbwadltfs8mate3ciswg1">
+    <key id="348" parent="288" name="uk_ixotxbwadltfs8mate3ciswg1">
       <ObjectId>24711</ObjectId>
       <StateNumber>27299</StateNumber>
       <UnderlyingIndexId>24710</UnderlyingIndexId>
     </key>
-    <column id="328" parent="286" name="id">
+    <column id="349" parent="289" name="id">
       <DefaultExpression>nextval(&apos;global_settings_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5290,31 +5425,31 @@ timescaledb.disable_load=on</Config>
       <SequenceId>24712</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="329" parent="286" name="fraisfixes">
+    <column id="350" parent="289" name="fraisfixes">
       <Position>2</Position>
       <StateNumber>28867</StateNumber>
       <StoredType>double precision|0s</StoredType>
       <TypeId>701</TypeId>
     </column>
-    <column id="330" parent="286" name="plafondvirement">
+    <column id="351" parent="289" name="plafondvirement">
       <Position>3</Position>
       <StateNumber>28867</StateNumber>
       <StoredType>double precision|0s</StoredType>
       <TypeId>701</TypeId>
     </column>
-    <column id="331" parent="286" name="tauxcommission">
+    <column id="352" parent="289" name="tauxcommission">
       <Position>4</Position>
       <StateNumber>28867</StateNumber>
       <StoredType>double precision|0s</StoredType>
       <TypeId>701</TypeId>
     </column>
-    <column id="332" parent="286" name="updatedat">
+    <column id="353" parent="289" name="updatedat">
       <Position>5</Position>
       <StateNumber>28867</StateNumber>
       <StoredType>timestamp(6)|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <index id="333" parent="286" name="global_settings_pkey">
+    <index id="354" parent="289" name="global_settings_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24717</ObjectId>
@@ -5323,14 +5458,64 @@ timescaledb.disable_load=on</Config>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="334" parent="286" name="global_settings_pkey">
+    <key id="355" parent="289" name="global_settings_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24718</ObjectId>
       <Primary>1</Primary>
       <StateNumber>28867</StateNumber>
       <UnderlyingIndexId>24717</UnderlyingIndexId>
     </key>
-    <column id="335" parent="287" name="id">
+    <column id="356" parent="290" name="id">
+      <DefaultExpression>nextval(&apos;historique_comptes_id_seq&apos;::regclass)</DefaultExpression>
+      <NotNull>1</NotNull>
+      <Position>1</Position>
+      <StateNumber>60104</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <SequenceId>24825</SequenceId>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="357" parent="290" name="action">
+      <Position>2</Position>
+      <StateNumber>60104</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="358" parent="290" name="date">
+      <Position>3</Position>
+      <StateNumber>60104</StateNumber>
+      <StoredType>timestamp(6)|0s</StoredType>
+      <TypeId>1114</TypeId>
+    </column>
+    <column id="359" parent="290" name="compte_id">
+      <Position>4</Position>
+      <StateNumber>60104</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <foreign-key id="360" parent="290" name="fkj2r2oov911ttjlvwxhq0ae770">
+      <ColNames>compte_id</ColNames>
+      <ObjectId>24854</ObjectId>
+      <StateNumber>60119</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>24817</RefTableId>
+    </foreign-key>
+    <index id="361" parent="290" name="historique_comptes_pkey">
+      <ColNames>id</ColNames>
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24830</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>60104</StateNumber>
+      <Unique>1</Unique>
+      <AccessMethodId>403</AccessMethodId>
+    </index>
+    <key id="362" parent="290" name="historique_comptes_pkey">
+      <NameSurrogate>1</NameSurrogate>
+      <ObjectId>24831</ObjectId>
+      <Primary>1</Primary>
+      <StateNumber>60104</StateNumber>
+      <UnderlyingIndexId>24830</UnderlyingIndexId>
+    </key>
+    <column id="363" parent="291" name="id">
       <DefaultExpression>nextval(&apos;personnes_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5339,67 +5524,73 @@ timescaledb.disable_load=on</Config>
       <SequenceId>24591</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="336" parent="287" name="adresse">
+    <column id="364" parent="291" name="adresse">
       <Position>2</Position>
       <StateNumber>9585</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="337" parent="287" name="cin">
+    <column id="365" parent="291" name="cin">
       <Position>3</Position>
       <StateNumber>9585</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="338" parent="287" name="createdat">
+    <column id="366" parent="291" name="createdat">
       <Position>4</Position>
       <StateNumber>9585</StateNumber>
       <StoredType>timestamp(6)|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <column id="339" parent="287" name="datenaissance">
+    <column id="367" parent="291" name="datenaissance">
       <Position>5</Position>
       <StateNumber>9585</StateNumber>
       <StoredType>timestamp(6)|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <column id="340" parent="287" name="genre">
+    <column id="368" parent="291" name="genre">
       <Position>6</Position>
       <StateNumber>9585</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="341" parent="287" name="nationalite">
+    <column id="369" parent="291" name="nationalite">
       <Position>7</Position>
       <StateNumber>9585</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="342" parent="287" name="nom">
+    <column id="370" parent="291" name="nom">
       <Position>8</Position>
       <StateNumber>9585</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="343" parent="287" name="numtel">
+    <column id="371" parent="291" name="numtel">
       <Position>9</Position>
       <StateNumber>9585</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="344" parent="287" name="prenom">
+    <column id="372" parent="291" name="prenom">
       <Position>10</Position>
       <StateNumber>9585</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="345" parent="287" name="updatedat">
+    <column id="373" parent="291" name="updatedat">
       <Position>11</Position>
       <StateNumber>9585</StateNumber>
       <StoredType>timestamp(6)|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <index id="346" parent="287" name="personnes_pkey">
+    <column id="374" parent="291" name="type_personne">
+      <Position>12</Position>
+      <StateNumber>45189</StateNumber>
+      <StoredType>varchar(31)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <index id="375" parent="291" name="personnes_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24598</ObjectId>
@@ -5408,20 +5599,20 @@ timescaledb.disable_load=on</Config>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="347" parent="287" name="personnes_pkey">
+    <key id="376" parent="291" name="personnes_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24599</ObjectId>
       <Primary>1</Primary>
       <StateNumber>9585</StateNumber>
       <UnderlyingIndexId>24598</UnderlyingIndexId>
     </key>
-    <check id="348" parent="288" name="roles_name_check">
+    <check id="377" parent="292" name="roles_name_check">
       <ColNames>name</ColNames>
       <ObjectId>24605</ObjectId>
       <Predicate>(name)::text = ANY ((ARRAY[&apos;ADMIN&apos;::character varying, &apos;AGENT&apos;::character varying, &apos;CLIENT&apos;::character varying])::text[])</Predicate>
       <StateNumber>9586</StateNumber>
     </check>
-    <column id="349" parent="288" name="id">
+    <column id="378" parent="292" name="id">
       <DefaultExpression>nextval(&apos;roles_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5430,26 +5621,26 @@ timescaledb.disable_load=on</Config>
       <SequenceId>24600</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="350" parent="288" name="description">
+    <column id="379" parent="292" name="description">
       <Position>2</Position>
       <StateNumber>9586</StateNumber>
       <StoredType>varchar(100)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="351" parent="288" name="name">
+    <column id="380" parent="292" name="name">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>9586</StateNumber>
       <StoredType>varchar(20)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="352" parent="288" name="niveau_acces">
+    <column id="381" parent="292" name="niveau_acces">
       <Position>4</Position>
       <StateNumber>9586</StateNumber>
       <StoredType>integer|0s</StoredType>
       <TypeId>23</TypeId>
     </column>
-    <index id="353" parent="288" name="roles_pkey">
+    <index id="382" parent="292" name="roles_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24606</ObjectId>
@@ -5458,7 +5649,7 @@ timescaledb.disable_load=on</Config>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="354" parent="288" name="uk_ofx66keruapi6vyqpv6f2or37">
+    <index id="383" parent="292" name="uk_ofx66keruapi6vyqpv6f2or37">
       <ColNames>name</ColNames>
       <ObjectId>24643</ObjectId>
       <StateNumber>9594</StateNumber>
@@ -5468,19 +5659,19 @@ timescaledb.disable_load=on</Config>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="355" parent="288" name="roles_pkey">
+    <key id="384" parent="292" name="roles_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24607</ObjectId>
       <Primary>1</Primary>
       <StateNumber>9586</StateNumber>
       <UnderlyingIndexId>24606</UnderlyingIndexId>
     </key>
-    <key id="356" parent="288" name="uk_ofx66keruapi6vyqpv6f2or37">
+    <key id="385" parent="292" name="uk_ofx66keruapi6vyqpv6f2or37">
       <ObjectId>24644</ObjectId>
       <StateNumber>9594</StateNumber>
       <UnderlyingIndexId>24643</UnderlyingIndexId>
     </key>
-    <column id="357" parent="289" name="id">
+    <column id="386" parent="293" name="id">
       <DefaultExpression>nextval(&apos;security_tokens_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5489,62 +5680,62 @@ timescaledb.disable_load=on</Config>
       <SequenceId>24608</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="358" parent="289" name="code">
+    <column id="387" parent="293" name="code">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>9587</StateNumber>
       <StoredType>varchar(8)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="359" parent="289" name="expiration">
+    <column id="388" parent="293" name="expiration">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>9587</StateNumber>
       <StoredType>timestamp(6)|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <column id="360" parent="289" name="ip">
+    <column id="389" parent="293" name="ip">
       <Position>4</Position>
       <StateNumber>9587</StateNumber>
       <StoredType>varchar(45)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="361" parent="289" name="status">
+    <column id="390" parent="293" name="status">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>9587</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="362" parent="289" name="type">
+    <column id="391" parent="293" name="type">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>9587</StateNumber>
       <StoredType>varchar(20)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="363" parent="289" name="usageunique">
+    <column id="392" parent="293" name="usageunique">
       <NotNull>1</NotNull>
       <Position>7</Position>
       <StateNumber>9587</StateNumber>
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="364" parent="289" name="user_id">
+    <column id="393" parent="293" name="user_id">
       <NotNull>1</NotNull>
       <Position>8</Position>
       <StateNumber>9587</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="365" parent="289" name="fk46s4o9lvmc126eunrti8fr76h">
+    <foreign-key id="394" parent="293" name="fk46s4o9lvmc126eunrti8fr76h">
       <ColNames>user_id</ColNames>
       <ObjectId>24668</ObjectId>
       <StateNumber>9607</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>24633</RefTableId>
     </foreign-key>
-    <index id="366" parent="289" name="security_tokens_pkey">
+    <index id="395" parent="293" name="security_tokens_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24613</ObjectId>
@@ -5553,20 +5744,20 @@ timescaledb.disable_load=on</Config>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="367" parent="289" name="security_tokens_pkey">
+    <key id="396" parent="293" name="security_tokens_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24614</ObjectId>
       <Primary>1</Primary>
       <StateNumber>9587</StateNumber>
       <UnderlyingIndexId>24613</UnderlyingIndexId>
     </key>
-    <check id="368" parent="290" name="tokens_tokentype_check">
+    <check id="397" parent="294" name="tokens_tokentype_check">
       <ColNames>tokentype</ColNames>
       <ObjectId>24620</ObjectId>
       <Predicate>(tokentype)::text = &apos;BEARER&apos;::text</Predicate>
       <StateNumber>9588</StateNumber>
     </check>
-    <column id="369" parent="290" name="id">
+    <column id="398" parent="294" name="id">
       <DefaultExpression>nextval(&apos;tokens_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5575,49 +5766,49 @@ timescaledb.disable_load=on</Config>
       <SequenceId>24615</SequenceId>
       <TypeId>23</TypeId>
     </column>
-    <column id="370" parent="290" name="expired">
+    <column id="399" parent="294" name="expired">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>9588</StateNumber>
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="371" parent="290" name="revoked">
+    <column id="400" parent="294" name="revoked">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>9588</StateNumber>
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="372" parent="290" name="token">
+    <column id="401" parent="294" name="token">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>9588</StateNumber>
       <StoredType>varchar(512)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="373" parent="290" name="tokentype">
+    <column id="402" parent="294" name="tokentype">
       <NotNull>1</NotNull>
       <Position>5</Position>
       <StateNumber>9588</StateNumber>
       <StoredType>varchar(20)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="374" parent="290" name="user_id">
+    <column id="403" parent="294" name="user_id">
       <NotNull>1</NotNull>
       <Position>6</Position>
       <StateNumber>9588</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="375" parent="290" name="fk2dylsfo39lgjyqml2tbe0b0ss">
+    <foreign-key id="404" parent="294" name="fk2dylsfo39lgjyqml2tbe0b0ss">
       <ColNames>user_id</ColNames>
       <ObjectId>24673</ObjectId>
       <StateNumber>9608</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>24633</RefTableId>
     </foreign-key>
-    <index id="376" parent="290" name="tokens_pkey">
+    <index id="405" parent="294" name="tokens_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24623</ObjectId>
@@ -5626,7 +5817,7 @@ timescaledb.disable_load=on</Config>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="377" parent="290" name="uk_na3v9f8s7ucnj16tylrs822qj">
+    <index id="406" parent="294" name="uk_na3v9f8s7ucnj16tylrs822qj">
       <ColNames>token</ColNames>
       <ObjectId>24645</ObjectId>
       <StateNumber>9596</StateNumber>
@@ -5636,56 +5827,113 @@ timescaledb.disable_load=on</Config>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <key id="378" parent="290" name="tokens_pkey">
+    <key id="407" parent="294" name="tokens_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24624</ObjectId>
       <Primary>1</Primary>
       <StateNumber>9588</StateNumber>
       <UnderlyingIndexId>24623</UnderlyingIndexId>
     </key>
-    <key id="379" parent="290" name="uk_na3v9f8s7ucnj16tylrs822qj">
+    <key id="408" parent="294" name="uk_na3v9f8s7ucnj16tylrs822qj">
       <ObjectId>24646</ObjectId>
       <StateNumber>9596</StateNumber>
       <UnderlyingIndexId>24645</UnderlyingIndexId>
     </key>
-    <column id="380" parent="291" name="id">
+    <column id="409" parent="295" name="id">
       <DefaultExpression>nextval(&apos;transactions_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
-      <StateNumber>30453</StateNumber>
+      <StateNumber>125223</StateNumber>
       <StoredType>bigint|0s</StoredType>
-      <SequenceId>24719</SequenceId>
+      <SequenceId>24933</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="381" parent="291" name="createdat">
+    <column id="410" parent="295" name="date">
       <Position>2</Position>
-      <StateNumber>30453</StateNumber>
+      <StateNumber>125223</StateNumber>
       <StoredType>timestamp(6)|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <column id="382" parent="291" name="montant">
+    <column id="411" parent="295" name="mode">
       <Position>3</Position>
-      <StateNumber>30453</StateNumber>
+      <StateNumber>125223</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="412" parent="295" name="montant">
+      <NotNull>1</NotNull>
+      <Position>4</Position>
+      <StateNumber>125223</StateNumber>
       <StoredType>double precision|0s</StoredType>
       <TypeId>701</TypeId>
     </column>
-    <index id="383" parent="291" name="transactions_pkey">
+    <column id="413" parent="295" name="motif">
+      <Position>5</Position>
+      <StateNumber>125223</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="414" parent="295" name="reference">
+      <Position>6</Position>
+      <StateNumber>125223</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="415" parent="295" name="statut">
+      <Position>7</Position>
+      <StateNumber>125223</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="416" parent="295" name="type">
+      <Position>8</Position>
+      <StateNumber>125223</StateNumber>
+      <StoredType>varchar(255)|0s</StoredType>
+      <TypeId>1043</TypeId>
+    </column>
+    <column id="417" parent="295" name="cible_id">
+      <Position>9</Position>
+      <StateNumber>125223</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <column id="418" parent="295" name="source_id">
+      <Position>10</Position>
+      <StateNumber>125223</StateNumber>
+      <StoredType>bigint|0s</StoredType>
+      <TypeId>20</TypeId>
+    </column>
+    <foreign-key id="419" parent="295" name="fkq4ogg7fybxxua9sj1degok3h3">
+      <ColNames>cible_id</ColNames>
+      <ObjectId>24942</ObjectId>
+      <StateNumber>125224</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>24817</RefTableId>
+    </foreign-key>
+    <foreign-key id="420" parent="295" name="fkriwiny5k3bd0qx8iwia0hjrh1">
+      <ColNames>source_id</ColNames>
+      <ObjectId>24947</ObjectId>
+      <StateNumber>125225</StateNumber>
+      <RefKeyColPositions>1</RefKeyColPositions>
+      <RefTableId>24817</RefTableId>
+    </foreign-key>
+    <index id="421" parent="295" name="transactions_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>24724</ObjectId>
+      <ObjectId>24940</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>30453</StateNumber>
+      <StateNumber>125223</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="384" parent="291" name="transactions_pkey">
+    <key id="422" parent="295" name="transactions_pkey">
       <NameSurrogate>1</NameSurrogate>
-      <ObjectId>24725</ObjectId>
+      <ObjectId>24941</ObjectId>
       <Primary>1</Primary>
-      <StateNumber>30453</StateNumber>
-      <UnderlyingIndexId>24724</UnderlyingIndexId>
+      <StateNumber>125223</StateNumber>
+      <UnderlyingIndexId>24940</UnderlyingIndexId>
     </key>
-    <column id="385" parent="292" name="id">
+    <column id="423" parent="296" name="id">
       <DefaultExpression>nextval(&apos;user_roles_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5694,35 +5942,35 @@ timescaledb.disable_load=on</Config>
       <SequenceId>24625</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="386" parent="292" name="role_id">
+    <column id="424" parent="296" name="role_id">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>9589</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <column id="387" parent="292" name="user_id">
+    <column id="425" parent="296" name="user_id">
       <NotNull>1</NotNull>
       <Position>3</Position>
       <StateNumber>9589</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="388" parent="292" name="fkh8ciramu9cc9q3qcqiv4ue8a6">
+    <foreign-key id="426" parent="296" name="fkh8ciramu9cc9q3qcqiv4ue8a6">
       <ColNames>role_id</ColNames>
       <ObjectId>24678</ObjectId>
       <StateNumber>9609</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>24601</RefTableId>
     </foreign-key>
-    <foreign-key id="389" parent="292" name="fkhfh9dx7w3ubf1co1vdev94g3f">
+    <foreign-key id="427" parent="296" name="fkhfh9dx7w3ubf1co1vdev94g3f">
       <ColNames>user_id</ColNames>
       <ObjectId>24683</ObjectId>
       <StateNumber>9610</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>24633</RefTableId>
     </foreign-key>
-    <index id="390" parent="292" name="user_roles_pkey">
+    <index id="428" parent="296" name="user_roles_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24630</ObjectId>
@@ -5731,14 +5979,14 @@ timescaledb.disable_load=on</Config>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="391" parent="292" name="user_roles_pkey">
+    <key id="429" parent="296" name="user_roles_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24631</ObjectId>
       <Primary>1</Primary>
       <StateNumber>9589</StateNumber>
       <UnderlyingIndexId>24630</UnderlyingIndexId>
     </key>
-    <column id="392" parent="293" name="id">
+    <column id="430" parent="297" name="id">
       <DefaultExpression>nextval(&apos;users_id_seq&apos;::regclass)</DefaultExpression>
       <NotNull>1</NotNull>
       <Position>1</Position>
@@ -5747,104 +5995,104 @@ timescaledb.disable_load=on</Config>
       <SequenceId>24632</SequenceId>
       <TypeId>20</TypeId>
     </column>
-    <column id="393" parent="293" name="bloque">
+    <column id="431" parent="297" name="bloque">
       <NotNull>1</NotNull>
       <Position>2</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="394" parent="293" name="createdat">
+    <column id="432" parent="297" name="createdat">
       <Position>3</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>timestamp(6)|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <column id="395" parent="293" name="email">
+    <column id="433" parent="297" name="email">
       <NotNull>1</NotNull>
       <Position>4</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>varchar(150)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="396" parent="293" name="is_active">
+    <column id="434" parent="297" name="is_active">
       <Position>5</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="397" parent="293" name="is_locked">
+    <column id="435" parent="297" name="is_locked">
       <Position>6</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="398" parent="293" name="lastlogin">
+    <column id="436" parent="297" name="lastlogin">
       <Position>7</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>timestamp(6)|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <column id="399" parent="293" name="motdepasse">
+    <column id="437" parent="297" name="motdepasse">
       <NotNull>1</NotNull>
       <Position>8</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="400" parent="293" name="tentatives_echouees">
+    <column id="438" parent="297" name="tentatives_echouees">
       <Position>9</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>integer|0s</StoredType>
       <TypeId>23</TypeId>
     </column>
-    <column id="401" parent="293" name="two_factor_enabled">
+    <column id="439" parent="297" name="two_factor_enabled">
       <Position>10</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="402" parent="293" name="two_factor_secret">
+    <column id="440" parent="297" name="two_factor_secret">
       <Position>11</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>varchar(255)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="403" parent="293" name="updatedat">
+    <column id="441" parent="297" name="updatedat">
       <Position>12</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>timestamp(6)|0s</StoredType>
       <TypeId>1114</TypeId>
     </column>
-    <column id="404" parent="293" name="username">
+    <column id="442" parent="297" name="username">
       <NotNull>1</NotNull>
       <Position>13</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>varchar(100)|0s</StoredType>
       <TypeId>1043</TypeId>
     </column>
-    <column id="405" parent="293" name="verifie">
+    <column id="443" parent="297" name="verifie">
       <NotNull>1</NotNull>
       <Position>14</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>boolean|0s</StoredType>
       <TypeId>16</TypeId>
     </column>
-    <column id="406" parent="293" name="personne_id">
+    <column id="444" parent="297" name="personne_id">
       <NotNull>1</NotNull>
       <Position>15</Position>
       <StateNumber>9590</StateNumber>
       <StoredType>bigint|0s</StoredType>
       <TypeId>20</TypeId>
     </column>
-    <foreign-key id="407" parent="293" name="fk746qmsn5pu7ovac1urohjwtcw">
+    <foreign-key id="445" parent="297" name="fk746qmsn5pu7ovac1urohjwtcw">
       <ColNames>personne_id</ColNames>
       <ObjectId>24688</ObjectId>
       <StateNumber>9611</StateNumber>
       <RefKeyColPositions>1</RefKeyColPositions>
       <RefTableId>24592</RefTableId>
     </foreign-key>
-    <index id="408" parent="293" name="users_pkey">
+    <index id="446" parent="297" name="users_pkey">
       <ColNames>id</ColNames>
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24639</ObjectId>
@@ -5853,7 +6101,7 @@ timescaledb.disable_load=on</Config>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <index id="409" parent="293" name="uk_6dotkott2kjsp8vw4d0m25fb7">
+    <index id="447" parent="297" name="uk_6dotkott2kjsp8vw4d0m25fb7">
       <ColNames>email</ColNames>
       <ObjectId>24647</ObjectId>
       <StateNumber>9598</StateNumber>
@@ -5863,7 +6111,7 @@ timescaledb.disable_load=on</Config>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <index id="410" parent="293" name="uk_r43af9ap4edm43mmtq01oddj6">
+    <index id="448" parent="297" name="uk_r43af9ap4edm43mmtq01oddj6">
       <ColNames>username</ColNames>
       <ObjectId>24649</ObjectId>
       <StateNumber>9601</StateNumber>
@@ -5873,31 +6121,31 @@ timescaledb.disable_load=on</Config>
       <CollationIds>100</CollationIds>
       <CollationParentNames>pg_catalog</CollationParentNames>
     </index>
-    <index id="411" parent="293" name="uk_2c2mdf8wwynroiv4lwvj6be8b">
+    <index id="449" parent="297" name="uk_2c2mdf8wwynroiv4lwvj6be8b">
       <ColNames>personne_id</ColNames>
       <ObjectId>24651</ObjectId>
       <StateNumber>9603</StateNumber>
       <Unique>1</Unique>
       <AccessMethodId>403</AccessMethodId>
     </index>
-    <key id="412" parent="293" name="users_pkey">
+    <key id="450" parent="297" name="users_pkey">
       <NameSurrogate>1</NameSurrogate>
       <ObjectId>24640</ObjectId>
       <Primary>1</Primary>
       <StateNumber>9590</StateNumber>
       <UnderlyingIndexId>24639</UnderlyingIndexId>
     </key>
-    <key id="413" parent="293" name="uk_6dotkott2kjsp8vw4d0m25fb7">
+    <key id="451" parent="297" name="uk_6dotkott2kjsp8vw4d0m25fb7">
       <ObjectId>24648</ObjectId>
       <StateNumber>9598</StateNumber>
       <UnderlyingIndexId>24647</UnderlyingIndexId>
     </key>
-    <key id="414" parent="293" name="uk_r43af9ap4edm43mmtq01oddj6">
+    <key id="452" parent="297" name="uk_r43af9ap4edm43mmtq01oddj6">
       <ObjectId>24650</ObjectId>
       <StateNumber>9601</StateNumber>
       <UnderlyingIndexId>24649</UnderlyingIndexId>
     </key>
-    <key id="415" parent="293" name="uk_2c2mdf8wwynroiv4lwvj6be8b">
+    <key id="453" parent="297" name="uk_2c2mdf8wwynroiv4lwvj6be8b">
       <ObjectId>24652</ObjectId>
       <StateNumber>9603</StateNumber>
       <UnderlyingIndexId>24651</UnderlyingIndexId>

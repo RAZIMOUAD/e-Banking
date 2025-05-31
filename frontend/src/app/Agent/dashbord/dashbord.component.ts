@@ -3,16 +3,19 @@ import {NavbarComponent} from "@shared/components/navbar/navbar.component";
 import {FooterComponent} from "@shared/components/footer/footer.component";
 import {EspaceagentService} from "../../services/espaceagent.service";
 import {NgFor} from "@angular/common";
+import {RouterLink, RouterLinkActive} from "@angular/router";
 
 
 @Component({
   selector: 'app-dashbord',
   standalone: true,
-    imports: [
-        NavbarComponent,
-         FooterComponent,
-         NgFor
-    ],
+  imports: [
+    NavbarComponent,
+    FooterComponent,
+    NgFor,
+    RouterLink,
+    RouterLinkActive
+  ],
   templateUrl: './dashbord.component.html',
   styleUrl: './dashbord.component.css'
 })
@@ -21,7 +24,7 @@ export class DashbordComponent implements OnInit {
   clientservice = inject(EspaceagentService)
   ngOnInit(): void {
     console.log("calling ngOnInit")
-    console.log(this.clientservice.getAllClients().subscribe(client => {this.clients = client}));
+  this.clientservice.getAllClients().subscribe(client => {this.clients = client});
     console.log(this.clients);
   }
   formatDate(dateArray: number[]): string {

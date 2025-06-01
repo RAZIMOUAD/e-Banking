@@ -1,0 +1,24 @@
+<aside class="bg-gray-100 w-64 min-h-screen p-4 hidden md:block">
+  <ul class="space-y-2">
+    <li><a routerLink="/client/dashboard" class="block p-2 rounded hover:bg-indigo-100"> Tableau de bord</a></li>
+    <li><a routerLink="/client/historique" class="block p-2 rounded hover:bg-indigo-100"> Historique</a></li>
+
+    <!-- Menu déroulant Virement -->
+    <li>
+      <div (click)="toggleVirement()" class="cursor-pointer p-2 rounded hover:bg-indigo-100 flex justify-between items-center">
+        <span>Virement</span>
+        <span>&#9662;</span> <!-- flèche bas -->
+      </div>
+      <ul *ngIf="virementOuvert" class="pl-4 space-y-1">
+        <li><a routerLink="/client/virement" class="block p-2 rounded hover:bg-indigo-100">Interne</a></li>
+        <li><a routerLink="/client/virement-extern" class="block p-2 rounded hover:bg-indigo-100">Externe</a></li>
+      </ul>
+    </li>
+
+    <li><a routerLink="/client/recharge" class="block p-2 rounded hover:bg-indigo-100"> Recharge</a></li>
+    <li><a routerLink="/client/payment" class="block p-2 rounded hover:bg-indigo-100">Paiement</a></li>
+    <li><a routerLink="/client/profil" class="block p-2 rounded hover:bg-indigo-100"> Profil</a></li>
+  </ul>
+</aside>
+
+

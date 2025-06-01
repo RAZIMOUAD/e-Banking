@@ -1,0 +1,30 @@
+<div class="p-6 max-w-xl mx-auto">
+  <h2 class="text-2xl font-bold mb-4">Virement externe</h2>
+  <form (ngSubmit)="effectuerVirementExterne()" class="space-y-4">
+
+    <label>Compte source</label>
+    <select [(ngModel)]="compteSource" name="compteSource" required class="w-full p-2 border rounded">
+      <option *ngFor="let c of comptes" [value]="c">{{ c }}</option>
+    </select>
+
+    <label>Nom du bénéficiaire</label>
+    <input [(ngModel)]="nomBeneficiaire" name="nomBeneficiaire" placeholder="Nom complet" class="w-full p-2 border rounded" required />
+
+    <label>IBAN</label>
+    <input [(ngModel)]="iban" name="iban" placeholder="FR..." class="w-full p-2 border rounded" required />
+
+    <label>Code SWIFT</label>
+    <input [(ngModel)]="swift" name="swift" placeholder="SWIFT/BIC" class="w-full p-2 border rounded" required />
+
+    <label>Nom de la banque</label>
+    <input [(ngModel)]="banque" name="banque" placeholder="Banque destinataire" class="w-full p-2 border rounded" required />
+
+    <label>Montant</label>
+    <input [(ngModel)]="montant" type="number" name="montant" placeholder="Montant" class="w-full p-2 border rounded" required />
+
+    <label>Motif</label>
+    <input [(ngModel)]="motif" name="motif" placeholder="Motif du virement" class="w-full p-2 border rounded" required />
+
+    <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">Valider</button>
+  </form>
+</div>

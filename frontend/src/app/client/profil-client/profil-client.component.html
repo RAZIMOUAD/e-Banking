@@ -1,0 +1,38 @@
+<div class="p-6 max-w-2xl mx-auto">
+  <h2 class="text-3xl font-bold text-indigo-700 mb-6 border-b pb-2">Mon Profil</h2>
+
+  <div class="bg-white shadow rounded-lg p-6 space-y-4">
+    <div class="flex items-center space-x-4">
+      <div class="w-20 h-20 rounded-full bg-indigo-100 flex items-center justify-center text-3xl font-bold text-indigo-600">
+        {{ profil.prenom[0] }}{{ profil.nom[0] }}
+      </div>
+      <div>
+        <h3 class="text-xl font-semibold">{{ profil.prenom }} {{ profil.nom }}</h3>
+        <p class="text-gray-500">{{ profil.email }}</p>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
+      <div>
+        <p class="text-sm text-gray-500">Téléphone</p>
+        <p class="text-base font-medium">{{ profil.tel }}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Adresse</p>
+        <p class="text-base font-medium">{{ profil.addresse }}</p>
+      </div>
+      <div>
+        <p class="text-sm text-gray-500">Nationalité</p>
+        <p class="text-base font-medium">{{ profil.nationalite }}</p>
+      </div>
+      <!-- Ajoute d'autres infos si nécessaire -->
+    </div>
+
+    <!-- Bouton de modification pour l’avenir -->
+    <div class="pt-6 text-right">
+      <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
+        Modifier mes informations
+      </button>
+    </div>
+  </div>
+</div>

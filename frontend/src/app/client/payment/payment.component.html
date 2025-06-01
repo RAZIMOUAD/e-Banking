@@ -1,0 +1,38 @@
+<div class="p-6 max-w-3xl mx-auto space-y-8">
+  <!-- Formulaire de paiement -->
+  <div class="bg-white p-6 rounded shadow">
+    <h2 class="text-2xl font-bold mb-4">Effectuer un paiement</h2>
+    <form (ngSubmit)="effectuerPaiement()" class="space-y-4">
+      <input [(ngModel)]="destinataire" name="destinataire" required placeholder="Destinataire"
+             class="w-full p-2 border rounded" />
+      <input [(ngModel)]="montant" type="number" name="montant" required placeholder="Montant"
+             class="w-full p-2 border rounded" />
+      <input [(ngModel)]="description" name="description" required placeholder="Description"
+             class="w-full p-2 border rounded" />
+      <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700">Valider</button>
+    </form>
+  </div>
+
+  <!-- Historique -->
+  <div class="bg-white p-6 rounded shadow">
+    <h2 class="text-2xl font-bold mb-4">Historique des paiements</h2>
+    <table class="w-full text-left">
+      <thead>
+      <tr class="border-b">
+        <th class="py-2">Date</th>
+        <th class="py-2">Destinataire</th>
+        <th class="py-2">Montant</th>
+        <th class="py-2">Description</th>
+      </tr>
+      </thead>
+      <tbody>
+      <tr *ngFor="let p of historiquePaiements" class="border-b hover:bg-gray-50">
+        <td class="py-2">{{ p.date }}</td>
+        <td class="py-2">{{ p.destinataire }}</td>
+        <td class="py-2">{{ p.montant | number: '1.2-2' }} €</td>
+        <td class="py-2">{{ p.description }}</td>
+      </tr>
+      </tbody>
+    </table>
+  </div>
+</div>

@@ -1,0 +1,16 @@
+<!-- Composant racine pour la partie client -->
+<div class="flex h-screen bg-gray-100">
+  <!-- Barre latérale -->
+  <app-sidebar class="w-64 bg-white shadow-md hidden md:block"></app-sidebar>
+
+  <!-- Contenu principal -->
+  <div class="flex-1 flex flex-col overflow-hidden">
+    <!-- Navbar en haut -->
+    <app-navbar></app-navbar>
+
+    <!-- Zone de contenu des routes enfant -->
+    <main class="flex-1 overflow-y-auto p-4">
+      <router-outlet></router-outlet>
+    </main>
+  </div>
+</div>

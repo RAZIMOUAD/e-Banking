@@ -1,0 +1,23 @@
+import { ComponentFixture, TestBed } from '@angular/core/testing';
+
+import { ClientRootComponent } from './client-root.component';
+
+describe('ClientRootComponent', () => {
+  let component: ClientRootComponent;
+  let fixture: ComponentFixture<ClientRootComponent>;
+
+  beforeEach(async () => {
+    await TestBed.configureTestingModule({
+      imports: [ClientRootComponent]
+    })
+    .compileComponents();
+    
+    fixture = TestBed.createComponent(ClientRootComponent);
+    component = fixture.componentInstance;
+    fixture.detectChanges();
+  });
+
+  it('should create', () => {
+    expect(component).toBeTruthy();
+  });
+});

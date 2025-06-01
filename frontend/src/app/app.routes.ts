@@ -9,6 +9,11 @@ export const routes: Routes = [
     children: adminRoutes
   },
   {
+    path: 'client',
+    loadChildren: () =>
+      import('./client/client.module').then((m) => m.ClientModule)
+  },
+  {
     path: '',
     loadChildren: () =>
       import('./features/auth/auth.module').then((m) => m.AuthModule),

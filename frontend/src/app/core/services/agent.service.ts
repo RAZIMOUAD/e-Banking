@@ -25,7 +25,7 @@ export interface AgentResponse {
   providedIn: 'root'
 })
 export class AgentService {
-  private apiUrl = `${environment.apiBaseUrl}/api/v1/admin/agents`;
+  private apiUrl = `${environment.apiBaseUrl}/admin/agents`;
 
   constructor(private http: HttpClient) { }
 

@@ -3,6 +3,7 @@ package com.ebanking.core.domain.base.user;
 import com.ebanking.core.domain.base.SecurityToken;
 import com.ebanking.core.domain.base.UserRole;
 import com.ebanking.core.domain.base.personne.Personne;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 import lombok.*;
 import org.springframework.security.core.GrantedAuthority;
@@ -25,7 +26,7 @@ public class User implements UserDetails {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    @Column(nullable = false, unique = true, length = 100)
+    @Column(nullable = true, unique = true, length = 100)
     private String username;
 
     @Column(nullable = false, unique = true, length = 150)
@@ -66,16 +67,15 @@ public class User implements UserDetails {
     @Temporal(TemporalType.TIMESTAMP)
     private Date updatedAt;
 
-    // ✅ Relations
+    // ✅ Relation vers Personne (bi-directionnelle)
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "personne_id", nullable = false)
+    @JsonManagedReference // 🔁 côté propriétaire
     private Personne personne;
 
     @Builder.Default
     @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, orphanRemoval = true, fetch = FetchType.EAGER)
     private Set<UserRole> userRoles = new HashSet<>();
-
-
 
     // 🔒 À activer plus tard
     @Builder.Default

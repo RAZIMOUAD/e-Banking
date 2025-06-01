@@ -25,7 +25,7 @@ export interface StatsResponse {
   providedIn: 'root'
 })
 export class StatsService {
-  private apiUrl = `${environment.apiBaseUrl}/api/v1/admin/stats`;
+  private apiUrl = `${environment.apiBaseUrl}/admin/stats`;
 
   constructor(private http: HttpClient) { }
 

@@ -1,0 +1,45 @@
+.bs-stepper-header {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 2rem; /* reduce or increase spacing between steps */
+  flex-wrap: wrap;
+}
+
+.step {
+  text-align: center;
+}
+
+.step .bs-stepper-circle {
+  width: 40px;
+  height: 40px;
+  background-color: #0d6efd;
+  color: #fff;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: auto;
+  margin-bottom: 0.5rem;
+}
+
+.step.active .bs-stepper-circle {
+  background-color: #198754;
+}
+
+.bs-stepper-label {
+  color: white;
+}
+
+.line i {
+  font-size: 22px;
+  color: #6c757d;
+}
+
+.form-section {
+  margin-bottom: 3rem;
+  padding: 2rem;
+  border: 1px solid #dee2e6;
+  border-radius: 0.5rem;
+  background-color: rgba(255, 255, 255, 0.6);
+}

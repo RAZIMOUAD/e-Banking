@@ -1,6 +1,7 @@
 package com.ebanking.core.domain.base.transaction;
 
 import com.ebanking.core.domain.base.CompteBancaire.CompteBancaire;
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
@@ -9,12 +10,14 @@ import java.util.Date;
 
 @Entity
 @Table(name = "transactions")
-@Getter @Setter
+@Getter
+@Setter
 @NoArgsConstructor
 @AllArgsConstructor
 @SuperBuilder
 @Inheritance(strategy = InheritanceType.JOINED)
 public class Transaction {
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -32,17 +35,11 @@ public class Transaction {
 
     @ManyToOne
     @JoinColumn(name = "source_id")
+    @JsonBackReference(value = "source-transactions")
     private CompteBancaire source;
 
     @ManyToOne
     @JoinColumn(name = "cible_id")
+    @JsonBackReference(value = "cible-transactions")
     private CompteBancaire cible;
-
-    @Override
-    public String toString() {
-        return "Transaction{ref=" + reference + ", montant=" + montant + ", type=" + type + ", date=" + date + "}";
-    }
-
-
-    // relation vers l’expéditeur, le destinataire, etc. à ajouter
 }

@@ -1,22 +1,21 @@
 import { Component } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormBuilder, FormGroup, Validators, ReactiveFormsModule } from '@angular/forms';
-import { RouterModule, Router } from '@angular/router';
-import { AuthService } from '@core/services/auth.service';
+import { Router, RouterModule } from '@angular/router';
 import { JwtHelperService, JWT_OPTIONS } from '@auth0/angular-jwt';
+import { AuthService } from '@core/services/auth.service';
 import { AuthenticationResponse } from '@core/models/auth.model';
 
 @Component({
   selector: 'app-login',
   standalone: true,
+  templateUrl: './login.component.html',
   imports: [CommonModule, ReactiveFormsModule, RouterModule],
   providers: [
     JwtHelperService,
     { provide: JWT_OPTIONS, useValue: JWT_OPTIONS }
-  ],
-  templateUrl: './login.component.html',
+  ]
 })
-
 export class LoginComponent {
   loginForm: FormGroup;
   loading = false;
@@ -32,7 +31,7 @@ export class LoginComponent {
     this.loginForm = this.fb.group({
       email: ['', [Validators.required, Validators.email]],
       password: ['', [Validators.required, Validators.minLength(6)]],
-      code: [''] // Champ 2FA facultatif
+      code: ['']
     });
   }
 
@@ -44,50 +43,46 @@ export class LoginComponent {
 
     const { email, password, code } = this.loginForm.value;
 
-    // Étape 1 : si 2FA est requis, on vérifie le code
     if (this.requires2FA) {
-      this.authService.verifyTwoFactorCode({ email, code }).subscribe({
-        next: (response: AuthenticationResponse) => {
-          this.handleAuthSuccess(response);
-        },
-        error: (err) => {
-          this.loading = false;
-          this.errorMessage = err.error?.message || 'Code invalide ou expiré';
-        }
+      this.authService.verifyTwoFactorCode({ email, code: code.trim() }).subscribe({
+        next: (res) => this.handleAuthSuccess(res),
+        error: (err) => this.handleError(err, 'Code invalide ou expiré')
       });
       return;
     }
 
-    // Étape 2 : tentative de connexion normale
     this.authService.login({ email, password }).subscribe({
-      next: (response: AuthenticationResponse) => {
-        if (response.requires2FA) {
+      next: (res) => {
+        if (res.requires2FA) {
           this.requires2FA = true;
+          this.loginForm.get('code')?.reset();
           this.loading = false;
-          return;
+        } else {
+          this.handleAuthSuccess(res);
         }
-        this.handleAuthSuccess(response);
       },
-      error: (err) => {
-        this.loading = false;
-        this.errorMessage = err.error?.message || 'Identifiants invalides. Veuillez réessayer.';
-      },
+      error: (err) => this.handleError(err, 'Identifiants invalides. Veuillez réessayer.')
     });
   }
 
   private handleAuthSuccess(response: AuthenticationResponse): void {
     this.authService.handleLoginResponse(response);
-    const decoded = this.jwtHelper.decodeToken(response.accessToken ?? '');
-    const roles = decoded?.roles || [decoded?.role];
 
-    if (roles.includes('ROLE_ADMIN')) {
-      this.router.navigate(['/admin']).then(() => false);
-    } else if (roles.includes('ROLE_AGENT')) {
-      this.router.navigate(['/agent']).then(() => false);
-    } else {
-      this.router.navigate(['/client']).then(() => false);
+    const token = response.accessToken ?? '';
+    try {
+      const decoded = this.jwtHelper.decodeToken(token);
+      console.debug('✅ JWT décodé :', decoded);
+    } catch (err) {
+      console.error('❌ Erreur de décodage du token', err);
+      // ❌ PAS DE REDIRECTION vers /login ici
     }
 
     this.loading = false;
+  }
+
+  private handleError(error: any, fallbackMessage: string): void {
+    this.loading = false;
+    this.errorMessage = error?.error?.message || fallbackMessage;
+    console.error('❌ Auth Error :', this.errorMessage, error);
   }
 }

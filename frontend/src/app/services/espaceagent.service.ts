@@ -16,6 +16,6 @@ export class EspaceagentService {
   }
 
   getAllTransactions(): Observable<any> {
-    return this.transactions = this._httpService.get<any>(`${this.baseUrl}/api/v1/transactions`);
+    return this.transactions = this._httpService.get<any>(`${this.baseUrl}/api/v1/agent/transactions`);
   }
 }

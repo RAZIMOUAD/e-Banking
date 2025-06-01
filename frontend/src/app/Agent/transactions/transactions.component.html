@@ -61,6 +61,7 @@
                   <th>Date</th>
                   <th>Sender</th>
                   <th>Receiver</th>
+                  <th>Montant</th>
                   <th>Type</th>
                   <th>Statut</th>
                   <th>Actions</th>
@@ -72,16 +73,17 @@
                   <td>{{ transaction.reference }}</td>
                   <td>{{ transaction.date  }}</td>
                   <td>
-                    <strong>{{ transaction.source.client.nom +' '+ transaction.source.client.prenom }}</strong><br>
-                    <small class="text-muted">{{ transaction.source.iban }}</small>
+                    <strong></strong><br>
+                    <small class="text-muted">{{ transaction.ibanSource}}</small>
                   </td>
                   <td>
-                    <strong>{{ transaction.cible.client.nom +' '+ transaction.cible.client.prenom }}</strong><br>
-                    <small class="text-muted">{{ transaction.cible.iban }}</small>
+                    <strong></strong><br>
+                    <small class="text-muted">{{ transaction.ibanCible }}</small>
                   </td>
+                  <td>{{ transaction.montant }}</td>
                   <td>{{ transaction.type }}</td>
                   <td>
-                        {{ transaction.status }}
+                    {{ transaction.statut }}
 
                   </td>
                   <td>

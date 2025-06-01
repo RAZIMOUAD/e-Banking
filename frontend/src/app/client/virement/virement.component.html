@@ -1,12 +1,21 @@
 <div class="p-6 max-w-xl mx-auto">
-  <h2 class="text-2xl font-bold mb-4">Effectuer un virement</h2>
+  <h2 class="text-2xl font-bold mb-4">Virement interne</h2>
   <form (ngSubmit)="effectuerVirement()" class="space-y-4">
-    <select [(ngModel)]="compteSource" name="compteSource" required class="w-full p-2 border rounded">
-      <option *ngFor="let c of comptes" [value]="c">{{ c }}</option>
+
+    <label>Compte Source</label>
+    <select [(ngModel)]="compteSource" name="compteSource" class="w-full p-2 border rounded" required>
+      <option *ngFor="let c of comptes" [value]="c.id">{{ c.IBAN }} ({{ c.soldeDisponible }} €)</option>
     </select>
-    <input [(ngModel)]="destinataire" name="destinataire" placeholder="Destinataire" class="w-full p-2 border rounded" required />
+
+    <label>Compte Destinataire</label>
+    <select [(ngModel)]="compteCible" name="compteCible" class="w-full p-2 border rounded" required>
+      <option *ngFor="let c of comptes" [value]="c.id" [disabled]="c.id === compteSource">{{ c.IBAN }}</option>
+    </select>
+
     <input [(ngModel)]="montant" type="number" name="montant" placeholder="Montant" class="w-full p-2 border rounded" required />
     <input [(ngModel)]="motif" name="motif" placeholder="Motif" class="w-full p-2 border rounded" required />
+
     <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">Valider</button>
   </form>
 </div>
+

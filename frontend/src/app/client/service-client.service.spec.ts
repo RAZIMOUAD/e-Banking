@@ -1,13 +1,13 @@
 import { TestBed } from '@angular/core/testing';
 
-import { EspaceagentService } from './espaceagent.service';
+import { ServiceClientService } from './service-client.service';
 
-describe('EspaceagentService', () => {
-  let service: EspaceagentService;
+describe('ServiceClientService', () => {
+  let service: ServiceClientService;
 
   beforeEach(() => {
     TestBed.configureTestingModule({});
-    service = TestBed.inject(EspaceagentService);
+    service = TestBed.inject(ServiceClientService);
   });
 
   it('should be created', () => {

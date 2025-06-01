@@ -1,4 +1,5 @@
-<div class="p-6 max-w-2xl mx-auto">
+<!-- src/app/client/profil-client/profil-client.component.html -->
+<div class="p-6 max-w-2xl mx-auto" *ngIf="profil">
   <h2 class="text-3xl font-bold text-indigo-700 mb-6 border-b pb-2">Mon Profil</h2>
 
   <div class="bg-white shadow rounded-lg p-6 space-y-4">
@@ -8,27 +9,29 @@
       </div>
       <div>
         <h3 class="text-xl font-semibold">{{ profil.prenom }} {{ profil.nom }}</h3>
-        <p class="text-gray-500">{{ profil.email }}</p>
+        <p class="text-gray-500">{{ profil.cin || 'CIN non renseigné' }}</p>
       </div>
     </div>
 
     <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-6">
       <div>
         <p class="text-sm text-gray-500">Téléphone</p>
-        <p class="text-base font-medium">{{ profil.tel }}</p>
+        <p class="text-base font-medium">{{ profil.numTel }}</p>
       </div>
       <div>
         <p class="text-sm text-gray-500">Adresse</p>
-        <p class="text-base font-medium">{{ profil.addresse }}</p>
+        <p class="text-base font-medium">{{ profil.adresse }}</p>
       </div>
       <div>
         <p class="text-sm text-gray-500">Nationalité</p>
-        <p class="text-base font-medium">{{ profil.nationalite }}</p>
+        <p class="text-base font-medium">{{ profil.nationalite || 'Non renseignée' }}</p>
       </div>
-      <!-- Ajoute d'autres infos si nécessaire -->
+      <div *ngIf="profil.dateNaissance">
+        <p class="text-sm text-gray-500">Date de naissance</p>
+        <p class="text-base font-medium">{{ profil.dateNaissance | date }}</p>
+      </div>
     </div>
 
-    <!-- Bouton de modification pour l’avenir -->
     <div class="pt-6 text-right">
       <button class="bg-indigo-600 text-white px-4 py-2 rounded hover:bg-indigo-700 transition">
         Modifier mes informations

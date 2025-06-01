@@ -6,7 +6,8 @@ import com.ebanking.core.domain.base.transaction.Virement;
 import com.ebanking.core.dto.client.*;
 import com.ebanking.core.service.client.ClientService;
 import com.ebanking.core.service.client.CompteBancaireService;
-import com.ebanking.core.service.client.TransactionService;
+import com.ebanking.core.service.client.TransactionClientService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -18,15 +19,18 @@ import java.util.stream.Collectors;
 @RequestMapping("/api/client")
 public class ClientController {
 
+    @Autowired
     private final ClientService clientService;
+    @Autowired
     private final CompteBancaireService compteService;
-    private final TransactionService transactionService;
+    @Autowired
+    private final TransactionClientService transactionClientService;
 
     public ClientController(ClientService clientService, CompteBancaireService compteService,
-                            TransactionService transactionService) {
+                            TransactionClientService transactionClientService) {
         this.clientService = clientService;
         this.compteService = compteService;
-        this.transactionService = transactionService;
+        this.transactionClientService = transactionClientService;
     }
 
     // Récupérer infos client + comptes
@@ -102,7 +106,7 @@ public class ClientController {
     // Transactions d’un compte
     @GetMapping("/compte/{compteId}/transactions")
     public List<TransactionResponseDTO> getTransactionsCompte(@PathVariable Long compteId) {
-        return transactionService.getTransactionsByCompte(compteId).stream().map(t -> TransactionResponseDTO.builder()
+        return transactionClientService.getTransactionsByCompte(compteId).stream().map(t -> TransactionResponseDTO.builder()
                 .id(t.getId())
                 .reference(t.getReference())
                 .montant(t.getMontant())
@@ -141,7 +145,7 @@ public class ClientController {
     @PostMapping("/virement")
     public ResponseEntity<?> faireVirement(@RequestBody VirementRequestDTO dto) {
         try {
-            Virement v = transactionService.effectuerVirement(dto);
+            Virement v = transactionClientService.effectuerVirement(dto);
             return ResponseEntity.ok("Virement effectué avec succès, ID = " + v.getId());
         } catch (RuntimeException ex) {
             return ResponseEntity.badRequest().body(ex.getMessage());

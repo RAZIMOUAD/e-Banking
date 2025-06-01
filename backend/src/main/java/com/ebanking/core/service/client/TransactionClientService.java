@@ -7,17 +7,20 @@ import com.ebanking.core.dto.client.VirementRequestDTO;
 import com.ebanking.core.repository.sql.CompteBancaireRepository;
 import com.ebanking.core.repository.sql.TransactionRepository;
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
 import java.util.List;
 
 @Service
-public class TransactionService {
+public class TransactionClientService {
+    @Autowired
     private final TransactionRepository transactionRepo;
+    @Autowired
     private final CompteBancaireRepository compteRepo;
 
-    public TransactionService(TransactionRepository transactionRepo, CompteBancaireRepository compteRepo) {
+    public TransactionClientService(TransactionRepository transactionRepo, CompteBancaireRepository compteRepo) {
         this.transactionRepo = transactionRepo;
         this.compteRepo = compteRepo;
     }

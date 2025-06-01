@@ -4,13 +4,16 @@ import com.ebanking.core.domain.base.CompteBancaire.CompteBancaire;
 import com.ebanking.core.domain.base.CompteBancaire.HistoriqueCompte;
 import com.ebanking.core.repository.sql.CompteBancaireRepository;
 import com.ebanking.core.repository.sql.HistoriqueCompteRepository;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
 public class CompteBancaireService {
+    @Autowired
     private final CompteBancaireRepository compteRepo;
+    @Autowired
     private final HistoriqueCompteRepository historiqueRepo;
 
     public CompteBancaireService(CompteBancaireRepository compteRepo, HistoriqueCompteRepository historiqueRepo) {

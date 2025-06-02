@@ -10,19 +10,44 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef85c4fb-78f8-47ac-ba37-8e88de00979f" name="Changes" comment="">
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/agent.routes.ts" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/dashbord/dashbord.component.css" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/transactions/transactions.component.css" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b6a69423-1cf4-4b24-9ff7-ce468fb809e7/storage_v2/_src_/database/ebankingdb.X1T99g/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b6a69423-1cf4-4b24-9ff7-ce468fb809e7/storage_v2/_src_/database/ebankingdb.X1T99g/schema/public.abK9xQ.meta" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/transactions/transactions.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/Agent/transactions/transactions.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/config/initializer/AgentInitializer.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/config/initializer/AgentInitializer.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/controller/agent/AgentController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/controller/agent/AgentController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/controller/auth/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/controller/auth/AuthenticationController.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/dto/mappingClasses/ClientMapper.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/dto/mappingClasses/ClientMapper.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/AuthenticationService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/InfobipVerifyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/InfobipVerifyService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/TwilioVerifyService.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/client/ClientService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/client/ClientService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/token/SecurityTokenService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/token/SecurityTokenService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/dashbord/dashbord.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/agent-section.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/dashbord/dashbord.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/dashbord/dashbord.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/dashbord/dashbord.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/dashbord/dashbord.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/dashbord/dashbord.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/dashbord/dashbord.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/enrolement/enrolement.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/enrolement/enrolement.component.css" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/enrolement/enrolement.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/enrolement/enrolement.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/enrolement/enrolement.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/enrolement/enrolement.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/enrolement/enrolement.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/enrolement/enrolement.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/transactions/transactions.component.css" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/agent.module.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/transactions/transactions.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/transactions/transactions.component.html" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/transactions/transactions.component.spec.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/transactions/transactions.component.spec.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/transactions/transactions.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/features/agent/transactions/transactions.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.component.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.component.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/app.routes.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/app.routes.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/client/service-client.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/client/service-client.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/services/auth.service.ts" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/frontend/src/app/services/espaceagent.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/espaceagent.service.ts" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="ComposerSettings">
-    <execution />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -36,11 +61,6 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="Enrolement" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -81,42 +101,42 @@
     <option name="showLibraryContents" value="true" />
     <option name="showMembers" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.DatabaseConnectionTester.executor": "Run",
-    "Maven.backend [clean].executor": "Run",
-    "Maven.backend [install].executor": "Run",
-    "Maven.backend [test].executor": "Run",
-    "Maven.ebanking-2.0 [clean].executor": "Run",
-    "Maven.ebanking-2.0 [install].executor": "Run",
-    "Maven.ebanking-2.0 [verify].executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "RunOnceActivity.git.unshallow": "true",
-    "Tomcat Server.Tomcat 10.1.34.executor": "Run",
-    "Tomcat Server.Tomcat 10.1.35.executor": "Run",
-    "Tomcat Server.Tomcat 11.0.3.executor": "Run",
-    "git-widget-placeholder": "main",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "/Users/capo/e-Banking/frontend/src/assets/features",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Artifacts",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.2",
-    "settings.editor.selected.configurable": "Docker",
-    "settings.editor.splitter.proportion": "0.2609582",
-    "ts.external.directory.path": "C:\\Users\\USER\\OneDrive\\Bureau\\e-Banking\\frontend\\node_modules\\typescript\\lib",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.DatabaseConnectionTester.executor&quot;: &quot;Run&quot;,
+    &quot;Maven.backend [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.backend [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.backend [test].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ebanking-2.0 [clean].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ebanking-2.0 [install].executor&quot;: &quot;Run&quot;,
+    &quot;Maven.ebanking-2.0 [verify].executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;RunOnceActivity.git.unshallow&quot;: &quot;true&quot;,
+    &quot;Tomcat Server.Tomcat 10.1.34.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat Server.Tomcat 10.1.35.executor&quot;: &quot;Run&quot;,
+    &quot;Tomcat Server.Tomcat 11.0.3.executor&quot;: &quot;Run&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;main&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;/Users/capo/e-Banking/frontend/src/assets/features&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Artifacts&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.2&quot;,
+    &quot;settings.editor.selected.configurable&quot;: &quot;Docker&quot;,
+    &quot;settings.editor.splitter.proportion&quot;: &quot;0.2609582&quot;,
+    &quot;ts.external.directory.path&quot;: &quot;/Users/capo/e-Banking/frontend/node_modules/typescript/lib&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   },
-  "keyToStringList": {
-    "DatabaseDriversLRU": [
-      "postgresql"
+  &quot;keyToStringList&quot;: {
+    &quot;DatabaseDriversLRU&quot;: [
+      &quot;postgresql&quot;
     ]
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="$PROJECT_DIR$/frontend/src/assets/features" />
@@ -124,11 +144,11 @@
       <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\assets\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/app/features" />
       <recent name="$PROJECT_DIR$/frontend/src/app/core/services/admin" />
       <recent name="$PROJECT_DIR$/frontend/src/app/core/services" />
       <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\app\features\public\pages" />
       <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\assets\features" />
-      <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\assets\roles" />
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 10.1.34">
@@ -258,7 +278,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.DatabaseConnectionTester" />
-        <item itemvalue="Application.DatabaseConnectionTester" />
       </list>
     </recent_temporary>
   </component>
@@ -300,6 +319,12 @@
       <workItem from="1748520368484" duration="156000" />
       <workItem from="1748520538097" duration="9000" />
       <workItem from="1748728475866" duration="417000" />
+      <workItem from="1748808457448" duration="341000" />
+      <workItem from="1748809445647" duration="8000" />
+      <workItem from="1748816510580" duration="863000" />
+      <workItem from="1748817455096" duration="3225000" />
+      <workItem from="1748820998776" duration="1564000" />
+      <workItem from="1748830115092" duration="569000" />
     </task>
     <servers />
   </component>

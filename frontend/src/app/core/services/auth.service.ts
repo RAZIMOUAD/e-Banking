@@ -48,6 +48,15 @@ export class AuthService {
   }
 
   handleLoginResponse(response: AuthenticationResponse): void {
+    if (response.requires2FA) {
+      console.info('📱 Authentification à double facteur requise');
+      // Rediriger vers composant de saisie 2FA, ou déclencher une popup
+      this.router.navigate(['/verify-2fa'], {
+        queryParams: { email: this.getEmail() }
+      });
+      return;
+    }
+
     if (!response.accessToken) {
       console.error('❌ Token manquant dans la réponse d’authentification');
       return;

@@ -144,11 +144,7 @@
             <version>${jjwt.version}</version>
             <scope>runtime</scope> <!-- fourni au runtime uniquement -->
         </dependency>
-        <dependency>
-            <groupId>com.twilio.sdk</groupId>
-            <artifactId>twilio</artifactId>
-            <version>10.9.0</version>
-        </dependency>
+
 
         <!--  JJWT JSON support avec Jackson -->
         <dependency>

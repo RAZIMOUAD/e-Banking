@@ -6,7 +6,7 @@ import {Observable} from "rxjs";
   providedIn: 'root'
 })
 export class EspaceagentService {
-  private baseUrl ="http://localhost:9090";
+  private baseUrl ="http://localhost:8088";
   private clients: Observable<any> | undefined;
   private transactions: Observable<any> | undefined;
   constructor(private _httpService: HttpClient){ }

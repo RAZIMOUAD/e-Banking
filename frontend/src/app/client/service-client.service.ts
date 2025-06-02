@@ -44,7 +44,7 @@ export interface TransactionResponseDTO {
   providedIn: 'root'
 })
 export class ServiceClientService {
-  private baseUrl = 'http://localhost:9090/api/client';
+  private baseUrl = 'http://localhost:8088/api/client';
 
   constructor(private http: HttpClient) {}
 

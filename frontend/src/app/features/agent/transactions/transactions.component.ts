@@ -3,7 +3,7 @@ import {NavbarComponent} from "@shared/components/navbar/navbar.component";
 import {FooterComponent} from "@shared/components/footer/footer.component";
 import {NgClass, NgFor} from "@angular/common";
 import {RouterLink, RouterLinkActive} from "@angular/router";
-import {EspaceagentService} from "../../services/espaceagent.service";
+import {EspaceagentService} from "../../../services/espaceagent.service";
 
 @Component({
   selector: 'app-transactions',

@@ -6,12 +6,11 @@ import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.*;
-/*
+
 @RestController
 @RequestMapping("/api/v1/admin")
 @RequiredArgsConstructor
 //@PreAuthorize("hasRole('ADMIN')")
-
 public class StatsController {
 
     private final StatsService statsService;
@@ -20,4 +19,14 @@ public class StatsController {
     public ResponseEntity<StatsResponse> getStats() {
         return ResponseEntity.ok(statsService.getStats());
     }
-}*/
+
+    @GetMapping("/stats/summary")
+    public ResponseEntity<StatsResponse> getStatsSummary() {
+        return ResponseEntity.ok(statsService.getStats());
+    }
+
+    @GetMapping("/stats/period/{period}")
+    public ResponseEntity<StatsResponse> getStatsByPeriod(@PathVariable String period) {
+        return ResponseEntity.ok(statsService.getStats());
+    }
+}

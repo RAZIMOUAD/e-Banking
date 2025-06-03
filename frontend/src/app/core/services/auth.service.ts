@@ -26,7 +26,15 @@ export class AuthService {
   }
 
   verifyTwoFactorCode(payload: { email: string; code: string }): Observable<AuthenticationResponse> {
-    return this.http.post<AuthenticationResponse>(`${this.API_URL}/verify-2fa`, payload);
+    return this.http.post<any>(`${this.API_URL}/verify-2fa`, payload).pipe(
+      map(res => ({
+        accessToken: res.access_token,
+        refreshToken: res.refresh_token,
+        message: res.message,
+        requires2FA: res.requires2FA,
+      })),
+      catchError(err => this.handleError(err))
+    );
   }
 
   login(credentials: LoginPayload): Observable<AuthenticationResponse> {
@@ -48,6 +56,15 @@ export class AuthService {
   }
 
   handleLoginResponse(response: AuthenticationResponse): void {
+    if (response.requires2FA) {
+      console.info('📱 Authentification à double facteur requise');
+      // Rediriger vers composant de saisie 2FA, ou déclencher une popup
+      this.router.navigate(['/verify-2fa'], {
+        queryParams: { email: this.getEmail() }
+      });
+      return;
+    }
+
     if (!response.accessToken) {
       console.error('❌ Token manquant dans la réponse d’authentification');
       return;

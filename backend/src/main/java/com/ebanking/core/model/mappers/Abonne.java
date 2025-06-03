@@ -10,7 +10,7 @@ import java.util.Date;
 
 public class Abonne {
     private Long id;
-    private LocalDateTime dateEnrolement;
+    private Date dateEnrolement;
     private String status;
     private Personne personne ;
     private User user;
@@ -39,11 +39,11 @@ public class Abonne {
         this.id = id;
     }
 
-    public LocalDateTime getDateEnrolement() {
+    public Date getDateEnrolement() {
         return dateEnrolement;
     }
 
-    public void setDateEnrolement(LocalDateTime dateEnrolement) {
+    public void setDateEnrolement(Date dateEnrolement) {
         this.dateEnrolement = dateEnrolement;
     }
 

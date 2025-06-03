@@ -1,71 +1,253 @@
 <section
-  class="relative w-full min-h-[150vh] bg-no-repeat bg-cover bg-center transition-colors duration-700 ease-in-out"
-  [ngClass]="{
-    'bg-[url(/assets/hero/people/woman-smiling2.webp)]': showView1,
-    'bg-[url(/assets/hero/backgrounds/modern-building-glass.webp)]': showView2
-  }"
+  class="relative w-full min-h-screen bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-hidden"
   aria-label="Hero Section"
 >
-  <!-- 🌫 Overlay constant pour lisibilité -->
-  <div class="absolute inset-0 bg-black/60 backdrop-blur-sm z-0"></div>
-
-  <!-- ✅ Vue 1 (accroche principale) -->
-  <div
-    *ngIf="showView1"
-    class="relative z-10 flex flex-col items-center justify-center px-6 text-center text-white h-screen"
-  >
-    <h1 class="text-4xl sm:text-5xl md:text-6xl font-extrabold mb-4 drop-shadow-lg">
-      Welcome to <span class="text-emerald-400">E-BANKING</span>
-    </h1>
-    <p class="text-lg max-w-xl mb-8 opacity-90 leading-relaxed">
-      Manage your finances securely, quickly and globally.
-    </p>
-    <a
-      routerLink="/register"
-      class="bg-emerald-500 hover:bg-emerald-600 text-white font-semibold px-6 py-3 rounded-lg shadow-lg transition-transform duration-300 hover:scale-105"
-    >
-      Open Your Account
-    </a>
-  </div>
-
-  <!-- ✅ Vue 2 (enchaînée dans le scroll) -->
-  <div
-    *ngIf="showView2"
-    class="relative z-10 w-full pt-[100vh] px-6 pb-20 text-white text-center"
-  >
-    <div class="max-w-7xl mx-auto">
-      <h2 class="text-3xl sm:text-4xl md:text-5xl font-extrabold mb-6 drop-shadow">
-        Explore Our Smart Features
-      </h2>
-      <p class="text-white/80 mb-12 max-w-2xl mx-auto text-base sm:text-lg leading-relaxed">
-        Manage, track, and secure your finances with next-gen tools.
-      </p>
-
-      <div
-        class="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6 animate-fade-in"
-        aria-label="Key features"
-      >
-        <app-feature-card
-          imageSrc="/assets/hero/mobile-ui/security.webp"
-          alt="Security"
-          title="Security First"
-          description="Biometric auth, 2FA, encryption – your data is safe."
-        ></app-feature-card>
-
-        <app-feature-card
-          imageSrc="/assets/hero/mobile-ui/Analytics.webp"
-          alt="Analytics"
-          title="Smart Analytics"
-          description="Real-time spend charts, savings goals and insights."
-        ></app-feature-card>
-
-        <app-feature-card
-          imageSrc="/assets/hero/cards/bank-card-atlas.webp"
-          alt="Card Control"
-          title="Card Control"
-          description="Freeze, unfreeze, and customize your cards instantly."
-        ></app-feature-card>
+  <!-- Background particles animation -->
+  <div class="absolute inset-0 overflow-hidden">
+    <div class="particles-container">
+      <div *ngFor="let particle of particles"
+           class="particle"
+           [ngStyle]="{
+             left: particle.x + '%',
+             top: particle.y + '%',
+             'animation-delay': particle.delay + 's',
+             'animation-duration': particle.duration + 's'
+           }">
       </div>
     </div>
   </div>
+
+  <!-- Gradient overlay for better text readability -->
+  <div class="absolute inset-0 bg-gradient-to-r from-black/50 via-black/30 to-black/50 z-10"></div>
+
+  <!-- Main hero content -->
+  <div class="relative z-20 container mx-auto px-6 py-20 flex flex-col lg:flex-row items-center min-h-screen">
+
+    <!-- Left side - Content -->
+    <div class="lg:w-1/2 text-center lg:text-left space-y-8 lg:pr-12">
+
+      <!-- Badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-sm rounded-full border border-white/20">
+        <svg class="w-4 h-4 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+        </svg>
+        <span class="text-sm font-medium text-white">Bank-Grade Security</span>
+      </div>
+
+      <!-- Main headline with typing effect -->
+      <div class="space-y-4">
+        <h1 class="text-4xl sm:text-5xl lg:text-6xl xl:text-7xl font-bold text-white leading-tight">
+          <span class="block">Banking</span>
+          <span class="block bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+            {{ typedText() }}
+          </span>
+        </h1>
+        <p class="text-xl lg:text-2xl text-gray-300 max-w-2xl">
+          Experience the future of digital banking with AI-powered insights, instant transactions, and enterprise-grade security.
+        </p>
+      </div>
+
+      <!-- CTA Buttons -->
+      <div class="flex flex-col sm:flex-row gap-4 items-center lg:items-start">
+        <a
+          routerLink="/register"
+          class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-blue-500 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+        >
+          <span class="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-xl blur opacity-30 group-hover:opacity-50 transition-opacity"></span>
+          <span class="relative flex items-center gap-2">
+            Open Your Account
+            <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+            </svg>
+          </span>
+        </a>
+
+        <button
+          (click)="playDemo()"
+          class="inline-flex items-center gap-3 px-8 py-4 text-lg font-medium text-white border-2 border-white/30 rounded-xl hover:bg-white/10 hover:border-white/50 transition-all duration-300"
+        >
+          <div class="relative">
+            <div class="w-12 h-12 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full flex items-center justify-center">
+              <svg class="w-6 h-6 text-white ml-1" [class.animate-pulse]="isPlayingDemo()" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M8 5v14l11-7z"/>
+              </svg>
+            </div>
+            <div class="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full opacity-30 animate-ping"></div>
+          </div>
+          Watch Demo
+        </button>
+      </div>
+
+      <!-- Trust indicators -->
+      <div class="flex flex-wrap items-center gap-6 pt-8">
+        <div class="flex items-center gap-2 text-gray-300">
+          <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+          </svg>
+          <span class="text-sm">256-bit SSL</span>
+        </div>
+        <div class="flex items-center gap-2 text-gray-300">
+          <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197m13.5-9a2.5 2.5 0 11-5 0 2.5 2.5 0 015 0z"></path>
+          </svg>
+          <span class="text-sm">{{ animatedUserCount() }}+ Active Users</span>
+        </div>
+        <div class="flex items-center gap-2 text-gray-300">
+          <svg class="w-5 h-5 text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9V3"></path>
+          </svg>
+          <span class="text-sm">Global Access</span>
+        </div>
+      </div>
+    </div>
+
+    <!-- Right side - Visual elements -->
+    <div class="lg:w-1/2 relative mt-12 lg:mt-0">
+
+      <!-- Main dashboard mockup -->
+      <div class="relative">
+        <!-- Floating cards animation -->
+        <div class="absolute inset-0">
+          <!-- Portfolio Card -->
+          <div
+            class="absolute bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-2xl transform hover:scale-105 transition-all duration-500"
+            [ngStyle]="{
+              top: '20%',
+              left: '10%',
+              transform: 'translateY(' + (scrollY() * 0.1) + 'px) rotate(-5deg)'
+            }"
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 bg-emerald-500 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                </svg>
+              </div>
+              <div>
+                <p class="text-white font-semibold">Portfolio</p>
+                <p class="text-emerald-400 text-sm">+12.5%</p>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-white">${{ formatNumber(247853) }}</p>
+          </div>
+
+          <!-- Expenses Card -->
+          <div
+            class="absolute bg-white/10 backdrop-blur-md rounded-2xl p-6 border border-white/20 shadow-2xl transform hover:scale-105 transition-all duration-500"
+            [ngStyle]="{
+              top: '60%',
+              right: '15%',
+              transform: 'translateY(' + (scrollY() * 0.05) + 'px) rotate(8deg)'
+            }"
+          >
+            <div class="flex items-center gap-3 mb-3">
+              <div class="w-10 h-10 bg-blue-500 rounded-full flex items-center justify-center">
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+                  <line x1="1" y1="10" x2="23" y2="10"></line>
+                </svg>
+              </div>
+              <div>
+                <p class="text-white font-semibold">Expenses</p>
+                <p class="text-gray-300 text-sm">This month</p>
+              </div>
+            </div>
+            <p class="text-2xl font-bold text-white">${{ formatNumber(12847) }}</p>
+          </div>
+
+          <!-- Quick Transfer Card -->
+          <div
+            class="absolute bg-white/10 backdrop-blur-md rounded-2xl p-4 border border-white/20 shadow-2xl transform hover:scale-105 transition-all duration-500"
+            [ngStyle]="{
+              bottom: '80%',
+              left: '20%',
+              transform: 'translateY(' + (scrollY() * -0.08) + 'px) rotate(-3deg)'
+            }"
+          >
+            <div class="flex items-center gap-2">
+              <div class="w-8 h-8 bg-purple-500 rounded-full flex items-center justify-center">
+                <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <polygon points="13,2 3,14 12,14 11,22 21,10 12,10 13,2"></polygon>
+                </svg>
+              </div>
+              <div>
+                <p class="text-white text-sm font-medium">Quick Transfer</p>
+                <p class="text-purple-400 text-xs">Instant</p>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Central device mockup -->
+        <div class="relative z-10 mx-auto max-w-sm lg:max-w-md">
+          <div class="relative bg-gradient-to-br from-white/20 to-white/5 backdrop-blur-xl rounded-3xl p-8 border border-white/30 shadow-2xl">
+            <!-- Phone screen -->
+            <div class="bg-slate-900 rounded-2xl p-6 space-y-4">
+              <!-- Header -->
+              <div class="flex items-center justify-between">
+                <div>
+                  <p class="text-gray-400 text-sm">Good {{ getTimeOfDay() }}</p>
+                  <p class="text-white font-semibold">{{ getCurrentUser() }}</p>
+                </div>
+                <div class="w-10 h-10 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full"></div>
+              </div>
+
+              <!-- Balance card -->
+              <div class="bg-gradient-to-r from-emerald-500 to-blue-500 rounded-xl p-4">
+                <p class="text-white/80 text-sm">Total Balance</p>
+                <p class="text-white text-2xl font-bold">${{ animatedBalance() }}</p>
+                <div class="flex items-center gap-2 mt-2">
+                  <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6"></path>
+                  </svg>
+                  <span class="text-white/90 text-sm">+2.5% from last month</span>
+                </div>
+              </div>
+
+              <!-- Quick actions -->
+              <div class="grid grid-cols-4 gap-3">
+                <div *ngFor="let action of quickActions"
+                     class="bg-white/10 rounded-xl p-3 text-center hover:bg-white/20 transition-colors cursor-pointer">
+                  <div class="w-6 h-6 text-white mx-auto mb-1 flex items-center justify-center">
+                    <!-- Send Icon -->
+                    <svg *ngIf="action.icon === 'send'" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"></path>
+                    </svg>
+                    <!-- Receipt Icon -->
+                    <svg *ngIf="action.icon === 'receipt'" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12h6m-6 4h6m2 5H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"></path>
+                    </svg>
+                    <!-- Piggy Bank Icon -->
+                    <svg *ngIf="action.icon === 'piggy-bank'" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 9V7a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2m2 4h10a2 2 0 002-2v-6a2 2 0 00-2-2H9a2 2 0 00-2 2v6a2 2 0 002 2zm7-5a2 2 0 11-4 0 2 2 0 014 0z"></path>
+                    </svg>
+                    <!-- Bar Chart Icon -->
+                    <svg *ngIf="action.icon === 'bar-chart-2'" class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                    </svg>
+                  </div>
+                  <span class="text-white text-xs">{{ action.label }}</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 transform -translate-x-1/2 z-20">
+    <div class="flex flex-col items-center gap-2 text-white/60">
+      <span class="text-sm">Scroll to explore</span>
+      <div class="w-6 h-10 border-2 border-white/30 rounded-full flex justify-center">
+        <div class="w-1 h-3 bg-white/60 rounded-full mt-2 animate-bounce"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Background gradient orbs -->
+  <div class="absolute top-20 left-10 w-72 h-72 bg-emerald-500/20 rounded-full blur-3xl animate-pulse"></div>
+  <div class="absolute bottom-20 right-10 w-96 h-96 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+  <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 4s;"></div>
 </section>

@@ -14,4 +14,5 @@ import lombok.experimental.SuperBuilder;
 @SuperBuilder
 public class Virement extends Transaction{
     private String autorisePar;
+    private String nomBanque;
 }

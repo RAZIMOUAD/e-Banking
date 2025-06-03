@@ -1,17 +1,20 @@
-import { Component } from '@angular/core';
+import { Component , OnInit } from '@angular/core';
+import { ServiceClientService , ClientProfil } from '../service-client.service';
 
 @Component({
   selector: 'app-profil-client',
   templateUrl: './profil-client.component.html'
 })
 export class ProfilClientComponent {
-  // TODO: charger depuis backend le profil réel
-  profil = {
-    nom: 'Zidane',
-    prenom: 'Noufissa',
-    email: 'zidane@gmail.com',
-    tel: '+212-6600000',
-    addresse: 'Marrakech',
-    nationalite: 'Marocaine'
-  };
+  profil: ClientProfil | null = null;
+
+  constructor(private clientService: ServiceClientService) {}
+
+  ngOnInit(): void {
+    const clientId = 37; // Tu pourras plus tard le récupérer via un service d'auth
+    this.clientService.getClientById(clientId).subscribe({
+      next: (data) => this.profil = data,
+      error: (err) => console.error('Erreur lors du chargement du profil :', err)
+    });
+  }
 }

@@ -59,7 +59,7 @@ public class JwtService {
                 .claim("primaryRole", user.getUserRoles().stream()
                         .map(userRole -> userRole.getRole().getName().name())
                         .findFirst().orElse("UNKNOWN"))
-                .claim("typePersonne", typePersonne)
+               .claim("typePersonne", typePersonne)
                 .claim("userId", user.getId())
                 .claim("verifie", user.isVerifie())
                 .claim("twoFactorEnabled", user.isTwoFactorEnabled())

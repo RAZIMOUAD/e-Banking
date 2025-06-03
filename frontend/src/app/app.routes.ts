@@ -1,9 +1,6 @@
 // app.routes.ts
 import { Routes } from '@angular/router';
 import { publicRoutes } from '@features/public/public.routes';
-import {DashbordComponent} from "./Agent/dashbord/dashbord.component";
-import {TransactionsComponent} from "./Agent/transactions/transactions.component";
-import {EnrolementComponent} from "./Agent/enrolement/enrolement.component";
 
 export const routes: Routes = [
   ...publicRoutes,
@@ -16,11 +13,16 @@ export const routes: Routes = [
     path: 'client',
     loadChildren: () => import('./client/client.module').then(m => m.ClientModule)
   },
+  {
+    path: 'admin',
+    loadChildren: () =>
+      import('@features/admin/admin.module').then((m) => m.AdminModule),
+  },
+  {
+    path: 'agent',
+    loadChildren: () => import('@features/agent/agent.module').then(m => m.AgentModule)
+  }
 
-
-   {path:'espaceAgent',component: DashbordComponent},
-   {path:'transactions',component:TransactionsComponent},
-  {path:'enrolement',component: EnrolementComponent}
 ];
 
 

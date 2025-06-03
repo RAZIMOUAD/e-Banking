@@ -143,12 +143,13 @@ public class ClientController {
 
     // Effectuer un virement
     @PostMapping("/virement")
-    public ResponseEntity<?> faireVirement(@RequestBody VirementRequestDTO dto) {
+    public ResponseEntity<?> effectuerVirement(@RequestBody VirementRequestDTO dto) {
         try {
-            Virement v = transactionClientService.effectuerVirement(dto);
-            return ResponseEntity.ok("Virement effectué avec succès, ID = " + v.getId());
-        } catch (RuntimeException ex) {
-            return ResponseEntity.badRequest().body(ex.getMessage());
+            Virement virement = transactionClientService.effectuerVirement(dto);
+            return ResponseEntity.ok().body("Virement effectué avec succès, ref: " + virement.getReference());
+        } catch (RuntimeException e) {
+            return ResponseEntity.badRequest().body(e.getMessage());
         }
     }
+
 }

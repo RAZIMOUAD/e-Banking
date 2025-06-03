@@ -1,7 +1,7 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
@@ -11,16 +11,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import { MatChipsModule } from '@angular/material/chips';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatTooltipModule } from '@angular/material/tooltip';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { trigger, transition, style, animate } from '@angular/animations';
+import { trigger, transition, style, animate, stagger, query } from '@angular/animations';
 import { DeviseService, DeviseResponse, DeviseRequest } from '@core/services/devise.service';
-import { catchError, finalize } from 'rxjs/operators';
-import { of } from 'rxjs';
+import { catchError, finalize, takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { MatDividerModule } from '@angular/material/divider';
 
-// Supposons que nous ayons un composant de dialogue pour ajouter/éditer des devises
-// import { DeviseDialogComponent } from './devise-dialog/devise-dialog.component';
 
 @Component({
   selector: 'app-devises',
@@ -29,6 +29,7 @@ import { of } from 'rxjs';
   standalone: true,
   imports: [
     CommonModule,
+    MatDividerModule,
     MatCardModule,
     MatTableModule,
     MatSortModule,
@@ -40,30 +41,45 @@ import { of } from 'rxjs';
     MatMenuModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatChipsModule,
     MatSlideToggleModule,
+    MatProgressSpinnerModule,
+    MatTooltipModule,
     FormsModule,
     ReactiveFormsModule
   ],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
-        style({ opacity: 0, transform: 'translateY(10px)' }),
-        animate('300ms ease-in', style({ opacity: 1, transform: 'translateY(0)' }))
+        style({ opacity: 0, transform: 'translateY(20px)' }),
+        animate('400ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ])
+    ]),
+    trigger('listAnimation', [
+      transition('* <=> *', [
+        query(':enter', [
+          style({ opacity: 0, transform: 'translateY(20px)' }),
+          stagger('50ms', animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })))
+        ], { optional: true })
       ])
     ])
   ]
 })
-export class DevisesComponent implements OnInit {
+export class DevisesComponent implements OnInit, OnDestroy, AfterViewInit {
+  private destroy$ = new Subject<void>();
+
   displayedColumns: string[] = ['code', 'name', 'symbol', 'exchangeRate', 'active', 'lastUpdated', 'actions'];
-  dataSource: DeviseResponse[] = [];
-  filteredData: DeviseResponse[] = [];
+  dataSource = new MatTableDataSource<DeviseResponse>();
   searchTerm = '';
 
-  // Chargement des données
+  // Loading states
   loading = false;
   error = false;
   refreshing = false;
+
+  // Statistics
+  totalCurrencies = 0;
+  activeCurrencies = 0;
+  lastRateUpdate: Date | null = null;
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -78,14 +94,25 @@ export class DevisesComponent implements OnInit {
     this.loadDevises();
   }
 
-  ngAfterViewInit() {
-    if (this.sort && this.paginator) {
-      // Add sorting and pagination
-      this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-    }
+  ngOnDestroy(): void {
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 
-  loadDevises() {
+  ngAfterViewInit(): void {
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+
+    // Custom filter predicate
+    this.dataSource.filterPredicate = (data: DeviseResponse, filter: string) => {
+      const searchStr = filter.toLowerCase();
+      return data.code?.toLowerCase().includes(searchStr) ||
+        data.name?.toLowerCase().includes(searchStr) ||
+        data.symbol?.toLowerCase().includes(searchStr);
+    };
+  }
+
+  loadDevises(): void {
     this.loading = true;
     this.error = false;
 
@@ -94,222 +121,216 @@ export class DevisesComponent implements OnInit {
         catchError(error => {
           console.error('Error loading currencies:', error);
           this.error = true;
-          this.snackBar.open('Failed to load currencies. Please try again.', 'Close', {
-            duration: 5000
+          this.snackBar.open('Backend unavailable - using demo data', 'Close', {
+            duration: 4000,
+            panelClass: ['warning-snackbar']
           });
-          // Retourne des données fictives en cas d'erreur
-          return of(this.generateMockDevises());
+          return of(this.getMockDevises());
         }),
         finalize(() => {
           this.loading = false;
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe(devises => {
-        this.dataSource = devises;
-        this.applyFilter();
+        this.processDevisesData(devises);
       });
   }
 
-  applyFilter() {
-    if (!this.searchTerm.trim()) {
-      this.filteredData = [...this.dataSource];
-      return;
-    }
-
-    const filterValue = this.searchTerm.toLowerCase();
-    this.filteredData = this.dataSource.filter(devise =>
-      devise.code.toLowerCase().includes(filterValue) ||
-      devise.name.toLowerCase().includes(filterValue)
-    );
+  private processDevisesData(devises: DeviseResponse[]): void {
+    this.dataSource.data = devises;
+    this.updateStatistics(devises);
+    this.applyFilter();
   }
 
-  onSearch(event: Event) {
+  private updateStatistics(devises: DeviseResponse[]): void {
+    this.totalCurrencies = devises.length;
+    this.activeCurrencies = devises.filter(d => d.active).length;
+    this.lastRateUpdate = devises.reduce((latest, current) => {
+      const currentDate = new Date(current.lastUpdated);
+      return !latest || currentDate > latest ? currentDate : latest;
+    }, null as Date | null);
+  }
+
+  applyFilter(): void {
+    this.dataSource.filter = this.searchTerm.trim().toLowerCase();
+  }
+
+  onSearch(event: Event): void {
     this.searchTerm = (event.target as HTMLInputElement).value;
     this.applyFilter();
   }
 
-  refreshRates() {
+  refreshRates(): void {
     this.refreshing = true;
 
-    // La méthode refreshRates peut ne pas exister dans votre API,
-    // vous pouvez donc adapter cette partie à votre besoin
     this.deviseService.refreshRates()
       .pipe(
         catchError(error => {
           console.error('Error refreshing rates:', error);
-          this.snackBar.open('Failed to refresh exchange rates. Please try again.', 'Close', {
-            duration: 5000
-          });
-          return of(null);
+          // Fallback: simulate rate refresh with mock data
+          return of(this.simulateRateRefresh());
         }),
         finalize(() => {
           this.refreshing = false;
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe(devises => {
         if (devises) {
-          this.dataSource = devises;
-          this.applyFilter();
+          this.processDevisesData(devises);
           this.snackBar.open('Exchange rates updated successfully!', 'Close', {
             duration: 3000
           });
-        } else {
-          // Si l'API n'a pas de méthode refreshRates, on simule simplement une mise à jour
-          setTimeout(() => {
-            this.dataSource = this.dataSource.map(devise => ({
-              ...devise,
-              exchangeRate: devise.exchangeRate * (1 + (Math.random() * 0.02 - 0.01)),
-              lastUpdated: new Date()
-            }));
-            this.applyFilter();
-            this.refreshing = false;
-            this.snackBar.open('Exchange rates updated successfully!', 'Close', {
-              duration: 3000
-            });
-          }, 1500);
         }
       });
   }
 
-  toggleDeviseStatus(id: number) {
-    const devise = this.dataSource.find(d => d.id === id);
+  private simulateRateRefresh(): DeviseResponse[] {
+    return this.dataSource.data.map(devise => ({
+      ...devise,
+      exchangeRate: devise.exchangeRate * (1 + (Math.random() * 0.02 - 0.01)),
+      lastUpdated: new Date()
+    }));
+  }
 
-    if (devise) {
-      const updateRequest: DeviseRequest = {
-        code: devise.code,
-        name: devise.name,
-        symbol: devise.symbol,
-        exchangeRate: devise.exchangeRate,
-        active: !devise.active
-      };
+  toggleDeviseStatus(id: number): void {
+    const devise = this.dataSource.data.find(d => d.id === id);
 
-      this.deviseService.update(id, updateRequest)
-        .pipe(
-          catchError(error => {
-            console.error('Error toggling currency status:', error);
-            this.snackBar.open('Failed to update currency status. Please try again.', 'Close', {
-              duration: 5000
-            });
-            return of(null);
-          })
-        )
-        .subscribe(updatedDevise => {
-          if (updatedDevise) {
-            this.snackBar.open(`${updatedDevise.name} is now ${updatedDevise.active ? 'active' : 'inactive'}`, 'Close', {
-              duration: 3000
-            });
-            this.loadDevises();
-          } else {
-            // Si l'API n'est pas disponible, on simule une mise à jour locale
-            devise.active = !devise.active;
-            this.snackBar.open(`${devise.name} is now ${devise.active ? 'active' : 'inactive'}`, 'Close', {
-              duration: 3000
-            });
-          }
-        });
+    if (!devise) {
+      this.snackBar.open('Currency not found', 'Close', { duration: 3000 });
+      return;
     }
-  }
 
-  openDeviseDialog(devise?: DeviseResponse) {
-    // Implémentation d'un dialogue pour ajouter/éditer une devise
-    // const dialogRef = this.dialog.open(DeviseDialogComponent, {
-    //   width: '600px',
-    //   data: { devise: devise ? {...devise} : null }
-    // });
+    const updateRequest: DeviseRequest = {
+      code: devise.code,
+      name: devise.name,
+      symbol: devise.symbol,
+      exchangeRate: devise.exchangeRate,
+      active: !devise.active
+    };
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     if (devise) {
-    //       this.updateDevise(devise.id, result);
-    //     } else {
-    //       this.createDevise(result);
-    //     }
-    //   }
-    // });
-
-    // En attendant d'implémenter le dialogue, nous affichons simplement un message
-    this.snackBar.open('Currency dialog functionality will be implemented soon.', 'Close', {
-      duration: 3000
-    });
-  }
-
-  createDevise(deviseData: DeviseRequest) {
-    this.deviseService.create(deviseData)
+    this.deviseService.update(id, updateRequest)
       .pipe(
         catchError(error => {
-          console.error('Error creating currency:', error);
-          this.snackBar.open('Failed to create currency. Please try again.', 'Close', {
-            duration: 5000
-          });
-          return of(null);
-        })
-      )
-      .subscribe(newDevise => {
-        if (newDevise) {
-          this.snackBar.open('Currency created successfully', 'Close', {
+          console.error('Error toggling currency status:', error);
+          this.snackBar.open('Failed to update currency status', 'Close', {
             duration: 3000
           });
-          this.loadDevises();
-        }
-      });
-  }
-
-  updateDevise(id: number, deviseData: DeviseRequest) {
-    this.deviseService.update(id, deviseData)
-      .pipe(
-        catchError(error => {
-          console.error('Error updating currency:', error);
-          this.snackBar.open('Failed to update currency. Please try again.', 'Close', {
-            duration: 5000
-          });
           return of(null);
-        })
+        }),
+        takeUntil(this.destroy$)
       )
       .subscribe(updatedDevise => {
         if (updatedDevise) {
-          this.snackBar.open('Currency updated successfully', 'Close', {
+          // Update local data
+          const index = this.dataSource.data.findIndex(d => d.id === id);
+          if (index !== -1) {
+            this.dataSource.data[index] = updatedDevise;
+            this.updateStatistics(this.dataSource.data);
+            this.dataSource._updateChangeSubscription();
+          }
+          this.snackBar.open(`${updatedDevise.name} is now ${updatedDevise.active ? 'active' : 'inactive'}`, 'Close', {
             duration: 3000
           });
-          this.loadDevises();
+        } else {
+          // Fallback for mock data
+          devise.active = !devise.active;
+          this.updateStatistics(this.dataSource.data);
+          this.snackBar.open(`${devise.name} is now ${devise.active ? 'active' : 'inactive'}`, 'Close', {
+            duration: 3000
+          });
         }
       });
   }
 
-  deleteDevise(id: number) {
-    // Vérifier si c'est le USD (on ne peut pas supprimer la devise par défaut)
-    const devise = this.dataSource.find(d => d.id === id);
-    if (devise && devise.code === 'USD') {
-      this.snackBar.open('Cannot delete the default currency (USD).', 'Close', {
+  openDeviseDialog(devise?: DeviseResponse): void {
+    // TODO: Implement devise dialog
+    this.snackBar.open(
+      devise ? `Editing ${devise.name}` : 'Creating new currency',
+      'Close',
+      { duration: 2000 }
+    );
+  }
+
+  deleteDevise(id: number): void {
+    const devise = this.dataSource.data.find(d => d.id === id);
+
+    if (!devise) {
+      this.snackBar.open('Currency not found', 'Close', { duration: 3000 });
+      return;
+    }
+
+    if (devise.code === 'USD') {
+      this.snackBar.open('Cannot delete the base currency (USD)', 'Close', {
         duration: 3000
       });
       return;
     }
 
-    // Confirmation avant suppression
-    const confirmed = window.confirm('Are you sure you want to delete this currency?');
+    const confirmed = window.confirm(`Are you sure you want to delete ${devise.name}?`);
 
     if (confirmed) {
       this.deviseService.delete(id)
         .pipe(
           catchError(error => {
             console.error('Error deleting currency:', error);
-            this.snackBar.open('Failed to delete currency. Please try again.', 'Close', {
-              duration: 5000
+            this.snackBar.open('Failed to delete currency', 'Close', {
+              duration: 3000
             });
             return of(null);
-          })
+          }),
+          takeUntil(this.destroy$)
         )
         .subscribe(() => {
+          // Remove from local data
+          const index = this.dataSource.data.findIndex(d => d.id === id);
+          if (index !== -1) {
+            this.dataSource.data.splice(index, 1);
+            this.dataSource._updateChangeSubscription();
+            this.updateStatistics(this.dataSource.data);
+          }
           this.snackBar.open('Currency deleted successfully', 'Close', {
-            duration: 3000
+            duration: 2000
           });
-          this.loadDevises();
         });
     }
   }
 
-  // Génère des données fictives en cas d'erreur d'API
-  generateMockDevises(): DeviseResponse[] {
+  clearFilters(): void {
+    this.searchTerm = '';
+    this.applyFilter();
+  }
+
+  getStatusClass(active: boolean): string {
+    return active ? 'status-active' : 'status-inactive';
+  }
+
+  getRateChangeClass(rate: number): string {
+    // This would compare with previous rate in real implementation
+    return 'rate-neutral';
+  }
+
+  formatExchangeRate(rate: number): string {
+    return rate.toLocaleString('en-US', {
+      minimumFractionDigits: 2,
+      maximumFractionDigits: 6
+    });
+  }
+
+  getTimeSinceUpdate(date: Date): string {
+    const now = new Date();
+    const diff = now.getTime() - new Date(date).getTime();
+    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const days = Math.floor(hours / 24);
+
+    if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
+    if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    return 'Just now';
+  }
+
+  // Mock data fallback
+  private getMockDevises(): DeviseResponse[] {
     return [
       {
         id: 1,
@@ -325,36 +346,54 @@ export class DevisesComponent implements OnInit {
         code: 'EUR',
         name: 'Euro',
         symbol: '€',
-        exchangeRate: 0.92,
+        exchangeRate: 0.9234,
         active: true,
-        lastUpdated: new Date()
+        lastUpdated: new Date(Date.now() - 1800000)
       },
       {
         id: 3,
-        code: 'GBP',
-        name: 'British Pound',
-        symbol: '£',
-        exchangeRate: 0.78,
+        code: 'MAD',
+        name: 'Moroccan Dirham',
+        symbol: 'MAD',
+        exchangeRate: 10.1245,
         active: true,
-        lastUpdated: new Date(Date.now() - 3600000 * 2)
+        lastUpdated: new Date(Date.now() - 3600000)
       },
       {
         id: 4,
-        code: 'JPY',
-        name: 'Japanese Yen',
-        symbol: '¥',
-        exchangeRate: 145.32,
+        code: 'GBP',
+        name: 'British Pound',
+        symbol: '£',
+        exchangeRate: 0.7821,
         active: true,
-        lastUpdated: new Date(Date.now() - 3600000 * 3)
+        lastUpdated: new Date(Date.now() - 7200000)
       },
       {
         id: 5,
+        code: 'JPY',
+        name: 'Japanese Yen',
+        symbol: '¥',
+        exchangeRate: 149.87,
+        active: true,
+        lastUpdated: new Date(Date.now() - 10800000)
+      },
+      {
+        id: 6,
         code: 'CAD',
         name: 'Canadian Dollar',
         symbol: 'C$',
-        exchangeRate: 1.35,
+        exchangeRate: 1.3567,
         active: false,
-        lastUpdated: new Date(Date.now() - 3600000 * 24)
+        lastUpdated: new Date(Date.now() - 86400000)
+      },
+      {
+        id: 7,
+        code: 'CHF',
+        name: 'Swiss Franc',
+        symbol: 'CHF',
+        exchangeRate: 0.8934,
+        active: true,
+        lastUpdated: new Date(Date.now() - 14400000)
       }
     ];
   }

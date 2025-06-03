@@ -27,7 +27,6 @@ import java.time.LocalDate;
 import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.UUID;
-
 @Service
 @RequiredArgsConstructor
 @Slf4j
@@ -44,21 +43,61 @@ public class RegistrationService {
 
     @Transactional
     public AuthenticationResponse register(RegisterRequest request) {
+        log.info("📥 Reçu une requête d'enregistrement pour email={}", request.getEmail());
+
         if (repository.findByEmail(request.getEmail()).isPresent()) {
+            log.warn("⚠️ Email déjà utilisé : {}", request.getEmail());
             throw new EmailAlreadyUsedException("Un compte existe déjà avec cet email");
         }
 
+        // Construction des objets
         var client = buildClientFromRequest(request);
+        log.info("🧾 Client construit : {}", client);
+
         var user = buildUserFromRequest(request, client);
-        assignClientRole(user);
+        log.info("🧾 User construit (sans rôles encore) : {}", user);
 
-        var savedUser = repository.save(user);
-        log.info("👤 Nouvel utilisateur enregistré avec l’email {}", savedUser.getEmail());
+        try {
+            assignClientRole(user);
+            log.info("🎯 Rôle CLIENT attribué à l’utilisateur");
+        } catch (Exception e) {
+            log.error("❌ Échec lors de l’attribution du rôle CLIENT : {}", e.getMessage(), e);
+            throw new RuntimeException("Erreur d’attribution du rôle", e);
+        }
 
-        // Génération et envoi du code d’activation
+        // Sauvegarde en base de données
+        User savedUser;
+        try {
+            savedUser = repository.save(user);
+            log.info("✅ Utilisateur sauvegardé avec ID={} et email={}", savedUser.getId(), savedUser.getEmail());
+        } catch (Exception e) {
+            log.error("💥 Erreur lors du save(user) : {}", e.getMessage(), e);
+            log.error("📋 Données de User : {}", user);
+            log.error("📋 Données de Client : {}", client);
+            throw new RuntimeException("Erreur lors de la sauvegarde de l’utilisateur", e);
+        }
+
+        // Génération du token d’activation
         String ip = extractClientIpAddress();
-        SecurityToken token = securityTokenService.createToken(savedUser, SecurityTokenType.ACTIVATION, ip);
-        emailService.sendActivationEmail(savedUser.getEmail(), token.getCode());
+        log.info("🌐 IP client détectée : {}", ip);
+
+        SecurityToken token;
+        try {
+            token = securityTokenService.createToken(savedUser, SecurityTokenType.ACTIVATION, ip);
+            log.info("🔑 Token d’activation généré : {}", token.getCode());
+        } catch (Exception e) {
+            log.error("❌ Erreur lors de la génération du token d’activation : {}", e.getMessage(), e);
+            throw e;
+        }
+
+        // Envoi de l'email d'activation
+        try {
+            emailService.sendActivationEmail(savedUser.getEmail(), token.getCode());
+            log.info("📧 Email d’activation envoyé à {}", savedUser.getEmail());
+        } catch (Exception e) {
+            log.error("❌ Erreur lors de l’envoi de l’email d’activation : {}", e.getMessage(), e);
+            throw new RuntimeException("Erreur lors de l’envoi de l’email", e);
+        }
 
         return AuthenticationResponse.builder()
                 .message("Compte créé. Un code d’activation a été envoyé à votre email.")
@@ -75,7 +114,7 @@ public class RegistrationService {
                 .numTel(request.getNumTel())
                 .adresse(request.getAdresse())
                 .cin(request.getCin())
-                .dateEnrolement(LocalDateTime.now())
+                .dateEnrolement(new Date())
                 .valideParAgent(false)
                 .status("EN_ATTENTE")
                 .build();
@@ -90,18 +129,15 @@ public class RegistrationService {
                 .isActive(true)
                 .isLocked(false)
                 .personne(client)
-                .twoFactorEnabled(true) // ✅ Active 2FA directement
-                .twoFactorSecret(UUID.randomUUID().toString()) // pour tracking / TOTP plus tard
+                .twoFactorEnabled(true)
+                .twoFactorSecret(UUID.randomUUID().toString())
                 .build();
     }
 
     private void assignClientRole(User user) {
         Role clientRole = roleRepository.findByName(RoleType.CLIENT)
                 .orElseThrow(() -> new IllegalStateException("Rôle CLIENT introuvable"));
-
-        user.getUserRoles().add(
-                UserRole.builder().user(user).role(clientRole).build()
-        );
+        user.getUserRoles().add(UserRole.builder().user(user).role(clientRole).build());
     }
 
     private String extractClientIpAddress() {

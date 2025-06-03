@@ -88,6 +88,11 @@
             <artifactId>jakarta.persistence-api</artifactId>
             <version>${jakarta.persistence.version}</version>
         </dependency>
+        <dependency>
+            <groupId>com.fasterxml.jackson.datatype</groupId>
+            <artifactId>jackson-datatype-jsr310</artifactId>
+            <version>2.15.4</version>
+        </dependency>
 
         <!--  Hibernate ORM : moteur principal de persistance JPA -->
         <dependency>
@@ -115,7 +120,11 @@
             <artifactId>postgresql</artifactId>
             <version>${postgresql.version}</version>
         </dependency>
-
+        <dependency>
+            <groupId>com.twilio.sdk</groupId>
+            <artifactId>twilio</artifactId>
+            <version>10.9.0</version>
+        </dependency>
         <!--  Intégration MongoDB avec Spring Data -->
         <dependency>
             <groupId>org.springframework.data</groupId>
@@ -144,11 +153,7 @@
             <version>${jjwt.version}</version>
             <scope>runtime</scope> <!-- fourni au runtime uniquement -->
         </dependency>
-        <dependency>
-            <groupId>com.twilio.sdk</groupId>
-            <artifactId>twilio</artifactId>
-            <version>10.9.0</version>
-        </dependency>
+
 
         <!--  JJWT JSON support avec Jackson -->
         <dependency>

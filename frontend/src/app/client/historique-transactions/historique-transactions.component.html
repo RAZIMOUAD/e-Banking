@@ -1,21 +1,38 @@
 <div class="p-6">
   <h2 class="text-2xl font-bold mb-4">Historique des transactions</h2>
-  <table class="w-full table-auto border">
+
+  <table class="w-full table-auto border" *ngIf="transactions.length > 0; else noData">
     <thead class="bg-gray-200">
     <tr>
       <th class="p-2 text-left">Date</th>
-      <th class="p-2 text-left">Libellé</th>
+      <th class="p-2 text-left">Référence</th>
+      <th class="p-2 text-left">Type</th>
+      <th class="p-2 text-left">Statut</th>
+      <th class="p-2 text-left">Mode</th>
+      <th class="p-2 text-left">Motif</th>
+      <th class="p-2 text-left">Source (IBAN)</th>
+      <th class="p-2 text-left">Cible (IBAN)</th>
       <th class="p-2 text-right">Montant (€)</th>
     </tr>
     </thead>
     <tbody>
     <tr *ngFor="let t of transactions" class="border-t">
-      <td class="p-2">{{ t.date }}</td>
-      <td class="p-2">{{ t.libelle }}</td>
+      <td class="p-2">{{ t.date | date:'short' }}</td>
+      <td class="p-2">{{ t.reference }}</td>
+      <td class="p-2">{{ t.type }}</td>
+      <td class="p-2">{{ t.statut }}</td>
+      <td class="p-2">{{ t.mode }}</td>
+      <td class="p-2">{{ t.motif }}</td>
+      <td class="p-2">{{ t.source.IBAN }}</td>
+      <td class="p-2">{{ t.cible?.IBAN || '-' }}</td>
       <td class="p-2 text-right" [ngClass]="{ 'text-red-600': t.montant < 0, 'text-green-600': t.montant >= 0 }">
         {{ t.montant | number: '1.2-2' }}
       </td>
     </tr>
     </tbody>
   </table>
+
+  <ng-template #noData>
+    <p>Aucune transaction trouvée pour ce compte.</p>
+  </ng-template>
 </div>

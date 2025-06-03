@@ -8,9 +8,9 @@ import lombok.Data;
 @Builder
 public class VirementRequestDTO {
     private Long sourceCompteId;
-    private Long cibleCompteId;
+    private Long cibleCompteId; // Null si externe
     private double montant;
     private String motif;
     private String mode;
-    private String autorisePar;
+    private String nomBanque;
 }

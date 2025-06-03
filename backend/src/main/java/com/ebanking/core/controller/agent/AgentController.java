@@ -10,6 +10,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Map;
 
 @RestController("agentControllerAgent")
 @RequestMapping("/api/v1/agent")
@@ -23,10 +24,16 @@ public class AgentController {
     private TransactionService transactionService;
 
     @GetMapping(value = "/clients", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<List<AbonneDto>> getClients() {
-        List<AbonneDto> clients = clientService.getAllClient();
-        return ResponseEntity.ok(clients);
+    public ResponseEntity<?> getClients() {
+        try {
+            List<AbonneDto> clients = clientService.getAllClient();
+            return ResponseEntity.ok(clients);
+        } catch (Exception e) {
+            e.printStackTrace(); // pour avoir l'erreur exacte dans les logs
+            return ResponseEntity.internalServerError().body(Map.of("error", e.getMessage()));
+        }
     }
+
 
     @GetMapping("/transactions")
     public ResponseEntity<List<TransactionMapped>> getTransactions() {

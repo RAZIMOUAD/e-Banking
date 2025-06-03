@@ -1,5 +1,6 @@
 package com.ebanking.core.dto.auth;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.Email;
 import jakarta.validation.constraints.NotBlank;
 import lombok.*;
@@ -18,8 +19,9 @@ public class RegisterRequest {
 
     @NotBlank
     private String prenom;
-
+    @JsonFormat(shape = JsonFormat.Shape.STRING, pattern = "yyyy-MM-dd")
     private Date dateNaissance;
+
     private String genre;
     private String nationalite;
     private String numTel;

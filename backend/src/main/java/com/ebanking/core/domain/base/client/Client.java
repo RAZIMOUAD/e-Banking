@@ -10,6 +10,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,9 +22,8 @@ import java.util.List;
 @SuperBuilder
 public class Client extends Personne {
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dateEnrolement;
 
+    private Date dateEnrolement;
     private Boolean valideParAgent;
     private String status;
 

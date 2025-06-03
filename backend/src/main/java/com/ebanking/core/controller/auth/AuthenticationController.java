@@ -68,8 +68,8 @@ public class AuthenticationController {
 
         if (!isCodeValid) {
             return ResponseEntity.status(HttpStatus.UNAUTHORIZED)
-                    .body(Map.of("message", "Code incorrect ou expiré"));
-        }
+                  .body(Map.of("message", "Code incorrect ou expiré"));
+       }
 
         String accessToken = jwtService.generateToken(user);
         String refreshToken = jwtService.generateRefreshToken(user);

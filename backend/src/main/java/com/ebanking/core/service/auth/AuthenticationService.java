@@ -1,5 +1,6 @@
 package com.ebanking.core.service.auth;
 
+import com.ebanking.core.domain.base.token.SecurityTokenType;
 import com.ebanking.core.domain.base.enums.TokenType;
 import com.ebanking.core.domain.base.token.Token;
 import com.ebanking.core.domain.base.user.User;
@@ -10,10 +11,12 @@ import com.ebanking.core.repository.sql.RoleRepository;
 import com.ebanking.core.repository.sql.TokenRepository;
 import com.ebanking.core.repository.sql.UserRepository;
 import com.ebanking.core.service.token.JwtService;
+import com.ebanking.core.service.token.SecurityTokenService;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -21,26 +24,30 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
-
+@Slf4j
 @Service
 @RequiredArgsConstructor
 public class AuthenticationService {
 
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
-    private final PasswordEncoder passwordEncoder;
+
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
-    private final RoleRepository roleRepository;
+
+
     private final RegistrationService registrationService;
     private final TwilioVerifyService twilioVerifyService;
+    private final SecurityTokenService securityTokenService;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        log.info("🔧 Début du processus de REGISTER dans AuthenticationService");
+
         return registrationService.register(request);
     }
 
     public AuthenticationResponse authenticate(AuthenticationRequest request) {
-        System.out.println("Tentative d'authentification : " + request.getEmail());
+        log.info("🔐 Tentative de connexion pour {}", request.getEmail());
 
         authenticationManager.authenticate(
                 new UsernamePasswordAuthenticationToken(
@@ -52,15 +59,35 @@ public class AuthenticationService {
         var user = repository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Utilisateur introuvable"));
 
-        System.out.println("✅ Utilisateur trouvé : " + user.getEmail());
+        // Vérifications de sécurité de base
+        if (!user.isActive() || user.isLocked() || user.isBloque()) {
+            throw new RuntimeException("Compte inactif, verrouillé ou bloqué");
+        }
 
-        // Vérification du rôle principal pour déterminer le flux d'authentification
-        boolean isClient = user.getUserRoles().stream()
-                .anyMatch(userRole -> userRole.getRole().getName().name().equalsIgnoreCase("CLIENT"));
+        if (!user.isVerifie()) {
+            throw new RuntimeException("Compte non vérifié");
+        }
 
-        if (isClient) {
-            // Envoi du code 2FA par SMS uniquement pour les clients
-            twilioVerifyService.sendVerificationCode(user.getPersonne().getNumTel());
+        // Détection du rôle principal
+        String primaryRole = user.getUserRoles().stream()
+                .map(userRole -> userRole.getRole().getName().name())
+                .findFirst()
+                .orElse("UNKNOWN");
+
+        log.info("🔍 Rôle principal détecté : {}", primaryRole);
+
+        // Si le rôle est CLIENT → déclencher le 2FA
+        if ("CLIENT".equalsIgnoreCase(primaryRole)) {
+            log.info("📲 Envoi du code 2FA pour {}", user.getEmail());
+
+            // Expire anciens tokens 2FA
+            securityTokenService.expireAllTokensForUser(user, "TWO_FACTOR");
+
+            // Crée nouveau token 2FA
+            var token = securityTokenService.createToken(user, "TWO_FACTOR", "auth");
+
+            // Envoi SMS via Infobip
+           twilioVerifyService.sendVerificationCode(user.getPersonne().getNumTel());
 
             return AuthenticationResponse.builder()
                     .message("2FA_REQUIRED")
@@ -68,26 +95,21 @@ public class AuthenticationService {
                     .build();
         }
 
-        // Admin ou Agent : connexion immédiate sans 2FA
-        var jwtToken = jwtService.generateToken(user);
-        var refreshToken = jwtService.generateRefreshToken(user);
+        // Autres rôles : ADMIN ou AGENT → login direct
+        String jwtToken = jwtService.generateToken(user);
+        String refreshToken = jwtService.generateRefreshToken(user);
+
         revokeAllUserTokens(user);
         saveUserToken(user, jwtToken);
-        // juste pour log ne touche pas la méthode en elle meme
-        String primaryRole = user.getUserRoles().stream()
-                .map(userRole -> userRole.getRole().getName().name())
-                .findFirst()
-                .orElse("UNKNOWN");
-        System.out.println("🛡️ Rôle principal détecté : " + primaryRole);
 
         return AuthenticationResponse.builder()
                 .accessToken(jwtToken)
                 .refreshToken(refreshToken)
+                .message("Connexion réussie")
                 .requires2FA(false)
                 .build();
-
-
     }
+
 
     private void saveUserToken(User user, String jwtToken) {
         var token = Token.builder()

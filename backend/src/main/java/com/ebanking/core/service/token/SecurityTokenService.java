@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 
 import java.security.SecureRandom;
 import java.util.Date;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -35,7 +36,7 @@ public class SecurityTokenService {
 
         SecurityToken token = SecurityToken.builder()
                 .code(code)
-                .type(type.toUpperCase()) // 🔐 normalisation importante
+                .type(type.toUpperCase()) // ex: TWO_FACTOR
                 .usageUnique(true)
                 .status(SecurityTokenStatus.VALID.name())
                 .expiration(new Date(System.currentTimeMillis() + EXPIRATION_MINUTES * 60 * 1000))
@@ -56,7 +57,7 @@ public class SecurityTokenService {
         System.out.println(" → Code reçu   : " + code);
         System.out.println(" → Type attendu: " + type.toUpperCase());
 
-        var tokenOpt = securityTokenRepository
+        Optional<SecurityToken> tokenOpt = securityTokenRepository
                 .findValidTokenByUserIdAndCode(
                         user.getId(),
                         code,
@@ -66,10 +67,6 @@ public class SecurityTokenService {
 
         if (tokenOpt.isEmpty()) {
             System.out.println("❌ Aucun token trouvé avec ce code et ce statut.");
-            System.out.println("📦 Listing des tokens existants pour l'utilisateur :");
-            securityTokenRepository.findAllByUserAndType(user, type.toUpperCase())
-                    .forEach(t -> System.out.printf(" - code=%s | status=%s | exp=%s%n",
-                            t.getCode(), t.getStatus(), t.getExpiration()));
             return false;
         }
 
@@ -78,13 +75,26 @@ public class SecurityTokenService {
 
         if (expired) {
             System.out.println("⛔ Le token est expiré. Expiration : " + token.getExpiration());
-        } else {
-            System.out.println("✅ Le token est valide et encore actif.");
+            return false;
         }
 
-        return !expired;
+        System.out.println("✅ Le token est valide et encore actif.");
+        return true;
     }
 
+    /**
+     * Récupère un token valide s'il existe.
+     */
+    public Optional<SecurityToken> getValidToken(User user, String code, String type) {
+        return securityTokenRepository
+                .findValidTokenByUserIdAndCode(
+                        user.getId(),
+                        code,
+                        type.toUpperCase(),
+                        SecurityTokenStatus.VALID.name()
+                )
+                .filter(t -> t.getExpiration().after(new Date()));
+    }
 
     /**
      * Marque un token comme utilisé.

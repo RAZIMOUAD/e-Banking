@@ -3,6 +3,7 @@ import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 
 @Data
 @Builder
@@ -14,6 +15,6 @@ public class AbonneDto {
     private String cin;
     private String adresse;
     private String status;
-    private LocalDateTime dateEnrolement;
+    private Date dateEnrolement;
     private Boolean valideParAgent;
 }

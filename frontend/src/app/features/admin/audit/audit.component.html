@@ -1,159 +1,415 @@
+<!-- Professional Audit Logs Interface -->
 <div class="audit-container" [@fadeInOut]>
-  <!-- Page header -->
+  <!-- Page header with statistics -->
   <div class="page-header">
-    <div>
+    <div class="header-content">
       <h1 class="page-title">Audit Logs</h1>
-      <p class="page-subtitle">Monitor all system activities and changes</p>
-    </div>
-    <button mat-raised-button color="primary" (click)="exportToCSV()">
-      <mat-icon>file_download</mat-icon>
-      Export to CSV
-    </button>
-  </div>
+      <p class="page-subtitle">Monitor system activities, track changes, and investigate security events</p>
 
-  <!-- Filters card -->
-  <mat-card class="filters-card">
-    <mat-card-content>
-      <div class="filters-container">
-        <mat-form-field appearance="outline" class="search-field">
-          <mat-label>Search Logs</mat-label>
-          <input matInput (keyup)="onSearch($event)" placeholder="Search by user, details, or IP">
-          <mat-icon matSuffix>search</mat-icon>
-        </mat-form-field>
+      <!-- Statistics cards -->
+      <div class="stats-cards" [@slideIn]>
+        <div class="stat-card total">
+          <div class="stat-icon">
+            <mat-icon>receipt_long</mat-icon>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ totalLogs | number }}</span>
+            <span class="stat-label">Total Logs</span>
+          </div>
+        </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Action Type</mat-label>
-          <mat-select [(value)]="actionFilter" (selectionChange)="applyFilters()">
-            <mat-option value="all">All Actions</mat-option>
-            <mat-option *ngFor="let action of availableActions" [value]="action">{{ action }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="stat-card success">
+          <div class="stat-icon">
+            <mat-icon>check_circle</mat-icon>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ successfulActions | number }}</span>
+            <span class="stat-label">Successful</span>
+          </div>
+        </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Entity Type</mat-label>
-          <mat-select [(value)]="entityFilter" (selectionChange)="applyFilters()">
-            <mat-option value="all">All Entities</mat-option>
-            <mat-option *ngFor="let entity of availableEntities" [value]="entity">{{ entity }}</mat-option>
-          </mat-select>
-        </mat-form-field>
+        <div class="stat-card failed">
+          <div class="stat-icon">
+            <mat-icon>error</mat-icon>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ failedActions | number }}</span>
+            <span class="stat-label">Failed</span>
+          </div>
+        </div>
 
-        <mat-form-field appearance="outline">
-          <mat-label>Start Date</mat-label>
-          <input matInput [matDatepicker]="startPicker" [(ngModel)]="startDate" (dateChange)="onDateRangeChange()">
-          <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
-          <mat-datepicker #startPicker></mat-datepicker>
-        </mat-form-field>
-
-        <mat-form-field appearance="outline">
-          <mat-label>End Date</mat-label>
-          <input matInput [matDatepicker]="endPicker" [(ngModel)]="endDate" (dateChange)="onDateRangeChange()">
-          <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
-          <mat-datepicker #endPicker></mat-datepicker>
-        </mat-form-field>
-
-        <button mat-stroked-button color="primary" (click)="resetFilters()" class="reset-button">
-          <mat-icon>refresh</mat-icon>
-          Reset Filters
-        </button>
-      </div>
-    </mat-card-content>
-  </mat-card>
-
-  <!-- Audit logs table -->
-  <mat-card class="audit-table-card">
-    <mat-card-content>
-      <div class="table-container">
-        <table mat-table [dataSource]="filteredData" matSort class="audit-table">
-          <!-- ID Column -->
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-            <td mat-cell *matCellDef="let log">{{ log.id }}</td>
-          </ng-container>
-
-          <!-- Timestamp Column -->
-          <ng-container matColumnDef="timestamp">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
-            <td mat-cell *matCellDef="let log">{{ log.timestamp | date:'medium' }}</td>
-          </ng-container>
-
-          <!-- User Name Column -->
-          <ng-container matColumnDef="userName">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>User</th>
-            <td mat-cell *matCellDef="let log">{{ log.userName }}</td>
-          </ng-container>
-
-          <!-- User Role Column -->
-          <ng-container matColumnDef="userRole">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Role</th>
-            <td mat-cell *matCellDef="let log">
-              <span class="role-badge" [ngClass]="log.userRole.toLowerCase()">
-                {{ log.userRole }}
-              </span>
-            </td>
-          </ng-container>
-
-          <!-- Action Column -->
-          <ng-container matColumnDef="action">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
-            <td mat-cell *matCellDef="let log">
-              <span class="action-badge" [ngClass]="log.action.toLowerCase()">
-                {{ log.action }}
-              </span>
-            </td>
-          </ng-container>
-
-          <!-- Entity Column -->
-          <ng-container matColumnDef="entity">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Entity</th>
-            <td mat-cell *matCellDef="let log">{{ log.entity }}</td>
-          </ng-container>
-
-          <!-- Entity ID Column -->
-          <ng-container matColumnDef="entityId">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Entity ID</th>
-            <td mat-cell *matCellDef="let log">{{ log.entityId }}</td>
-          </ng-container>
-
-          <!-- Status Column -->
-          <ng-container matColumnDef="status">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-            <td mat-cell *matCellDef="let log">
-              <span class="status-badge" [ngClass]="log.status.toLowerCase()">
-                {{ log.status }}
-              </span>
-            </td>
-          </ng-container>
-
-          <!-- IP Address Column -->
-          <ng-container matColumnDef="ipAddress">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>IP Address</th>
-            <td mat-cell *matCellDef="let log">{{ log.ipAddress }}</td>
-          </ng-container>
-
-          <!-- Details Column -->
-          <ng-container matColumnDef="details">
-            <th mat-header-cell *matHeaderCellDef>Details</th>
-            <td mat-cell *matCellDef="let log" class="details-cell">
-              <span class="details-text">{{ log.details }}</span>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-
-        <!-- No data message -->
-        <div class="no-data" *ngIf="filteredData.length === 0">
-          <mat-icon>search_off</mat-icon>
-          <p>No audit logs found matching your criteria</p>
-          <button mat-button color="primary" (click)="resetFilters()">
-            Clear Filters
-          </button>
+        <div class="stat-card suspicious">
+          <div class="stat-icon">
+            <mat-icon>warning</mat-icon>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ suspiciousActivities | number }}</span>
+            <span class="stat-label">Suspicious</span>
+          </div>
         </div>
       </div>
+    </div>
 
-      <!-- Paginator -->
-      <mat-paginator [pageSizeOptions]="[10, 25, 50, 100]" showFirstLastButtons></mat-paginator>
-    </mat-card-content>
-  </mat-card>
+    <div class="header-actions">
+      <button mat-stroked-button
+              color="primary"
+              (click)="resetFilters()"
+              [disabled]="loading">
+        <mat-icon>refresh</mat-icon>
+        Refresh
+      </button>
+
+      <button mat-raised-button
+              color="primary"
+              (click)="exportLogs()"
+              [disabled]="exporting || loading">
+        <mat-icon>file_download</mat-icon>
+        <span *ngIf="!exporting">Export</span>
+        <span *ngIf="exporting">Exporting...</span>
+      </button>
+    </div>
+  </div>
+
+  <!-- Loading indicator -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading audit logs...</p>
+  </div>
+
+  <!-- Main content -->
+  <div class="audit-content" *ngIf="!loading">
+    <!-- Log detail panel (expanded view) -->
+    <mat-card class="log-detail-card" *ngIf="selectedLog" [@slideIn]>
+      <mat-card-header>
+        <div class="detail-header">
+          <div class="detail-title">
+            <mat-icon [ngClass]="getActionClass(selectedLog.action)">
+              {{ getActionIcon(selectedLog.action) }}
+            </mat-icon>
+            <h3>{{ selectedLog.action }} {{ selectedLog.entity }}</h3>
+            <span class="status-badge" [ngClass]="getStatusClass(selectedLog.status)">
+              {{ selectedLog.status }}
+            </span>
+          </div>
+          <button mat-icon-button (click)="closeLogDetails()" class="close-button">
+            <mat-icon>close</mat-icon>
+          </button>
+        </div>
+        <mat-card-subtitle>
+          {{ formatTimestamp(selectedLog.timestamp) }} by {{ selectedLog.userName }} ({{ selectedLog.userRole }})
+        </mat-card-subtitle>
+      </mat-card-header>
+
+      <mat-card-content>
+        <div class="detail-content">
+          <div class="detail-grid">
+            <div class="detail-item">
+              <span class="detail-label">User</span>
+              <span class="detail-value">
+                <mat-icon>person</mat-icon>
+                {{ selectedLog.userName }}
+                <span class="role-badge" [ngClass]="getRoleClass(selectedLog.userRole)">
+                  {{ selectedLog.userRole }}
+                </span>
+              </span>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">Entity</span>
+              <span class="detail-value">
+                <mat-icon>category</mat-icon>
+                {{ selectedLog.entity }} #{{ selectedLog.entityId }}
+              </span>
+            </div>
+
+            <div class="detail-item">
+              <span class="detail-label">Location</span>
+              <span class="detail-value">
+                <mat-icon>location_on</mat-icon>
+                {{ getLocationDisplay(selectedLog.ipAddress, selectedLog.location) }}
+              </span>
+            </div>
+
+            <div class="detail-item" *ngIf="selectedLog.sessionId">
+              <span class="detail-label">Session</span>
+              <span class="detail-value session-id">
+                <mat-icon>fingerprint</mat-icon>
+                {{ selectedLog.sessionId }}
+              </span>
+            </div>
+          </div>
+
+          <div class="detail-description">
+            <span class="detail-label">Details</span>
+            <div class="detail-text">{{ selectedLog.details }}</div>
+          </div>
+
+          <div class="detail-technical" *ngIf="selectedLog.userAgent">
+            <mat-expansion-panel>
+              <mat-expansion-panel-header>
+                <mat-panel-title>Technical Information</mat-panel-title>
+              </mat-expansion-panel-header>
+              <div class="technical-info">
+                <div class="tech-item">
+                  <strong>User Agent:</strong>
+                  <span class="tech-value">{{ selectedLog.userAgent }}</span>
+                </div>
+                <div class="tech-item">
+                  <strong>IP Address:</strong>
+                  <span class="tech-value">{{ selectedLog.ipAddress }}</span>
+                </div>
+                <div class="tech-item" *ngIf="selectedLog.sessionId">
+                  <strong>Session ID:</strong>
+                  <span class="tech-value">{{ selectedLog.sessionId }}</span>
+                </div>
+              </div>
+            </mat-expansion-panel>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Filters card -->
+    <mat-card class="filters-card" [class.with-detail]="selectedLog">
+      <mat-card-content>
+        <div class="filters-container">
+          <!-- Search field -->
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search Logs</mat-label>
+            <input matInput
+                   [value]="searchTerm"
+                   (input)="onSearch($event)"
+                   placeholder="Search by user, action, details, or IP">
+            <mat-icon matPrefix>search</mat-icon>
+            <button mat-icon-button
+                    matSuffix
+                    *ngIf="searchTerm"
+                    (click)="searchTerm = ''; onSearch($event)"
+                    matTooltip="Clear search">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
+
+          <!-- Action filter -->
+          <mat-form-field appearance="outline">
+            <mat-label>Action</mat-label>
+            <mat-select [(value)]="actionFilter" (selectionChange)="onFilterChange()">
+              <mat-option value="all">All Actions</mat-option>
+              <mat-option *ngFor="let action of availableActions" [value]="action">
+                {{ action }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Entity filter -->
+          <mat-form-field appearance="outline">
+            <mat-label>Entity</mat-label>
+            <mat-select [(value)]="entityFilter" (selectionChange)="onFilterChange()">
+              <mat-option value="all">All Entities</mat-option>
+              <mat-option *ngFor="let entity of availableEntities" [value]="entity">
+                {{ entity }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Role filter -->
+          <mat-form-field appearance="outline">
+            <mat-label>User Role</mat-label>
+            <mat-select [(value)]="userRoleFilter" (selectionChange)="onFilterChange()">
+              <mat-option value="all">All Roles</mat-option>
+              <mat-option *ngFor="let role of availableUserRoles" [value]="role">
+                {{ role }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+
+          <!-- Status filter -->
+          <mat-form-field appearance="outline">
+            <mat-label>Status</mat-label>
+            <mat-select [(value)]="statusFilter" (selectionChange)="onFilterChange()">
+              <mat-option value="all">All Statuses</mat-option>
+              <mat-option *ngFor="let status of availableStatuses" [value]="status">
+                {{ status }}
+              </mat-option>
+            </mat-select>
+          </mat-form-field>
+        </div>
+
+        <!-- Date range filters -->
+        <div class="date-filters">
+          <mat-form-field appearance="outline">
+            <mat-label>Start Date</mat-label>
+            <input matInput
+                   [matDatepicker]="startPicker"
+                   [(ngModel)]="startDate"
+                   (dateChange)="onDateRangeChange()">
+            <mat-datepicker-toggle matSuffix [for]="startPicker"></mat-datepicker-toggle>
+            <mat-datepicker #startPicker></mat-datepicker>
+          </mat-form-field>
+
+          <mat-form-field appearance="outline">
+            <mat-label>End Date</mat-label>
+            <input matInput
+                   [matDatepicker]="endPicker"
+                   [(ngModel)]="endDate"
+                   (dateChange)="onDateRangeChange()">
+            <mat-datepicker-toggle matSuffix [for]="endPicker"></mat-datepicker-toggle>
+            <mat-datepicker #endPicker></mat-datepicker>
+          </mat-form-field>
+
+          <button mat-stroked-button
+                  color="primary"
+                  (click)="resetFilters()"
+                  class="reset-filters-btn">
+            <mat-icon>clear_all</mat-icon>
+            Reset Filters
+          </button>
+        </div>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Audit logs table -->
+    <mat-card class="audit-table-card">
+      <mat-card-content>
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" matSort class="audit-table" [@listAnimation]>
+            <!-- Timestamp Column -->
+            <ng-container matColumnDef="timestamp">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Timestamp</th>
+              <td mat-cell *matCellDef="let log">
+                <div class="timestamp-cell">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{ formatTimestamp(log.timestamp) }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- User Column -->
+            <ng-container matColumnDef="user">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header="userName">User</th>
+              <td mat-cell *matCellDef="let log">
+                <div class="user-cell">
+                  <div class="user-avatar">
+                    <mat-icon>person</mat-icon>
+                  </div>
+                  <div class="user-info">
+                    <span class="user-name">{{ log.userName }}</span>
+                    <span class="role-badge" [ngClass]="getRoleClass(log.userRole)">
+                      {{ log.userRole }}
+                    </span>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Action Column -->
+            <ng-container matColumnDef="action">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Action</th>
+              <td mat-cell *matCellDef="let log">
+                <div class="action-cell">
+                  <span class="action-badge" [ngClass]="getActionClass(log.action)">
+                    <mat-icon>{{ getActionIcon(log.action) }}</mat-icon>
+                    {{ log.action }}
+                  </span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Entity Column -->
+            <ng-container matColumnDef="entity">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Entity</th>
+              <td mat-cell *matCellDef="let log">
+                <div class="entity-cell">
+                  <span class="entity-name">{{ log.entity }}</span>
+                  <span class="entity-id">#{{ log.entityId }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="status">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let log">
+                <span class="status-badge" [ngClass]="getStatusClass(log.status)">
+                  <mat-icon>{{
+                      log.status === 'SUCCESS' ? 'check_circle' :
+                        log.status === 'FAILURE' ? 'error' :
+                          log.status === 'PENDING' ? 'schedule' : 'block'
+                    }}</mat-icon>
+                  {{ log.status }}
+                </span>
+              </td>
+            </ng-container>
+
+            <!-- Location Column -->
+            <ng-container matColumnDef="location">
+              <th mat-header-cell *matHeaderCellDef>Location</th>
+              <td mat-cell *matCellDef="let log">
+                <div class="location-cell">
+                  <mat-icon>location_on</mat-icon>
+                  <span class="location-text">
+                    {{ getLocationDisplay(log.ipAddress, log.location) }}
+                  </span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Details Column -->
+            <ng-container matColumnDef="details">
+              <th mat-header-cell *matHeaderCellDef>Details</th>
+              <td mat-cell *matCellDef="let log">
+                <div class="details-cell">
+                  <span class="details-text">{{ log.details }}</span>
+                  <button mat-icon-button
+                          color="primary"
+                          (click)="viewLogDetails(log)"
+                          [class.active]="selectedLog?.id === log.id"
+                          matTooltip="View Full Details">
+                    <mat-icon>{{ selectedLog?.id === log.id ? 'visibility_off' : 'visibility' }}</mat-icon>
+                  </button>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row
+                *matRowDef="let row; columns: displayedColumns;"
+                class="audit-row"
+                [class.selected]="selectedLog?.id === row.id"
+                (click)="viewLogDetails(row)"></tr>
+          </table>
+
+          <!-- No data state -->
+          <div class="no-data" *ngIf="dataSource.data.length === 0 && !loading">
+            <div class="no-data-content">
+              <mat-icon>search_off</mat-icon>
+              <h3>No audit logs found</h3>
+              <p *ngIf="searchTerm || actionFilter !== 'all' || entityFilter !== 'all' || statusFilter !== 'all' || startDate || endDate">
+                Try adjusting your search criteria or clearing filters.
+              </p>
+              <p *ngIf="!searchTerm && actionFilter === 'all' && entityFilter === 'all' && statusFilter === 'all' && !startDate && !endDate">
+                No audit logs are available in the system.
+              </p>
+              <div class="no-data-actions">
+                <button mat-button
+                        color="primary"
+                        (click)="resetFilters()">
+                  <mat-icon>refresh</mat-icon>
+                  Refresh
+                </button>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Paginator -->
+        <mat-paginator
+          [pageSizeOptions]="[10, 25, 50, 100]"
+          [pageSize]="25"
+          showFirstLastButtons
+          *ngIf="dataSource.data.length > 0">
+        </mat-paginator>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

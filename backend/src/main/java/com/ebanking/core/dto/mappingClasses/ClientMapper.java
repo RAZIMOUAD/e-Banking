@@ -2,8 +2,6 @@ package com.ebanking.core.dto.mappingClasses;
 
 import com.ebanking.core.domain.base.client.Client;
 
-import com.ebanking.core.dto.mappingClasses.AbonneDto;
-
 public class ClientMapper {
 
     public static AbonneDto toAbonne(Client client) {
@@ -17,7 +15,7 @@ public class ClientMapper {
                 .cin(client.getCin())
                 .adresse(client.getAdresse())
                 .status(client.getStatus())
-                .dateEnrolement(client.getDateEnrolement())
+                .dateEnrolement(client.getDateEnrolement()) // ⚠️ Date bien mappée ici
                 .valideParAgent(client.getValideParAgent())
                 .build();
     }

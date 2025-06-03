@@ -1,48 +1,266 @@
-<section class="relative w-full overflow-hidden bg-gray-900 text-white py-24">
-  <!-- Background image floutée -->
-  <img
-    ngSrc="assets/hero/icons/cta-bg.webp"
-    width="6000"
-    height="4000"
-    alt="Modern fintech background"
-    class="absolute inset-0 w-full h-full object-cover opacity-20 blur-sm z-0"
-  />
-
-
-  <!-- Overlay noir semi-transparent -->
-  <div class="absolute inset-0 bg-black/50 z-10"></div>
-
-  <!-- Contenu principal -->
-  <div class="relative z-20 max-w-4xl mx-auto text-center px-6">
-    <h2 class="text-4xl md:text-6xl font-extrabold tracking-tight mb-6">
-      Ready to take control of your finances?
-    </h2>
-    <p class="text-lg md:text-xl text-gray-300 mb-10 max-w-2xl mx-auto">
-      Join thousands of businesses who simplified their banking experience with our platform.
-    </p>
-
-    <!-- Carte virtuelle flottante -->
-    <div class="mb-12 flex justify-center">
-      <div class="w-80 h-48 bg-gradient-to-br from-gray-100 to-white rounded-xl shadow-2xl transform hover:scale-105 transition-transform duration-700 border border-gray-200">
-        <img
-          ngSrc="assets/hero/cards/virtual-card.webp"
-          width="686"
-          height="446"
-          alt="Bank Card"
-          class="w-full h-full object-cover rounded-xl"
-        />
+<section class="relative w-full overflow-hidden bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 py-24">
+  <!-- Background effects -->
+  <div class="absolute inset-0">
+    <!-- Animated particles -->
+    <div class="absolute inset-0 overflow-hidden">
+      <div *ngFor="let particle of particles"
+           class="particle absolute rounded-full bg-gradient-to-r from-emerald-400 to-blue-400 opacity-30"
+           [ngStyle]="{
+             left: particle.x + '%',
+             top: particle.y + '%',
+             width: particle.size + 'px',
+             height: particle.size + 'px',
+             'animation-delay': particle.delay + 's',
+             'animation-duration': particle.duration + 's'
+           }">
       </div>
     </div>
 
-    <!-- Bouton CTA avec aura -->
-    <div class="relative inline-block">
-      <div class="absolute -inset-1 bg-emerald-500 blur-xl opacity-70 rounded-full z-0"></div>
+    <!-- Gradient orbs -->
+    <div class="absolute top-20 left-10 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+    <div class="absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-[600px] h-[600px] bg-purple-500/10 rounded-full blur-3xl animate-pulse" style="animation-delay: 4s;"></div>
+  </div>
+
+  <!-- Content overlay -->
+  <div class="absolute inset-0 bg-gradient-to-r from-black/40 via-black/20 to-black/40 z-10"></div>
+
+  <div class="relative z-20 max-w-7xl mx-auto px-6">
+
+    <!-- Main CTA Content -->
+    <div class="text-center mb-16">
+      <!-- Urgency badge -->
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-red-500/20 backdrop-blur-sm border border-red-400/30 rounded-full text-red-300 text-sm font-medium mb-6">
+        <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <circle cx="12" cy="12" r="10"></circle>
+          <polyline points="12,6 12,12 16,14"></polyline>
+        </svg>
+        Limited Time Offer
+      </div>
+
+      <!-- Main headline -->
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+        Ready to transform your
+        <span class="block bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+          financial future?
+        </span>
+      </h2>
+
+      <!-- Subheadline with animated stats -->
+      <div class="text-xl md:text-2xl text-gray-300 mb-12 max-w-4xl mx-auto leading-relaxed">
+        <p class="mb-4">
+          Join {{ formatNumber(animatedUsers()) }}+ users who've revolutionized their banking experience
+        </p>
+        <div class="flex flex-wrap justify-center gap-8 text-lg">
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1"></path>
+            </svg>
+            <span class="text-emerald-400 font-semibold">${{ formatNumber(animatedSavings()) }}+</span>
+            <span class="text-gray-300">average annual savings</span>
+          </div>
+          <div class="flex items-center gap-2">
+            <svg class="w-5 h-5 text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+            </svg>
+            <span class="text-blue-400 font-semibold">{{ formatNumber(animatedTransactions()) }}+</span>
+            <span class="text-gray-300">transactions processed monthly</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Countdown timer -->
+      <div class="mb-12">
+        <p class="text-gray-300 mb-4">Special launch pricing ends in:</p>
+        <div class="flex justify-center gap-4">
+          <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 min-w-[70px]">
+            <div class="text-2xl md:text-3xl font-bold text-white">{{ formatTime(timeLeft().hours) }}</div>
+            <div class="text-xs text-gray-400 uppercase tracking-wide">Hours</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 min-w-[70px]">
+            <div class="text-2xl md:text-3xl font-bold text-white">{{ formatTime(timeLeft().minutes) }}</div>
+            <div class="text-xs text-gray-400 uppercase tracking-wide">Minutes</div>
+          </div>
+          <div class="bg-white/10 backdrop-blur-sm rounded-xl p-4 border border-white/20 min-w-[70px]">
+            <div class="text-2xl md:text-3xl font-bold text-white">{{ formatTime(timeLeft().seconds) }}</div>
+            <div class="text-xs text-gray-400 uppercase tracking-wide">Seconds</div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Interactive card showcase -->
+    <div class="mb-16 flex justify-center">
+      <div class="relative">
+        <!-- Card glow effects -->
+        <div class="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-2xl blur-xl opacity-30 scale-110 animate-pulse"></div>
+        <div class="absolute inset-0 bg-white/5 rounded-2xl blur-lg scale-105"></div>
+
+        <!-- Floating card -->
+        <div
+          #floatingCard
+          class="relative w-80 h-48 lg:w-96 lg:h-60 cursor-pointer transition-all duration-500 hover:scale-105"
+          [ngStyle]="{
+            transform: 'translateY(' + floatingOffset() + 'px)'
+          }"
+        >
+          <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-2xl shadow-2xl overflow-hidden border border-gray-700">
+            <!-- Card content -->
+            <div class="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+              <!-- Top section -->
+              <div class="flex justify-between items-start">
+                <div>
+                  <div class="text-sm text-gray-400 mb-1">E-BANKING</div>
+                  <div class="text-xs text-gray-500">Premium Access</div>
+                </div>
+                <div class="w-8 h-8 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full flex items-center justify-center">
+                  <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path>
+                  </svg>
+                </div>
+              </div>
+
+              <!-- Middle section -->
+              <div>
+                <div class="flex items-center gap-4 mb-4">
+                  <div class="w-8 h-6 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-sm"></div>
+                  <div class="text-lg font-mono tracking-wider">•••• •••• •••• 1234</div>
+                </div>
+              </div>
+
+              <!-- Bottom section -->
+              <div class="flex justify-between items-end">
+                <div>
+                  <div class="text-xs text-gray-400 mb-1">MEMBER SINCE</div>
+                  <div class="text-sm font-semibold">TODAY</div>
+                </div>
+                <div>
+                  <div class="text-xs text-gray-400 mb-1">STATUS</div>
+                  <div class="text-sm font-semibold text-emerald-400">ACTIVE</div>
+                </div>
+                <div class="text-right">
+                  <div class="w-12 h-8 bg-gradient-to-r from-emerald-500 to-blue-500 rounded flex items-center justify-center">
+                    <span class="text-xs font-bold text-white">FREE</span>
+                  </div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Holographic effect -->
+            <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-20 animate-pulse"></div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Action buttons -->
+    <div class="flex flex-col sm:flex-row gap-6 justify-center items-center mb-16">
+      <!-- Primary CTA -->
       <a
-        href="/pages/register"
-        class="relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-emerald-600 rounded-full hover:bg-emerald-700 transition duration-300 z-10"
+        routerLink="/register"
+        (mouseenter)="onCtaHover(true)"
+        (mouseleave)="onCtaHover(false)"
+        (click)="onGetStartedClick()"
+        class="group relative inline-flex items-center justify-center px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-blue-500 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300 min-w-[220px]"
       >
-        Get started now
+        <span class="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-xl blur opacity-30 group-hover:opacity-50 transition-opacity"></span>
+        <span class="relative flex items-center gap-3">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 7a4 4 0 11-8 0 4 4 0 018 0zM12 14a7 7 0 00-7 7h14a7 7 0 00-7-7z"></path>
+          </svg>
+          Start Free Today
+          <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+          </svg>
+        </span>
       </a>
+
+      <!-- Secondary CTA -->
+      <button
+        (click)="onLearnMoreClick()"
+        class="group inline-flex items-center gap-3 px-8 py-4 text-lg font-medium text-white border-2 border-white/30 rounded-xl hover:bg-white/10 hover:border-white/50 transition-all duration-300 min-w-[220px] justify-center"
+      >
+        <div class="relative">
+          <div class="w-8 h-8 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full flex items-center justify-center">
+            <svg class="w-4 h-4 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <polygon points="5,3 19,12 5,21 5,3"></polygon>
+            </svg>
+          </div>
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full opacity-30 group-hover:animate-ping"></div>
+        </div>
+        Watch Demo (2 min)
+      </button>
+    </div>
+
+    <!-- Trust indicators -->
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6 mb-16">
+      <div
+        *ngFor="let indicator of trustIndicators; let i = index"
+        class="bg-white/5 backdrop-blur-sm rounded-xl p-6 border border-white/10 hover:border-white/20 transition-all duration-300 hover:transform hover:scale-105 text-center"
+        [style.animation-delay]="i * 100 + 'ms'"
+      >
+        <div
+          class="w-12 h-12 mx-auto mb-4 rounded-xl flex items-center justify-center"
+          [ngClass]="'bg-gradient-to-br ' + indicator.gradient"
+        >
+          <svg class="w-6 h-6 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <!-- Shield icon -->
+            <path *ngIf="indicator.icon === 'shield'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+            <!-- Clock icon -->
+            <path *ngIf="indicator.icon === 'clock'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z"></path>
+            <!-- Globe icon -->
+            <path *ngIf="indicator.icon === 'globe'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9V3"></path>
+            <!-- Support icon -->
+            <path *ngIf="indicator.icon === 'support'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M18.364 5.636l-3.536 3.536m0 5.656l3.536 3.536M9.172 9.172L5.636 5.636m3.536 9.192L5.636 18.364M12 2.458V6m0 12v3.542M2.458 12H6m12 0h3.542"></path>
+          </svg>
+        </div>
+        <h3 class="font-semibold text-white mb-2">{{ indicator.title }}</h3>
+        <p class="text-sm text-gray-300">{{ indicator.description }}</p>
+      </div>
+    </div>
+
+    <!-- Success stories -->
+    <div class="bg-white/5 backdrop-blur-sm rounded-3xl border border-white/10 p-8 lg:p-12">
+      <div class="text-center mb-12">
+        <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+          Join successful companies worldwide
+        </h3>
+        <p class="text-gray-300 max-w-2xl mx-auto">
+          See how leading businesses have transformed their financial operations with our platform.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        <div
+          *ngFor="let story of successStories; let i = index"
+          class="text-center group"
+          [style.animation-delay]="i * 200 + 'ms'"
+        >
+          <div class="w-16 h-16 bg-white/10 rounded-xl flex items-center justify-center mx-auto mb-4 group-hover:scale-110 transition-transform duration-300">
+            <svg class="w-8 h-8 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 21V5a2 2 0 00-2-2H7a2 2 0 00-2 2v16m14 0h2m-2 0h-5m-9 0H3m2 0h5M9 7h1m-1 4h1m4-4h1m-1 4h1m-5 10v-5a1 1 0 011-1h2a1 1 0 011 1v5m-4 0h4"></path>
+            </svg>
+          </div>
+          <h4 class="font-semibold text-white mb-2">{{ story.name }}</h4>
+          <div class="text-2xl font-bold text-emerald-400 mb-1">{{ story.savings }}</div>
+          <p class="text-sm text-gray-300">reduction in {{ story.metric }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Final urgency message -->
+    <div class="text-center mt-16">
+      <div class="inline-flex items-center gap-2 px-6 py-3 bg-red-500/20 border border-red-400/30 rounded-full text-red-300 mb-6">
+        <svg class="w-4 h-4 animate-pulse" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 9v2m0 4h.01m-6.938 4h13.856c1.54 0 2.502-1.667 1.732-3L13.732 4c-.77-1.333-2.694-1.333-3.464 0L3.34 16c-.77 1.333.192 3 1.732 3z"></path>
+        </svg>
+        <span class="text-sm font-medium">
+          Limited spots available • No setup fees • 30-day money-back guarantee
+        </span>
+      </div>
+      <p class="text-gray-400 text-sm">
+        Join today and get 3 months free premium features • Cancel anytime
+      </p>
     </div>
   </div>
 </section>

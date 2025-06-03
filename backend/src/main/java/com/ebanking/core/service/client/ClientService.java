@@ -6,8 +6,6 @@ import com.ebanking.core.dto.mappingClasses.AbonneDto;
 import com.ebanking.core.dto.mappingClasses.ClientMapper;
 import com.ebanking.core.repository.sql.ClientRepository;
 import com.ebanking.core.repository.sql.CompteBancaireRepository;
-import com.ebanking.core.repository.sql.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -16,32 +14,36 @@ import java.util.List;
 @Service
 public class ClientService {
 
-    @Autowired
-    private ClientRepository clientRepository;
-
-    @Autowired
-    private UserRepository userRepository;
-
-    public AbonneDto getClientById(Long id) {
-        Client client = clientRepository.findById(id).orElseThrow(() ->
-                new IllegalArgumentException("Client non trouvé avec id : " + id));
-        return ClientMapper.toAbonne(client);
-    }
-
-    public List<AbonneDto> getAllClient() {
-        List<Client> clients = clientRepository.findAll();
-        List<AbonneDto> abonnes = new ArrayList<>();
-        for (Client client : clients) {
-            abonnes.add(ClientMapper.toAbonne(client));
-        }
-        return abonnes;
-    }
     private final ClientRepository clientRepo;
     private final CompteBancaireRepository compteRepo;
 
     public ClientService(ClientRepository clientRepo, CompteBancaireRepository compteRepo) {
         this.clientRepo = clientRepo;
         this.compteRepo = compteRepo;
+    }
+
+    public AbonneDto getClientById(Long id) {
+        Client client = clientRepo.findById(id)
+                .orElseThrow(() -> new IllegalArgumentException("Client non trouvé avec id : " + id));
+        return ClientMapper.toAbonne(client);
+    }
+
+    public List<AbonneDto> getAllClient() {
+        List<Client> clients = clientRepo.findAll();
+        List<AbonneDto> abonnes = new ArrayList<>();
+
+        for (Client client : clients) {
+            try {
+                AbonneDto dto = ClientMapper.toAbonne(client);
+                abonnes.add(dto);
+            } catch (Exception e) {
+                System.err.println("❌ Erreur lors du mapping du client ID=" + client.getId() +
+                        " : " + e.getMessage());
+                e.printStackTrace(); // utile pour le debug temporaire
+            }
+        }
+
+        return abonnes;
     }
 
     public Client findClientById(Long id) {
@@ -53,4 +55,3 @@ public class ClientService {
         return compteRepo.findByClientId(clientId);
     }
 }
-

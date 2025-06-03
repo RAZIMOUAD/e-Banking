@@ -1,15 +1,54 @@
+<!-- Professional Currency Management Interface -->
 <div class="devises-container" [@fadeInOut]>
-  <!-- Page header -->
+  <!-- Page header with statistics -->
   <div class="page-header">
-    <div>
+    <div class="header-content">
       <h1 class="page-title">Currency Management</h1>
       <p class="page-subtitle">Manage currencies and exchange rates for the banking system</p>
+
+      <!-- Statistics cards -->
+      <div class="stats-cards">
+        <div class="stat-card total">
+          <div class="stat-icon">
+            <mat-icon>account_balance</mat-icon>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ totalCurrencies }}</span>
+            <span class="stat-label">Total Currencies</span>
+          </div>
+        </div>
+
+        <div class="stat-card active">
+          <div class="stat-icon">
+            <mat-icon>check_circle</mat-icon>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ activeCurrencies }}</span>
+            <span class="stat-label">Active</span>
+          </div>
+        </div>
+
+        <div class="stat-card update" *ngIf="lastRateUpdate">
+          <div class="stat-icon">
+            <mat-icon>update</mat-icon>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ getTimeSinceUpdate(lastRateUpdate) }}</span>
+            <span class="stat-label">Last Update</span>
+          </div>
+        </div>
+      </div>
     </div>
+
     <div class="header-actions">
-      <button mat-stroked-button color="primary" (click)="refreshRates()" class="refresh-button">
-        <mat-icon>refresh</mat-icon>
-        Refresh Rates
+      <button mat-icon-button
+              color="primary"
+              (click)="refreshRates()"
+              [disabled]="refreshing"
+              matTooltip="Refresh Exchange Rates">
+        <mat-icon [class.spinning]="refreshing">refresh</mat-icon>
       </button>
+
       <button mat-raised-button color="primary" (click)="openDeviseDialog()">
         <mat-icon>add</mat-icon>
         Add Currency
@@ -17,128 +56,240 @@
     </div>
   </div>
 
-  <!-- Currencies card -->
-  <mat-card class="devises-card">
-    <mat-card-header>
-      <mat-form-field appearance="outline" class="search-field">
-        <mat-label>Search Currencies</mat-label>
-        <input matInput (keyup)="onSearch($event)" placeholder="Search by code or name">
-        <mat-icon matSuffix>search</mat-icon>
-      </mat-form-field>
-    </mat-card-header>
+  <!-- Loading indicator -->
+  <div class="loading-container" *ngIf="loading">
+    <mat-spinner diameter="40"></mat-spinner>
+    <p>Loading currencies...</p>
+  </div>
 
-    <mat-card-content>
-      <div class="table-container">
-        <table mat-table [dataSource]="filteredData" matSort class="devises-table">
-          <!-- Code Column -->
-          <ng-container matColumnDef="code">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Code</th>
-            <td mat-cell *matCellDef="let devise">
-              <div class="currency-code">
-                <span class="currency-flag">{{ devise.code.substring(0, 2) }}</span>
-                <span>{{ devise.code }}</span>
-              </div>
-            </td>
-          </ng-container>
+  <!-- Main content -->
+  <div class="devises-content" *ngIf="!loading">
+    <!-- Search and filters -->
+    <mat-card class="filters-card">
+      <mat-card-content>
+        <div class="filters-container">
+          <!-- Search field -->
+          <mat-form-field appearance="outline" class="search-field">
+            <mat-label>Search Currencies</mat-label>
+            <input matInput
+                   [(ngModel)]="searchTerm"
+                   (keyup)="onSearch($event)"
+                   placeholder="Search by code, name, or symbol">
+            <mat-icon matPrefix>search</mat-icon>
+            <button mat-icon-button
+                    matSuffix
+                    *ngIf="searchTerm"
+                    (click)="searchTerm = ''; onSearch($event)"
+                    matTooltip="Clear search">
+              <mat-icon>close</mat-icon>
+            </button>
+          </mat-form-field>
 
-          <!-- Name Column -->
-          <ng-container matColumnDef="name">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
-            <td mat-cell *matCellDef="let devise">{{ devise.name }}</td>
-          </ng-container>
-
-          <!-- Symbol Column -->
-          <ng-container matColumnDef="symbol">
-            <th mat-header-cell *matHeaderCellDef>Symbol</th>
-            <td mat-cell *matCellDef="let devise">{{ devise.symbol }}</td>
-          </ng-container>
-
-          <!-- Exchange Rate Column -->
-          <ng-container matColumnDef="exchangeRate">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Exchange Rate</th>
-            <td mat-cell *matCellDef="let devise">
-              <div class="exchange-rate">
-                <span>1 USD = {{ devise.exchangeRate | number:'1.2-6' }} {{ devise.code }}</span>
-              </div>
-            </td>
-          </ng-container>
-
-          <!-- Active Column -->
-          <ng-container matColumnDef="active">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
-            <td mat-cell *matCellDef="let devise">
-              <mat-slide-toggle
-                [checked]="devise.active"
-                (change)="toggleDeviseStatus(devise.id)"
-                color="primary">
-              </mat-slide-toggle>
-              <span class="status-text">{{ devise.active ? 'Active' : 'Inactive' }}</span>
-            </td>
-          </ng-container>
-
-          <!-- Last Updated Column -->
-          <ng-container matColumnDef="lastUpdated">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Updated</th>
-            <td mat-cell *matCellDef="let devise">
-              <div class="last-updated">
-                <span>{{ devise.lastUpdated | date:'short' }}</span>
-              </div>
-            </td>
-          </ng-container>
-
-          <!-- Actions Column -->
-          <ng-container matColumnDef="actions">
-            <th mat-header-cell *matHeaderCellDef>Actions</th>
-            <td mat-cell *matCellDef="let devise">
-              <button mat-icon-button [matMenuTriggerFor]="menu" aria-label="Currency actions">
-                <mat-icon>more_vert</mat-icon>
-              </button>
-              <mat-menu #menu="matMenu">
-                <button mat-menu-item (click)="openDeviseDialog(devise)">
-                  <mat-icon>edit</mat-icon>
-                  <span>Edit</span>
-                </button>
-                <button mat-menu-item (click)="toggleDeviseStatus(devise.id)">
-                  <mat-icon>{{ devise.active ? 'toggle_off' : 'toggle_on' }}</mat-icon>
-                  <span>{{ devise.active ? 'Deactivate' : 'Activate' }}</span>
-                </button>
-                <button mat-menu-item (click)="deleteDevise(devise.id)" [disabled]="devise.code === 'USD'">
-                  <mat-icon>delete</mat-icon>
-                  <span>Delete</span>
-                </button>
-              </mat-menu>
-            </td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-          <tr mat-row *matRowDef="let row; columns: displayedColumns;"></tr>
-        </table>
-
-        <!-- No data message -->
-        <div class="no-data" *ngIf="filteredData.length === 0">
-          <mat-icon>search_off</mat-icon>
-          <p>No currencies found matching your criteria</p>
-          <button mat-button color="primary" (click)="searchTerm = ''; applyFilter()">
+          <!-- Clear filters button -->
+          <button mat-stroked-button
+                  color="primary"
+                  (click)="clearFilters()"
+                  class="clear-filters-btn"
+                  [disabled]="searchTerm === ''">
+            <mat-icon>clear_all</mat-icon>
             Clear Filters
           </button>
         </div>
-      </div>
+      </mat-card-content>
+    </mat-card>
 
-      <!-- Paginator -->
-      <mat-paginator [pageSizeOptions]="[5, 10, 25]" showFirstLastButtons></mat-paginator>
-    </mat-card-content>
-  </mat-card>
+    <!-- Currencies table -->
+    <mat-card class="devises-table-card">
+      <mat-card-content>
+        <div class="table-container">
+          <table mat-table [dataSource]="dataSource" matSort class="devises-table" [@listAnimation]>
+            <!-- Currency Code Column -->
+            <ng-container matColumnDef="code">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Currency</th>
+              <td mat-cell *matCellDef="let devise">
+                <div class="currency-info">
+                  <div class="currency-flag">
+                    <span>{{ devise.code.substring(0, 2) }}</span>
+                  </div>
+                  <div class="currency-details">
+                    <span class="currency-code">{{ devise.code }}</span>
+                    <span class="currency-symbol">{{ devise.symbol }}</span>
+                  </div>
+                </div>
+              </td>
+            </ng-container>
 
-  <!-- Exchange rates info card -->
-  <mat-card class="info-card">
-    <mat-card-content>
-      <div class="info-content">
-        <mat-icon>info</mat-icon>
-        <div class="info-text">
-          <h3>About Exchange Rates</h3>
-          <p>All exchange rates are displayed relative to USD (United States Dollar). Rates are updated automatically every hour during business days. You can manually refresh rates using the refresh button above.</p>
+            <!-- Name Column -->
+            <ng-container matColumnDef="name">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
+              <td mat-cell *matCellDef="let devise">
+                <span class="currency-name">{{ devise.name }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Symbol Column -->
+            <ng-container matColumnDef="symbol">
+              <th mat-header-cell *matHeaderCellDef>Symbol</th>
+              <td mat-cell *matCellDef="let devise">
+                <span class="symbol-badge">{{ devise.symbol }}</span>
+              </td>
+            </ng-container>
+
+            <!-- Exchange Rate Column -->
+            <ng-container matColumnDef="exchangeRate">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Exchange Rate</th>
+              <td mat-cell *matCellDef="let devise">
+                <div class="exchange-rate">
+                  <span class="rate-value">1 USD = {{ formatExchangeRate(devise.exchangeRate) }}</span>
+                  <span class="rate-currency">{{ devise.code }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Status Column -->
+            <ng-container matColumnDef="active">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+              <td mat-cell *matCellDef="let devise">
+                <div class="status-container">
+                  <mat-slide-toggle
+                    [checked]="devise.active"
+                    (change)="toggleDeviseStatus(devise.id)"
+                    [disabled]="devise.code === 'USD'"
+                    color="primary">
+                  </mat-slide-toggle>
+                  <span class="status-badge" [ngClass]="getStatusClass(devise.active)">
+                    <mat-icon>{{ devise.active ? 'check_circle' : 'pause_circle' }}</mat-icon>
+                    {{ devise.active ? 'Active' : 'Inactive' }}
+                  </span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Last Updated Column -->
+            <ng-container matColumnDef="lastUpdated">
+              <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Updated</th>
+              <td mat-cell *matCellDef="let devise">
+                <div class="last-updated">
+                  <mat-icon>schedule</mat-icon>
+                  <span>{{ devise.lastUpdated | date:'short' }}</span>
+                </div>
+              </td>
+            </ng-container>
+
+            <!-- Actions Column -->
+            <ng-container matColumnDef="actions">
+              <th mat-header-cell *matHeaderCellDef>Actions</th>
+              <td mat-cell *matCellDef="let devise">
+                <div class="actions-container">
+                  <!-- Quick actions -->
+                  <button mat-icon-button
+                          color="primary"
+                          (click)="openDeviseDialog(devise)"
+                          matTooltip="Edit Currency">
+                    <mat-icon>edit</mat-icon>
+                  </button>
+
+                  <!-- More actions menu -->
+                  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                    <mat-icon>more_vert</mat-icon>
+                  </button>
+                  <mat-menu #actionsMenu="matMenu">
+                    <button mat-menu-item (click)="openDeviseDialog(devise)">
+                      <mat-icon>edit</mat-icon>
+                      <span>Edit Currency</span>
+                    </button>
+
+                    <button mat-menu-item
+                            (click)="toggleDeviseStatus(devise.id)"
+                            [disabled]="devise.code === 'USD'">
+                      <mat-icon>{{ devise.active ? 'toggle_off' : 'toggle_on' }}</mat-icon>
+                      <span>{{ devise.active ? 'Deactivate' : 'Activate' }}</span>
+                    </button>
+
+                    <mat-divider></mat-divider>
+
+                    <button mat-menu-item>
+                      <mat-icon>trending_up</mat-icon>
+                      <span>Rate History</span>
+                    </button>
+
+                    <button mat-menu-item>
+                      <mat-icon>analytics</mat-icon>
+                      <span>Usage Analytics</span>
+                    </button>
+
+                    <mat-divider></mat-divider>
+
+                    <button mat-menu-item
+                            (click)="deleteDevise(devise.id)"
+                            [disabled]="devise.code === 'USD'"
+                            class="delete-action">
+                      <mat-icon color="warn">delete</mat-icon>
+                      <span>Delete Currency</span>
+                    </button>
+                  </mat-menu>
+                </div>
+              </td>
+            </ng-container>
+
+            <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
+            <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="currency-row"></tr>
+          </table>
+
+          <!-- No data state -->
+          <div class="no-data" *ngIf="dataSource.data.length === 0 && !loading">
+            <div class="no-data-content">
+              <mat-icon>currency_exchange</mat-icon>
+              <h3>No currencies found</h3>
+              <p *ngIf="searchTerm">
+                Try adjusting your search criteria or clearing filters.
+              </p>
+              <p *ngIf="!searchTerm">
+                Start by adding your first currency to the system.
+              </p>
+              <div class="no-data-actions">
+                <button mat-button
+                        color="primary"
+                        (click)="clearFilters()"
+                        *ngIf="searchTerm">
+                  <mat-icon>clear_all</mat-icon>
+                  Clear Filters
+                </button>
+                <button mat-raised-button
+                        color="primary"
+                        (click)="openDeviseDialog()"
+                        *ngIf="!searchTerm">
+                  <mat-icon>add</mat-icon>
+                  Add First Currency
+                </button>
+              </div>
+            </div>
+          </div>
         </div>
-      </div>
-    </mat-card-content>
-  </mat-card>
+
+        <!-- Paginator -->
+        <mat-paginator
+          [pageSizeOptions]="[10, 25, 50, 100]"
+          [pageSize]="25"
+          showFirstLastButtons
+          *ngIf="dataSource.data.length > 0">
+        </mat-paginator>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Exchange rates info card -->
+    <mat-card class="info-card">
+      <mat-card-content>
+        <div class="info-content">
+          <div class="info-icon">
+            <mat-icon>info</mat-icon>
+          </div>
+          <div class="info-text">
+            <h3>About Exchange Rates</h3>
+            <p>All exchange rates are displayed relative to USD (United States Dollar). Rates are updated automatically every hour during business days. You can manually refresh rates using the refresh button above. The base currency (USD) cannot be deleted or deactivated.</p>
+          </div>
+        </div>
+      </mat-card-content>
+    </mat-card>
+  </div>
 </div>

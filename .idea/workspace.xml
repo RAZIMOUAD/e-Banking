@@ -9,20 +9,14 @@
     <option name="autoReloadType" value="SELECTIVE" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="ef85c4fb-78f8-47ac-ba37-8e88de00979f" name="Changes" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources.local.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources.local.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/dataSources/b6a69423-1cf4-4b24-9ff7-ce468fb809e7/storage_v2/_src_/database/ebankingdb.X1T99g/schema/public.abK9xQ.meta" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/dataSources/b6a69423-1cf4-4b24-9ff7-ce468fb809e7/storage_v2/_src_/database/ebankingdb.X1T99g/schema/public.abK9xQ.meta" afterDir="false" />
+    <list default="true" id="ef85c4fb-78f8-47ac-ba37-8e88de00979f" name="Changes" comment="Resoluion&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/Agent/transactions/transactions.component.html" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/Agent/transactions/transactions.component.html" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/services/espaceagent.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/services/espaceagent.service.ts" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
-  </component>
-  <component name="ComposerSettings">
-    <execution />
   </component>
   <component name="FileTemplateManagerImpl">
     <option name="RECENT_TEMPLATES">
@@ -36,11 +30,6 @@
     </option>
   </component>
   <component name="Git.Settings">
-    <option name="RECENT_BRANCH_BY_REPOSITORY">
-      <map>
-        <entry key="$PROJECT_DIR$" value="Enrolement" />
-      </map>
-    </option>
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
   <component name="GitHubPullRequestSearchHistory">{
@@ -108,7 +97,7 @@
     "project.structure.side.proportion": "0.2",
     "settings.editor.selected.configurable": "Docker",
     "settings.editor.splitter.proportion": "0.2609582",
-    "ts.external.directory.path": "C:\\Users\\USER\\OneDrive\\Bureau\\e-Banking\\frontend\\node_modules\\typescript\\lib",
+    "ts.external.directory.path": "/Users/capo/e-Banking/frontend/node_modules/typescript/lib",
     "vue.rearranger.settings.migration": "true"
   },
   "keyToStringList": {
@@ -124,11 +113,11 @@
       <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\assets\features" />
     </key>
     <key name="MoveFile.RECENT_KEYS">
+      <recent name="$PROJECT_DIR$/frontend/src/app/features" />
       <recent name="$PROJECT_DIR$/frontend/src/app/core/services/admin" />
       <recent name="$PROJECT_DIR$/frontend/src/app/core/services" />
       <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\app\features\public\pages" />
       <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\assets\features" />
-      <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\assets\roles" />
     </key>
   </component>
   <component name="RunManager" selected="Tomcat Server.Tomcat 10.1.34">
@@ -258,7 +247,6 @@
     <recent_temporary>
       <list>
         <item itemvalue="Application.DatabaseConnectionTester" />
-        <item itemvalue="Application.DatabaseConnectionTester" />
       </list>
     </recent_temporary>
   </component>
@@ -300,6 +288,12 @@
       <workItem from="1748520368484" duration="156000" />
       <workItem from="1748520538097" duration="9000" />
       <workItem from="1748728475866" duration="417000" />
+      <workItem from="1748808457448" duration="341000" />
+      <workItem from="1748809445647" duration="8000" />
+      <workItem from="1748816510580" duration="863000" />
+      <workItem from="1748817455096" duration="3225000" />
+      <workItem from="1748820998776" duration="1564000" />
+      <workItem from="1748830115092" duration="569000" />
     </task>
     <servers />
   </component>

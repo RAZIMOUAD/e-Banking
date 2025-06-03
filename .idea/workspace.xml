@@ -10,129 +10,8 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="ef85c4fb-78f8-47ac-ba37-8e88de00979f" name="Changes" comment="Resoluion&#10;&#10;# Conflicts:&#10;#&#9;.idea/workspace.xml">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/config/JacksonConfig.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/exception/GlobalJsonExceptionHandler.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/pom.xml" beforeDir="false" afterPath="$PROJECT_DIR$/backend/pom.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/config/WebMvcConfig.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/config/WebMvcConfig.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/controller/auth/AuthenticationController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/controller/auth/AuthenticationController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/domain/base/client/Client.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/domain/base/client/Client.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/domain/base/user/User.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/domain/base/user/User.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/dto/auth/RegisterRequest.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/dto/auth/RegisterRequest.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/dto/mappingClasses/AbonneDto.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/dto/mappingClasses/AbonneDto.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/model/mappers/Abonne.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/model/mappers/Abonne.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/AuthenticationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/AuthenticationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/InfobipVerifyService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/RegistrationService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/RegistrationService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/token/JwtService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/token/JwtService.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/frontend/src/app/core/services/auth.service.ts" beforeDir="false" afterPath="$PROJECT_DIR$/frontend/src/app/core/services/auth.service.ts" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/pom.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/audit/ApplicationAuditAware.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/AppConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/CorsConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/DatabaseConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/MailConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/MongoConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/WebAppInitializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/WebMvcConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/initializer/AdminInitializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/initializer/RoleInitializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/initializer/SettingsInitializer.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/security/JwtAuthenticationFilter.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/security/ProtectedSecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/config/security/PublicSecurityConfig.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/controller/admin/AdminDashboardController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/controller/admin/AgentController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/controller/admin/AuditController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/controller/admin/DeviseController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/controller/admin/GlobalSettingsController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/controller/admin/StatsController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/controller/admin/SystemParameterController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/controller/auth/ActivationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/controller/auth/AuthenticationController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/controller/test/TestController.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/SecurityToken.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/UserRole.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/admin/Admin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/agent/Agent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/client/Client.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/devise/Devise.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/enums/RoleType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/enums/SecurityTokenStatus.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/enums/TokenType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/globalsettings/GlobalSettings.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/personne/AdminPersonne.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/personne/Personne.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/role/Role.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/token/SecurityTokenType.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/token/Token.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/transaction/Transaction.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/domain/base/user/User.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/agent/AgentRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/agent/AgentResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/auth/ActivationRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/auth/AuthenticationRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/auth/AuthenticationResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/auth/RegisterRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/auth/TwoFactorRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/devise/DeviseRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/devise/DeviseResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/globalsettings/GlobalSettingsRequest.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/globalsettings/GlobalSettingsResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/dto/stats/StatsResponse.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/exception/EmailAlreadyUsedException.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/exception/GlobalExceptionHandler.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/nosql/AuditLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/nosql/CryptoTransaction.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/nosql/CryptoWallet.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/nosql/SecurityLog.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/sql/Account.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/sql/Admin.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/sql/BankAgent.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/sql/Budget.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/sql/BudgetCategory.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/sql/Card.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/model/sql/Transaction.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/nosql/AuditLogRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/nosql/CryptoTransactionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/nosql/CryptoWalletRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/nosql/SecurityLogRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/AccountRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/AdminRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/AgentRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/BankAgentRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/BudgetCategoryRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/BudgetRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/CardRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/DeviseRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/GlobalSettingsRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/RoleRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/SecurityTokenRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/TokenRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/TransactionRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/UserRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/repository/sql/UserRoleRepository.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/agent/AgentService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/agent/AgentServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/auth/ActivationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/auth/AuthenticationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/auth/RegistrationService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/auth/TwilioVerifyService.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ebanking/core/service/auth/TwilioVerifyService.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/devise/DeviseService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/devise/DeviseServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/email/EmailService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/email/EmailServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/globalsettings/GlobalSettingsService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/globalsettings/GlobalSettingsServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/stats/StatsService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/stats/StatsServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/token/JwtService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/token/SecurityTokenService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/service/user/UserDetailsServiceImpl.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/java/com/ebanking/core/util/DatabaseConnectionTester.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/resources/application.properties" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/out/artifacts/backend/src/main/resources/log4j2.xml" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -205,7 +84,7 @@
     "Tomcat Server.Tomcat 10.1.34.executor": "Run",
     "Tomcat Server.Tomcat 10.1.35.executor": "Run",
     "Tomcat Server.Tomcat 11.0.3.executor": "Run",
-    "git-widget-placeholder": "Rebasing main",
+    "git-widget-placeholder": "main",
     "kotlin-language-version-configured": "true",
     "last_opened_file_path": "/Users/capo/e-Banking/frontend/src/assets/features",
     "node.js.detected.package.eslint": "true",
@@ -241,7 +120,7 @@
       <recent name="C:\Users\dell\E-BANK\ebanking-2.0\frontend\src\assets\features" />
     </key>
   </component>
-  <component name="RunManager" selected="Tomcat Server.Tomcat 10.1.35">
+  <component name="RunManager" selected="Tomcat Server.Tomcat 10.1.34">
     <configuration name="DatabaseConnectionTester" type="Application" factoryName="Application" temporary="true" nameIsGenerated="true">
       <option name="MAIN_CLASS_NAME" value="com.ebanking.core.util.DatabaseConnectionTester" />
       <module name="backend" />
@@ -255,7 +134,7 @@
         <option name="Make" enabled="true" />
       </method>
     </configuration>
-    <configuration name="Tomcat 10.1.35" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.35" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
+    <configuration name="Tomcat 10.1.34" type="#com.intellij.j2ee.web.tomcat.TomcatRunConfigurationFactory" factoryName="Local" APPLICATION_SERVER_NAME="Tomcat 10.1.34" ALTERNATIVE_JRE_ENABLED="false" nameIsGenerated="true">
       <option name="UPDATING_POLICY" value="restart-server" />
       <deployment>
         <artifact name="backend:war exploded">
@@ -363,7 +242,7 @@
     </configuration>
     <list>
       <item itemvalue="Application.DatabaseConnectionTester" />
-      <item itemvalue="Tomcat Server.Tomcat 10.1.35" />
+      <item itemvalue="Tomcat Server.Tomcat 10.1.34" />
     </list>
     <recent_temporary>
       <list>

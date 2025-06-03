@@ -10,6 +10,7 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 import java.util.List;
 
@@ -50,7 +51,7 @@ public class TransactionClientService {
                 .mode(dto.getMode())
                 .statut("Validé")
                 .type("Virement")
-                .date(new Date())
+                .date(LocalDateTime.now())
                 .autorisePar(dto.getAutorisePar())
                 .build();
 

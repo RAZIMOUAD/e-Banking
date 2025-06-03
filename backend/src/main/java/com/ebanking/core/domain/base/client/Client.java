@@ -27,11 +27,11 @@ public class Client extends Personne {
     private Boolean valideParAgent;
     private String status;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
-
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference // vers comptes
     private List<CompteBancaire> comptes;
+
+
+
+
 }

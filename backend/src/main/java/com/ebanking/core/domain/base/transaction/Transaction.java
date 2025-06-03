@@ -2,10 +2,12 @@ package com.ebanking.core.domain.base.transaction;
 
 import com.ebanking.core.domain.base.CompteBancaire.CompteBancaire;
 import com.fasterxml.jackson.annotation.JsonBackReference;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.SuperBuilder;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Entity
@@ -26,8 +28,10 @@ public class Transaction {
     private double montant;
     private String type;
 
+
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
     @Temporal(TemporalType.TIMESTAMP)
-    private Date date;
+    private LocalDateTime date;
 
     private String statut;
     private String mode;

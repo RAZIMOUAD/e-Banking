@@ -7,6 +7,7 @@ public class TransactionMapper {
 
      public static TransactionMapped toTransaction(Transaction transaction) {
           return TransactionMapped.builder()
+                  .id(transaction.getId())
                   .reference(transaction.getReference())
                   .montant(transaction.getMontant())
                   .type(transaction.getType())

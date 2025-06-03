@@ -36,5 +36,19 @@ export class DashbordComponent implements OnInit {
   pad(n: number): string {
     return n < 10 ? '0' + n : '' + n;
   }
+  confirmDelete(clientId: number): void {
+    console.log(clientId)
+    if (confirm('Êtes-vous sûr de vouloir supprimer ce client ?')) {
+      this.clientservice.deleteClient(clientId).subscribe({
+        next: () => {
+          this.clients = this.clients.filter(client => client.id !== clientId);
+          console.log(this.clients.length)
+        },
+        error: (err) => {
+          console.error('Erreur lors de la suppression :', err);
+        }
+      });
+    }
+  }
 
 }

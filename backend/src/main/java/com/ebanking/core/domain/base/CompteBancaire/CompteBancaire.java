@@ -40,11 +40,11 @@ public class CompteBancaire {
     @JsonBackReference // inverse de Client → comptes
     private Client client;
 
-    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "source", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "source-transactions")
     private List<Transaction> transactionsSource;
 
-    @OneToMany(mappedBy = "cible", cascade = CascadeType.ALL)
+    @OneToMany(mappedBy = "cible", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference(value = "cible-transactions")
     private List<Transaction> transactionsCible;
 }

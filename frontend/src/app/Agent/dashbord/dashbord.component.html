@@ -55,7 +55,7 @@
                   <th>Id</th>
                   <th>Nom Complet</th>
                   <th>Date d'enrolement</th>
-                  <th>Compte</th>
+                  <th>Télephone</th>
                   <th>Status</th>
                   <th>Actions</th>
                 </tr>
@@ -65,21 +65,20 @@
                   <td>{{ client.id }}</td>
                   <td>
                     <div class="d-flex align-items-center">
-                      <img src="https://randomuser.me/api/portraits/men/1.jpg" alt="avatar" class="rounded-circle me-2" width="40" height="40">
                       <div>
-                        <div class="fw-semibold">{{ client.person?.nom }} {{ client.person?.prenom }}</div>
-                        <small class="text-muted">{{ client.person?.cin }}</small>
+                        <div class="fw-semibold">{{ client.nom  }} {{ client.prenom }}</div>
+                        <small class="text-muted">{{ client.cin }}</small>
                       </div>
                     </div>
                   </td>
                   <td>{{ formatDate(client.dateEnrolement) }}</td>
-                  <td>223***********765</td>
+                  <td>{{client.numTel}}</td>
                   <td>
                     <span class="badge bg-success">{{ client.status }}</span>
                   </td>
                   <td>
                     <div class="d-flex align-items-center">
-                      <a href="" class="btn btn-icon delete-record">
+                      <a href="." class="btn btn-icon delete-record" (click)="confirmDelete(client.id)">
                         <i class="icon-base bx bx-trash icon-md"></i>
                       </a>
                       <a href="" class="btn btn-icon">
@@ -89,7 +88,7 @@
                         <i class="icon-base bx bx-dots-vertical-rounded"></i>
                       </a>
                       <div class="dropdown-menu dropdown-menu-end m-0">
-                        <a href="" class="dropdown-item">Edit</a>
+                        <a  routerLink="/edit" routerLinkActive="active" class="dropdown-item">Edit</a>
                         <a href="" class="dropdown-item">Suspend</a>
                       </div>
                     </div>

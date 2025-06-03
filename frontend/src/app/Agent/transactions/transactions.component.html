@@ -59,8 +59,8 @@
                   <th><input type="checkbox" class="form-check-input"></th>
                   <th>Référence</th>
                   <th>Date</th>
-                  <th>Sender</th>
-                  <th>Receiver</th>
+                  <th>Sender IBAN</th>
+                  <th>Receiver IBAN</th>
                   <th>Montant</th>
                   <th>Type</th>
                   <th>Statut</th>
@@ -71,14 +71,14 @@
                 <tr *ngFor="let transaction of transactions">
                   <td><input type="checkbox" class="form-check-input"></td>
                   <td>{{ transaction.reference }}</td>
-                  <td>{{ transaction.date  }}</td>
+                  <td>{{ formatDate(transaction.date) }}</td>
                   <td>
-                    <strong></strong><br>
-                    <small class="text-muted">{{ transaction.ibanSource}}</small>
+                    <strong>{{ transaction.ibanSource}}</strong><br>
+                    <small class="text-muted"></small>
                   </td>
                   <td>
-                    <strong></strong><br>
-                    <small class="text-muted">{{ transaction.ibanCible }}</small>
+                    <strong>{{ transaction.ibanCible }}</strong><br>
+                    <small class="text-muted"></small>
                   </td>
                   <td>{{ transaction.montant }}</td>
                   <td>{{ transaction.type }}</td>
@@ -88,7 +88,7 @@
                   </td>
                   <td>
                     <div class="d-flex align-items-center">
-                      <a href="" class="btn btn-icon delete-record">
+                      <a href="" class="btn btn-icon delete-record" (click)="confirmDelete(transaction.id)">
                         <i class="icon-base bx bx-trash icon-md"></i>
                       </a>
                       <a href="" class="btn btn-icon">

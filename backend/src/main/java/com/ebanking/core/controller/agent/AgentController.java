@@ -1,5 +1,7 @@
 package com.ebanking.core.controller.agent;
 
+import com.ebanking.core.domain.base.client.Client;
+import com.ebanking.core.domain.base.user.User;
 import com.ebanking.core.dto.mappingClasses.AbonneDto;
 import com.ebanking.core.model.mappers.TransactionMapped;
 import com.ebanking.core.service.client.ClientService;
@@ -32,5 +34,20 @@ public class AgentController {
     public ResponseEntity<List<TransactionMapped>> getTransactions() {
         List<TransactionMapped> transactions = transactionService.allTransactions();
         return ResponseEntity.ok(transactions);
+    }
+    @DeleteMapping("/deleteclient/{id}")
+    public void deleteClient(@PathVariable Long id) {
+        clientService.deleteClientById(id);
+    }
+
+    @DeleteMapping("/deletetransaction/{id}")
+    public void deleteTransaction(@PathVariable Long id) {
+        System.out.println(id);
+        transactionService.deleteTransactionById(id);
+    }
+
+    @PostMapping("/saveClient")
+    public ResponseEntity<Client> saveClient(@RequestBody Client client) {
+        return  ResponseEntity.ok(clientService.saveClient(client));
     }
 }

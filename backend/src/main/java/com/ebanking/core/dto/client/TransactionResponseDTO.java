@@ -4,6 +4,7 @@ package com.ebanking.core.dto.client;
 import lombok.Builder;
 import lombok.Data;
 
+import java.time.LocalDateTime;
 import java.util.Date;
 
 @Data
@@ -13,7 +14,7 @@ public class TransactionResponseDTO {
     private String reference;
     private double montant;
     private String type;
-    private Date date;
+    private LocalDateTime date;
     private String statut;
     private String mode;
     private String motif;

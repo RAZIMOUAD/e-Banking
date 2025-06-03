@@ -1,8 +1,10 @@
 package com.ebanking.core.dto.mappingClasses;
+import com.ebanking.core.domain.base.CompteBancaire.CompteBancaire;
 import lombok.Builder;
 import lombok.Data;
 
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Data
 @Builder

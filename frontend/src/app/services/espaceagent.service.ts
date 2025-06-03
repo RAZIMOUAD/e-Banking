@@ -18,4 +18,11 @@ export class EspaceagentService {
   getAllTransactions(): Observable<any> {
     return this.transactions = this._httpService.get<any>(`${this.baseUrl}/api/v1/agent/transactions`);
   }
+
+  createClient(clientData: any): Observable<any> {
+    const headers = new HttpHeaders({ 'Content-Type': 'application/json' });
+    return this._httpService.post<any>(`${this.baseUrl}/api/v1/agent/addclient`, clientData, { headers });
+  }
+
+
 }

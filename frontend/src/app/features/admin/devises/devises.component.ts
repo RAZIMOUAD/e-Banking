@@ -1,5 +1,6 @@
-import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit } from '@angular/core';
+import { Component, OnInit, ViewChild, OnDestroy, AfterViewInit, ChangeDetectorRef } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { FormBuilder, FormGroup, Validators, ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { MatCardModule } from '@angular/material/card';
 import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';
@@ -11,16 +12,16 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 import { MatDialogModule, MatDialog } from '@angular/material/dialog';
 import { MatSnackBarModule, MatSnackBar } from '@angular/material/snack-bar';
-import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { MatTooltipModule } from '@angular/material/tooltip';
-import { FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { trigger, transition, style, animate, stagger, query } from '@angular/animations';
-import { DeviseService, DeviseResponse, DeviseRequest } from '@core/services/devise.service';
-import { catchError, finalize, takeUntil } from 'rxjs/operators';
-import { of, Subject } from 'rxjs';
+import { MatSelectModule } from '@angular/material/select';
+import { MatChipsModule } from '@angular/material/chips';
 import { MatDividerModule } from '@angular/material/divider';
-
+import { MatBadgeModule } from '@angular/material/badge';
+import { trigger, transition, style, animate, stagger, query } from '@angular/animations';
+import { DeviseService, DeviseResponse, DeviseRequest, DeviseStatistics } from '@core/services/devise.service';
+import { catchError, finalize, takeUntil, debounceTime, distinctUntilChanged } from 'rxjs/operators';
+import { of, Subject, BehaviorSubject, combineLatest } from 'rxjs';
 
 @Component({
   selector: 'app-devises',
@@ -29,7 +30,8 @@ import { MatDividerModule } from '@angular/material/divider';
   standalone: true,
   imports: [
     CommonModule,
-    MatDividerModule,
+    ReactiveFormsModule,
+    FormsModule,
     MatCardModule,
     MatTableModule,
     MatSortModule,
@@ -41,45 +43,74 @@ import { MatDividerModule } from '@angular/material/divider';
     MatMenuModule,
     MatDialogModule,
     MatSnackBarModule,
-    MatSlideToggleModule,
     MatProgressSpinnerModule,
     MatTooltipModule,
-    FormsModule,
-    ReactiveFormsModule
+    MatSelectModule,
+    MatChipsModule,
+    MatDividerModule,
+    MatBadgeModule
   ],
   animations: [
     trigger('fadeInOut', [
       transition(':enter', [
         style({ opacity: 0, transform: 'translateY(20px)' }),
         animate('400ms ease-out', style({ opacity: 1, transform: 'translateY(0)' }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-in', style({ opacity: 0, transform: 'translateY(-20px)' }))
       ])
     ]),
     trigger('listAnimation', [
       transition('* <=> *', [
         query(':enter', [
-          style({ opacity: 0, transform: 'translateY(20px)' }),
-          stagger('50ms', animate('300ms ease-out', style({ opacity: 1, transform: 'translateY(0)' })))
+          style({ opacity: 0, transform: 'translateX(-20px)' }),
+          stagger('100ms', animate('300ms ease-out', style({ opacity: 1, transform: 'translateX(0)' })))
         ], { optional: true })
+      ])
+    ]),
+    trigger('scaleIn', [
+      transition(':enter', [
+        style({ transform: 'scale(0.8)', opacity: 0 }),
+        animate('200ms ease-out', style({ transform: 'scale(1)', opacity: 1 }))
       ])
     ])
   ]
 })
 export class DevisesComponent implements OnInit, OnDestroy, AfterViewInit {
   private destroy$ = new Subject<void>();
+  private searchSubject$ = new BehaviorSubject<string>('');
 
-  displayedColumns: string[] = ['code', 'name', 'symbol', 'exchangeRate', 'active', 'lastUpdated', 'actions'];
+  // Table configuration
+  displayedColumns: string[] = ['code', 'libelle', 'tauxConversion', 'conversion', 'actions'];
   dataSource = new MatTableDataSource<DeviseResponse>();
+
+  // Search and filtering
   searchTerm = '';
+  filteredDevises$ = new BehaviorSubject<DeviseResponse[]>([]);
 
   // Loading states
   loading = false;
-  error = false;
   refreshing = false;
+  saving = false;
+  deleting = new Set<number>();
 
   // Statistics
-  totalCurrencies = 0;
-  activeCurrencies = 0;
-  lastRateUpdate: Date | null = null;
+  statistics: DeviseStatistics | null = null;
+
+  // Forms
+  deviseForm!: FormGroup;
+  converterForm!: FormGroup;
+  isEditMode = false;
+  editingDevise: DeviseResponse | null = null;
+
+  // UI state
+  showForm = false;
+  showConverter = false;
+  selectedBaseCurrency = 'MAD';
+  conversionResult: number | null = null;
+
+  // Popular currencies for quick actions
+  popularCurrencies: string[] = [];
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -87,11 +118,18 @@ export class DevisesComponent implements OnInit, OnDestroy, AfterViewInit {
   constructor(
     private deviseService: DeviseService,
     private dialog: MatDialog,
-    private snackBar: MatSnackBar
-  ) {}
+    private snackBar: MatSnackBar,
+    private fb: FormBuilder,
+    private cdr: ChangeDetectorRef
+  ) {
+    this.initializeForms();
+    this.popularCurrencies = this.deviseService.getPopularCurrencies();
+  }
 
   ngOnInit(): void {
+    this.setupSearchSubscription();
     this.loadDevises();
+    this.loadStatistics();
   }
 
   ngOnDestroy(): void {
@@ -102,299 +140,453 @@ export class DevisesComponent implements OnInit, OnDestroy, AfterViewInit {
   ngAfterViewInit(): void {
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
+    this.setupCustomFiltering();
+  }
 
-    // Custom filter predicate
+  /**
+   * Initialize reactive forms
+   */
+  private initializeForms(): void {
+    this.deviseForm = this.fb.group({
+      code: ['', [Validators.required, Validators.pattern(/^[A-Z]{3}$/)]],
+      libelle: ['', [Validators.required, Validators.minLength(2)]],
+      tauxConversion: ['', [Validators.required, Validators.min(0.0001), Validators.max(10000)]]
+    });
+
+    this.converterForm = this.fb.group({
+      amount: [100, [Validators.required, Validators.min(0.01)]],
+      fromCurrency: ['USD', Validators.required],
+      toCurrency: ['MAD', Validators.required]
+    });
+  }
+
+  /**
+   * Setup search functionality with debouncing
+   */
+  private setupSearchSubscription(): void {
+    this.searchSubject$.pipe(
+      debounceTime(300),
+      distinctUntilChanged(),
+      takeUntil(this.destroy$)
+    ).subscribe(searchTerm => {
+      this.applyFilter(searchTerm);
+    });
+  }
+
+  /**
+   * Setup custom filtering for the data source
+   */
+  private setupCustomFiltering(): void {
     this.dataSource.filterPredicate = (data: DeviseResponse, filter: string) => {
-      const searchStr = filter.toLowerCase();
-      return data.code?.toLowerCase().includes(searchStr) ||
-        data.name?.toLowerCase().includes(searchStr) ||
-        data.symbol?.toLowerCase().includes(searchStr);
+      const searchStr = filter.toLowerCase().trim();
+      return data.code.toLowerCase().includes(searchStr) ||
+        data.libelle.toLowerCase().includes(searchStr) ||
+        data.tauxConversion.toString().includes(searchStr);
     };
   }
 
+  /**
+   * Load all currencies from the backend
+   */
   loadDevises(): void {
     this.loading = true;
-    this.error = false;
-
     this.deviseService.findAll()
       .pipe(
         catchError(error => {
           console.error('Error loading currencies:', error);
-          this.error = true;
-          this.snackBar.open('Backend unavailable - using demo data', 'Close', {
-            duration: 4000,
-            panelClass: ['warning-snackbar']
-          });
+          this.showErrorMessage('Failed to load currencies. Using demo data.');
           return of(this.getMockDevises());
         }),
         finalize(() => {
           this.loading = false;
+          this.cdr.detectChanges();
         }),
         takeUntil(this.destroy$)
       )
       .subscribe(devises => {
         this.processDevisesData(devises);
+        this.updateConverterCurrencies(devises);
       });
   }
 
+  /**
+   * Load statistics
+   */
+  private loadStatistics(): void {
+    this.deviseService.getStatistics()
+      .pipe(
+        catchError(() => of(null)),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(stats => {
+        this.statistics = stats;
+        this.cdr.detectChanges();
+      });
+  }
+
+  /**
+   * Process loaded data
+   */
   private processDevisesData(devises: DeviseResponse[]): void {
     this.dataSource.data = devises;
-    this.updateStatistics(devises);
-    this.applyFilter();
+    this.filteredDevises$.next(devises);
+    this.applyFilter(this.searchTerm);
   }
 
-  private updateStatistics(devises: DeviseResponse[]): void {
-    this.totalCurrencies = devises.length;
-    this.activeCurrencies = devises.filter(d => d.active).length;
-    this.lastRateUpdate = devises.reduce((latest, current) => {
-      const currentDate = new Date(current.lastUpdated);
-      return !latest || currentDate > latest ? currentDate : latest;
-    }, null as Date | null);
+  /**
+   * Update converter currency options
+   */
+  private updateConverterCurrencies(devises: DeviseResponse[]): void {
+    const availableCurrencies = devises.map(d => d.code);
+    if (!availableCurrencies.includes(this.converterForm.get('fromCurrency')?.value)) {
+      this.converterForm.patchValue({ fromCurrency: availableCurrencies[0] || 'USD' });
+    }
+    if (!availableCurrencies.includes(this.converterForm.get('toCurrency')?.value)) {
+      this.converterForm.patchValue({ toCurrency: availableCurrencies[1] || 'MAD' });
+    }
   }
 
-  applyFilter(): void {
-    this.dataSource.filter = this.searchTerm.trim().toLowerCase();
-  }
-
+  /**
+   * Search and filtering
+   */
   onSearch(event: Event): void {
     this.searchTerm = (event.target as HTMLInputElement).value;
-    this.applyFilter();
+    this.searchSubject$.next(this.searchTerm);
   }
 
-  refreshRates(): void {
-    this.refreshing = true;
-
-    this.deviseService.refreshRates()
-      .pipe(
-        catchError(error => {
-          console.error('Error refreshing rates:', error);
-          // Fallback: simulate rate refresh with mock data
-          return of(this.simulateRateRefresh());
-        }),
-        finalize(() => {
-          this.refreshing = false;
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(devises => {
-        if (devises) {
-          this.processDevisesData(devises);
-          this.snackBar.open('Exchange rates updated successfully!', 'Close', {
-            duration: 3000
-          });
-        }
-      });
-  }
-
-  private simulateRateRefresh(): DeviseResponse[] {
-    return this.dataSource.data.map(devise => ({
-      ...devise,
-      exchangeRate: devise.exchangeRate * (1 + (Math.random() * 0.02 - 0.01)),
-      lastUpdated: new Date()
-    }));
-  }
-
-  toggleDeviseStatus(id: number): void {
-    const devise = this.dataSource.data.find(d => d.id === id);
-
-    if (!devise) {
-      this.snackBar.open('Currency not found', 'Close', { duration: 3000 });
-      return;
-    }
-
-    const updateRequest: DeviseRequest = {
-      code: devise.code,
-      name: devise.name,
-      symbol: devise.symbol,
-      exchangeRate: devise.exchangeRate,
-      active: !devise.active
-    };
-
-    this.deviseService.update(id, updateRequest)
-      .pipe(
-        catchError(error => {
-          console.error('Error toggling currency status:', error);
-          this.snackBar.open('Failed to update currency status', 'Close', {
-            duration: 3000
-          });
-          return of(null);
-        }),
-        takeUntil(this.destroy$)
-      )
-      .subscribe(updatedDevise => {
-        if (updatedDevise) {
-          // Update local data
-          const index = this.dataSource.data.findIndex(d => d.id === id);
-          if (index !== -1) {
-            this.dataSource.data[index] = updatedDevise;
-            this.updateStatistics(this.dataSource.data);
-            this.dataSource._updateChangeSubscription();
-          }
-          this.snackBar.open(`${updatedDevise.name} is now ${updatedDevise.active ? 'active' : 'inactive'}`, 'Close', {
-            duration: 3000
-          });
-        } else {
-          // Fallback for mock data
-          devise.active = !devise.active;
-          this.updateStatistics(this.dataSource.data);
-          this.snackBar.open(`${devise.name} is now ${devise.active ? 'active' : 'inactive'}`, 'Close', {
-            duration: 3000
-          });
-        }
-      });
-  }
-
-  openDeviseDialog(devise?: DeviseResponse): void {
-    // TODO: Implement devise dialog
-    this.snackBar.open(
-      devise ? `Editing ${devise.name}` : 'Creating new currency',
-      'Close',
-      { duration: 2000 }
-    );
-  }
-
-  deleteDevise(id: number): void {
-    const devise = this.dataSource.data.find(d => d.id === id);
-
-    if (!devise) {
-      this.snackBar.open('Currency not found', 'Close', { duration: 3000 });
-      return;
-    }
-
-    if (devise.code === 'USD') {
-      this.snackBar.open('Cannot delete the base currency (USD)', 'Close', {
-        duration: 3000
-      });
-      return;
-    }
-
-    const confirmed = window.confirm(`Are you sure you want to delete ${devise.name}?`);
-
-    if (confirmed) {
-      this.deviseService.delete(id)
-        .pipe(
-          catchError(error => {
-            console.error('Error deleting currency:', error);
-            this.snackBar.open('Failed to delete currency', 'Close', {
-              duration: 3000
-            });
-            return of(null);
-          }),
-          takeUntil(this.destroy$)
-        )
-        .subscribe(() => {
-          // Remove from local data
-          const index = this.dataSource.data.findIndex(d => d.id === id);
-          if (index !== -1) {
-            this.dataSource.data.splice(index, 1);
-            this.dataSource._updateChangeSubscription();
-            this.updateStatistics(this.dataSource.data);
-          }
-          this.snackBar.open('Currency deleted successfully', 'Close', {
-            duration: 2000
-          });
-        });
+  applyFilter(searchTerm: string = this.searchTerm): void {
+    this.dataSource.filter = searchTerm.trim().toLowerCase();
+    if (this.dataSource.paginator) {
+      this.dataSource.paginator.firstPage();
     }
   }
 
   clearFilters(): void {
     this.searchTerm = '';
-    this.applyFilter();
+    this.searchSubject$.next('');
+    this.applyFilter('');
   }
 
-  getStatusClass(active: boolean): string {
-    return active ? 'status-active' : 'status-inactive';
+  /**
+   * CRUD Operations
+   */
+  openAddDeviseForm(): void {
+    this.isEditMode = false;
+    this.editingDevise = null;
+    this.deviseForm.reset();
+    this.deviseForm.patchValue({
+      tauxConversion: 1.0000
+    });
+    this.showForm = true;
   }
 
-  getRateChangeClass(rate: number): string {
-    // This would compare with previous rate in real implementation
-    return 'rate-neutral';
+  openEditDeviseForm(devise: DeviseResponse): void {
+    this.isEditMode = true;
+    this.editingDevise = devise;
+    this.deviseForm.patchValue({
+      code: devise.code,
+      libelle: devise.libelle,
+      tauxConversion: devise.tauxConversion
+    });
+    this.showForm = true;
   }
 
-  formatExchangeRate(rate: number): string {
-    return rate.toLocaleString('en-US', {
-      minimumFractionDigits: 2,
-      maximumFractionDigits: 6
+  closeForm(): void {
+    this.showForm = false;
+    this.isEditMode = false;
+    this.editingDevise = null;
+    this.deviseForm.reset();
+  }
+
+  async saveDevise(): Promise<void> {
+    if (this.deviseForm.invalid) {
+      this.markFormGroupTouched(this.deviseForm);
+      return;
+    }
+
+    const formValue = this.deviseForm.value;
+    const deviseData: DeviseRequest = {
+      code: formValue.code.toUpperCase(),
+      libelle: formValue.libelle.trim(),
+      tauxConversion: parseFloat(formValue.tauxConversion)
+    };
+
+    // Validate data
+    const validationErrors = this.deviseService.validateDevise(deviseData);
+    if (validationErrors.length > 0) {
+      this.showErrorMessage(validationErrors.join(', '));
+      return;
+    }
+
+    // Check for duplicate code (only for new currencies or when code changed)
+    if (!this.isEditMode || (this.editingDevise && this.editingDevise.code !== deviseData.code)) {
+      try {
+        const codeExists = await this.deviseService.checkCodeExists(
+          deviseData.code,
+          this.editingDevise?.id
+        ).toPromise();
+
+        if (codeExists) {
+          this.showErrorMessage(`Currency code '${deviseData.code}' already exists`);
+          return;
+        }
+      } catch (error) {
+        console.warn('Could not check code uniqueness:', error);
+      }
+    }
+
+    this.saving = true;
+    const operation = this.isEditMode
+      ? this.deviseService.update(this.editingDevise!.id, deviseData)
+      : this.deviseService.save(deviseData);
+
+    operation.pipe(
+      catchError(error => {
+        this.showErrorMessage(
+          this.isEditMode
+            ? 'Failed to update currency'
+            : 'Failed to create currency'
+        );
+        return of(null);
+      }),
+      finalize(() => {
+        this.saving = false;
+        this.cdr.detectChanges();
+      }),
+      takeUntil(this.destroy$)
+    ).subscribe(result => {
+      if (result) {
+        this.showSuccessMessage(
+          this.isEditMode
+            ? 'Currency updated successfully'
+            : 'Currency created successfully'
+        );
+        this.closeForm();
+        this.loadDevises();
+        this.loadStatistics();
+      }
     });
   }
 
-  getTimeSinceUpdate(date: Date): string {
+  deleteDevise(devise: DeviseResponse): void {
+    // Prevent deletion of base currency
+    if (devise.code === this.selectedBaseCurrency) {
+      this.showErrorMessage(`Cannot delete the base currency (${this.selectedBaseCurrency})`);
+      return;
+    }
+
+    const confirmed = confirm(
+      `Are you sure you want to delete ${devise.libelle} (${devise.code})?\n\nThis action cannot be undone.`
+    );
+
+    if (!confirmed) return;
+
+    this.deleting.add(devise.id);
+    this.deviseService.delete(devise.id)
+      .pipe(
+        catchError(error => {
+          this.showErrorMessage('Failed to delete currency');
+          return of(null);
+        }),
+        finalize(() => {
+          this.deleting.delete(devise.id);
+          this.cdr.detectChanges();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(result => {
+        if (result !== null) {
+          this.showSuccessMessage('Currency deleted successfully');
+          this.loadDevises();
+          this.loadStatistics();
+        }
+      });
+  }
+
+  /**
+   * Currency conversion
+   */
+  toggleConverter(): void {
+    this.showConverter = !this.showConverter;
+    if (this.showConverter) {
+      this.performConversion();
+    }
+  }
+
+  performConversion(): void {
+    if (this.converterForm.invalid) return;
+
+    const { amount, fromCurrency, toCurrency } = this.converterForm.value;
+
+    if (fromCurrency === toCurrency) {
+      this.conversionResult = amount;
+      return;
+    }
+
+    this.deviseService.convertCurrency(amount, fromCurrency, toCurrency)
+      .pipe(
+        catchError(() => {
+          this.showErrorMessage('Conversion failed');
+          return of(null);
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(result => {
+        this.conversionResult = result;
+        this.cdr.detectChanges();
+      });
+  }
+
+  swapCurrencies(): void {
+    const fromCurrency = this.converterForm.get('fromCurrency')?.value;
+    const toCurrency = this.converterForm.get('toCurrency')?.value;
+
+    this.converterForm.patchValue({
+      fromCurrency: toCurrency,
+      toCurrency: fromCurrency
+    });
+
+    this.performConversion();
+  }
+
+  /**
+   * Rate refresh functionality
+   */
+  refreshRates(): void {
+    this.refreshing = true;
+    this.showInfoMessage('Refreshing exchange rates...');
+
+    this.deviseService.refreshRates()
+      .pipe(
+        catchError(() => {
+          this.showErrorMessage('Failed to refresh rates');
+          return of([]);
+        }),
+        finalize(() => {
+          this.refreshing = false;
+          this.cdr.detectChanges();
+        }),
+        takeUntil(this.destroy$)
+      )
+      .subscribe(updatedDevises => {
+        if (updatedDevises.length > 0) {
+          this.processDevisesData(updatedDevises);
+          this.showSuccessMessage('Exchange rates updated successfully');
+          this.loadStatistics();
+        }
+      });
+  }
+
+  /**
+   * Utility methods
+   */
+  formatExchangeRate(rate: number): string {
+    return rate.toLocaleString('en-US', {
+      minimumFractionDigits: 4,
+      maximumFractionDigits: 4
+    });
+  }
+
+  formatCurrency(amount: number, currencyCode: string): string {
+    return this.deviseService.formatAmount(amount, currencyCode);
+  }
+
+  getTimeSinceUpdate(): string {
+    if (!this.statistics?.lastUpdate) return 'Never';
+
     const now = new Date();
-    const diff = now.getTime() - new Date(date).getTime();
-    const hours = Math.floor(diff / (1000 * 60 * 60));
+    const diff = now.getTime() - this.statistics.lastUpdate.getTime();
+    const minutes = Math.floor(diff / (1000 * 60));
+    const hours = Math.floor(minutes / 60);
     const days = Math.floor(hours / 24);
 
     if (days > 0) return `${days} day${days > 1 ? 's' : ''} ago`;
     if (hours > 0) return `${hours} hour${hours > 1 ? 's' : ''} ago`;
+    if (minutes > 0) return `${minutes} minute${minutes > 1 ? 's' : ''} ago`;
     return 'Just now';
   }
 
-  // Mock data fallback
+  isDeleting(devise: DeviseResponse): boolean {
+    return this.deleting.has(devise.id);
+  }
+
+  canDeleteDevise(devise: DeviseResponse): boolean {
+    return devise.code !== this.selectedBaseCurrency;
+  }
+
+  isCurrencyDisabled(currency: string): boolean {
+    return this.dataSource.data.some(d => d.code === currency);
+  }
+
+  selectPopularCurrency(currency: string): void {
+    if (!this.isCurrencyDisabled(currency)) {
+      this.deviseForm.patchValue({ code: currency });
+    }
+  }
+
+  setConverterFromCurrency(code: string): void {
+    this.converterForm.patchValue({ fromCurrency: code });
+    this.showConverter = true;
+    this.performConversion();
+  }
+
+  setConverterToCurrency(code: string): void {
+    this.converterForm.patchValue({ toCurrency: code });
+    this.showConverter = true;
+    this.performConversion();
+  }
+
+  getFieldError(fieldName: string): string {
+    const field = this.deviseForm.get(fieldName);
+    if (field?.errors && field?.touched) {
+      if (field.errors['required']) return `${fieldName} is required`;
+      if (field.errors['pattern']) return `${fieldName} must be 3 uppercase letters`;
+      if (field.errors['minlength']) return `${fieldName} is too short`;
+      if (field.errors['min']) return `${fieldName} must be greater than 0`;
+      if (field.errors['max']) return `${fieldName} is too large`;
+    }
+    return '';
+  }
+
+  /**
+   * Private helper methods
+   */
+  private markFormGroupTouched(formGroup: FormGroup): void {
+    Object.keys(formGroup.controls).forEach(key => {
+      const control = formGroup.get(key);
+      control?.markAsTouched();
+    });
+  }
+
+  private showSuccessMessage(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 3000,
+      panelClass: ['success-snackbar']
+    });
+  }
+
+  private showErrorMessage(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 5000,
+      panelClass: ['error-snackbar']
+    });
+  }
+
+  private showInfoMessage(message: string): void {
+    this.snackBar.open(message, 'Close', {
+      duration: 2000,
+      panelClass: ['info-snackbar']
+    });
+  }
+
   private getMockDevises(): DeviseResponse[] {
     return [
-      {
-        id: 1,
-        code: 'USD',
-        name: 'US Dollar',
-        symbol: '$',
-        exchangeRate: 1.0,
-        active: true,
-        lastUpdated: new Date()
-      },
-      {
-        id: 2,
-        code: 'EUR',
-        name: 'Euro',
-        symbol: '€',
-        exchangeRate: 0.9234,
-        active: true,
-        lastUpdated: new Date(Date.now() - 1800000)
-      },
-      {
-        id: 3,
-        code: 'MAD',
-        name: 'Moroccan Dirham',
-        symbol: 'MAD',
-        exchangeRate: 10.1245,
-        active: true,
-        lastUpdated: new Date(Date.now() - 3600000)
-      },
-      {
-        id: 4,
-        code: 'GBP',
-        name: 'British Pound',
-        symbol: '£',
-        exchangeRate: 0.7821,
-        active: true,
-        lastUpdated: new Date(Date.now() - 7200000)
-      },
-      {
-        id: 5,
-        code: 'JPY',
-        name: 'Japanese Yen',
-        symbol: '¥',
-        exchangeRate: 149.87,
-        active: true,
-        lastUpdated: new Date(Date.now() - 10800000)
-      },
-      {
-        id: 6,
-        code: 'CAD',
-        name: 'Canadian Dollar',
-        symbol: 'C$',
-        exchangeRate: 1.3567,
-        active: false,
-        lastUpdated: new Date(Date.now() - 86400000)
-      },
-      {
-        id: 7,
-        code: 'CHF',
-        name: 'Swiss Franc',
-        symbol: 'CHF',
-        exchangeRate: 0.8934,
-        active: true,
-        lastUpdated: new Date(Date.now() - 14400000)
-      }
+      { id: 1, code: 'USD', libelle: 'Dollar Américain', tauxConversion: 9.9500 },
+      { id: 2, code: 'EUR', libelle: 'Euro', tauxConversion: 10.5000 },
+      { id: 3, code: 'MAD', libelle: 'Dirham Marocain', tauxConversion: 1.0000 },
+      { id: 4, code: 'GBP', libelle: 'Livre Sterling', tauxConversion: 12.3000 },
+      { id: 5, code: 'JPY', libelle: 'Yen Japonais', tauxConversion: 0.0650 },
+      { id: 6, code: 'CHF', libelle: 'Franc Suisse', tauxConversion: 11.2000 }
     ];
   }
 }

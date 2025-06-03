@@ -1,19 +1,20 @@
-<!-- Professional Currency Management Interface -->
+<!-- Complete Currency Management Interface -->
 <div class="devises-container" [@fadeInOut]>
-  <!-- Page header with statistics -->
+
+  <!-- Page Header with Statistics -->
   <div class="page-header">
     <div class="header-content">
       <h1 class="page-title">Currency Management</h1>
       <p class="page-subtitle">Manage currencies and exchange rates for the banking system</p>
 
-      <!-- Statistics cards -->
-      <div class="stats-cards">
+      <!-- Statistics Cards -->
+      <div class="stats-cards" *ngIf="statistics" [@scaleIn]>
         <div class="stat-card total">
           <div class="stat-icon">
             <mat-icon>account_balance</mat-icon>
           </div>
           <div class="stat-content">
-            <span class="stat-number">{{ totalCurrencies }}</span>
+            <span class="stat-number">{{ statistics.totalCurrencies }}</span>
             <span class="stat-label">Total Currencies</span>
           </div>
         </div>
@@ -23,74 +24,237 @@
             <mat-icon>check_circle</mat-icon>
           </div>
           <div class="stat-content">
-            <span class="stat-number">{{ activeCurrencies }}</span>
+            <span class="stat-number">{{ statistics.activeCurrencies }}</span>
             <span class="stat-label">Active</span>
           </div>
         </div>
 
-        <div class="stat-card update" *ngIf="lastRateUpdate">
+        <div class="stat-card base">
+          <div class="stat-icon">
+            <mat-icon>star</mat-icon>
+          </div>
+          <div class="stat-content">
+            <span class="stat-number">{{ statistics.baseCurrency }}</span>
+            <span class="stat-label">Base Currency</span>
+          </div>
+        </div>
+
+        <div class="stat-card update">
           <div class="stat-icon">
             <mat-icon>update</mat-icon>
           </div>
           <div class="stat-content">
-            <span class="stat-number">{{ getTimeSinceUpdate(lastRateUpdate) }}</span>
+            <span class="stat-number">{{ getTimeSinceUpdate() }}</span>
             <span class="stat-label">Last Update</span>
           </div>
         </div>
       </div>
     </div>
 
+    <!-- Header Actions -->
     <div class="header-actions">
       <button mat-icon-button
               color="primary"
               (click)="refreshRates()"
               [disabled]="refreshing"
-              matTooltip="Refresh Exchange Rates">
+              matTooltip="Refresh Exchange Rates"
+              class="refresh-btn">
         <mat-icon [class.spinning]="refreshing">refresh</mat-icon>
       </button>
 
-      <button mat-raised-button color="primary" (click)="openDeviseDialog()">
+      <button mat-stroked-button
+              color="primary"
+              (click)="toggleConverter()"
+              class="converter-btn">
+        <mat-icon>currency_exchange</mat-icon>
+        {{ showConverter ? 'Hide' : 'Show' }} Converter
+      </button>
+
+      <button mat-raised-button
+              color="primary"
+              (click)="openAddDeviseForm()"
+              class="add-btn">
         <mat-icon>add</mat-icon>
         Add Currency
       </button>
     </div>
   </div>
 
-  <!-- Loading indicator -->
+  <!-- Loading Indicator -->
   <div class="loading-container" *ngIf="loading">
     <mat-spinner diameter="40"></mat-spinner>
     <p>Loading currencies...</p>
   </div>
 
-  <!-- Main content -->
+  <!-- Main Content -->
   <div class="devises-content" *ngIf="!loading">
-    <!-- Search and filters -->
+
+    <!-- Currency Converter Card -->
+    <mat-card class="converter-card" *ngIf="showConverter" [@fadeInOut]>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>currency_exchange</mat-icon>
+          Currency Converter
+        </mat-card-title>
+        <mat-card-subtitle>Convert between available currencies</mat-card-subtitle>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="converterForm" class="converter-form">
+          <div class="converter-row">
+            <mat-form-field appearance="outline" class="amount-field">
+              <mat-label>Amount</mat-label>
+              <input matInput
+                     type="number"
+                     formControlName="amount"
+                     (input)="performConversion()"
+                     min="0.01"
+                     step="0.01">
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="currency-field">
+              <mat-label>From</mat-label>
+              <mat-select formControlName="fromCurrency" (selectionChange)="performConversion()">
+                <mat-option *ngFor="let devise of dataSource.data" [value]="devise.code">
+                  {{ devise.code }} - {{ devise.libelle }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+
+            <button mat-icon-button
+                    type="button"
+                    (click)="swapCurrencies()"
+                    matTooltip="Swap currencies"
+                    class="swap-btn">
+              <mat-icon>swap_horiz</mat-icon>
+            </button>
+
+            <mat-form-field appearance="outline" class="currency-field">
+              <mat-label>To</mat-label>
+              <mat-select formControlName="toCurrency" (selectionChange)="performConversion()">
+                <mat-option *ngFor="let devise of dataSource.data" [value]="devise.code">
+                  {{ devise.code }} - {{ devise.libelle }}
+                </mat-option>
+              </mat-select>
+            </mat-form-field>
+          </div>
+
+          <!-- Conversion Result -->
+          <div class="conversion-result" *ngIf="conversionResult !== null">
+            <div class="result-display">
+              <span class="from-amount">
+                {{ formatCurrency(converterForm.get('amount')?.value || 0, converterForm.get('fromCurrency')?.value) }}
+              </span>
+              <mat-icon>arrow_forward</mat-icon>
+              <span class="to-amount">
+                {{ formatCurrency(conversionResult, converterForm.get('toCurrency')?.value) }}
+              </span>
+            </div>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Add/Edit Currency Form -->
+    <mat-card class="form-card" *ngIf="showForm" [@fadeInOut]>
+      <mat-card-header>
+        <mat-card-title>
+          <mat-icon>{{ isEditMode ? 'edit' : 'add' }}</mat-icon>
+          {{ isEditMode ? 'Edit Currency' : 'Add New Currency' }}
+        </mat-card-title>
+      </mat-card-header>
+      <mat-card-content>
+        <form [formGroup]="deviseForm" class="devise-form">
+          <div class="form-row">
+            <mat-form-field appearance="outline" class="code-field">
+              <mat-label>Currency Code</mat-label>
+              <input matInput
+                     formControlName="code"
+                     placeholder="USD"
+                     maxlength="3"
+                     style="text-transform: uppercase;">
+              <mat-hint>3-letter ISO code</mat-hint>
+              <mat-error>{{ getFieldError('code') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="name-field">
+              <mat-label>Currency Name</mat-label>
+              <input matInput
+                     formControlName="libelle"
+                     placeholder="US Dollar">
+              <mat-error>{{ getFieldError('libelle') }}</mat-error>
+            </mat-form-field>
+
+            <mat-form-field appearance="outline" class="rate-field">
+              <mat-label>Exchange Rate</mat-label>
+              <input matInput
+                     type="number"
+                     formControlName="tauxConversion"
+                     placeholder="1.0000"
+                     step="0.0001"
+                     min="0.0001"
+                     max="10000">
+              <mat-hint>Rate relative to {{ selectedBaseCurrency }}</mat-hint>
+              <mat-error>{{ getFieldError('tauxConversion') }}</mat-error>
+            </mat-form-field>
+          </div>
+
+          <!-- Popular Currency Quick Select -->
+          <div class="quick-select" *ngIf="!isEditMode">
+            <span class="quick-select-label">Popular currencies:</span>
+            <mat-chip-listbox class="popular-chips">
+              <mat-chip-option *ngFor="let currency of popularCurrencies"
+                               [disabled]="isCurrencyDisabled(currency)"
+                               (click)="selectPopularCurrency(currency)">
+                {{ currency }}
+              </mat-chip-option>
+            </mat-chip-listbox>
+          </div>
+
+          <!-- Form Actions -->
+          <div class="form-actions">
+            <button mat-button
+                    type="button"
+                    (click)="closeForm()">
+              Cancel
+            </button>
+            <button mat-raised-button
+                    color="primary"
+                    type="button"
+                    (click)="saveDevise()"
+                    [disabled]="saving">
+              <mat-spinner diameter="20" *ngIf="saving"></mat-spinner>
+              <span *ngIf="!saving">{{ isEditMode ? 'Update' : 'Create' }}</span>
+            </button>
+          </div>
+        </form>
+      </mat-card-content>
+    </mat-card>
+
+    <!-- Search and Filters -->
     <mat-card class="filters-card">
       <mat-card-content>
         <div class="filters-container">
-          <!-- Search field -->
           <mat-form-field appearance="outline" class="search-field">
             <mat-label>Search Currencies</mat-label>
             <input matInput
                    [(ngModel)]="searchTerm"
-                   (keyup)="onSearch($event)"
-                   placeholder="Search by code, name, or symbol">
+                   (input)="onSearch($event)"
+                   placeholder="Search by code, name, or rate">
             <mat-icon matPrefix>search</mat-icon>
             <button mat-icon-button
                     matSuffix
                     *ngIf="searchTerm"
-                    (click)="searchTerm = ''; onSearch($event)"
+                    (click)="clearFilters()"
                     matTooltip="Clear search">
               <mat-icon>close</mat-icon>
             </button>
           </mat-form-field>
 
-          <!-- Clear filters button -->
           <button mat-stroked-button
                   color="primary"
                   (click)="clearFilters()"
                   class="clear-filters-btn"
-                  [disabled]="searchTerm === ''">
+                  [disabled]="!searchTerm">
             <mat-icon>clear_all</mat-icon>
             Clear Filters
           </button>
@@ -98,11 +262,12 @@
       </mat-card-content>
     </mat-card>
 
-    <!-- Currencies table -->
-    <mat-card class="devises-table-card">
+    <!-- Currencies Table -->
+    <mat-card class="table-card">
       <mat-card-content>
         <div class="table-container">
           <table mat-table [dataSource]="dataSource" matSort class="devises-table" [@listAnimation]>
+
             <!-- Currency Code Column -->
             <ng-container matColumnDef="code">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Currency</th>
@@ -113,65 +278,43 @@
                   </div>
                   <div class="currency-details">
                     <span class="currency-code">{{ devise.code }}</span>
-                    <span class="currency-symbol">{{ devise.symbol }}</span>
+                    <span class="currency-badge" *ngIf="devise.code === selectedBaseCurrency">BASE</span>
                   </div>
                 </div>
               </td>
             </ng-container>
 
-            <!-- Name Column -->
-            <ng-container matColumnDef="name">
+            <!-- Currency Name Column -->
+            <ng-container matColumnDef="libelle">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Name</th>
               <td mat-cell *matCellDef="let devise">
-                <span class="currency-name">{{ devise.name }}</span>
-              </td>
-            </ng-container>
-
-            <!-- Symbol Column -->
-            <ng-container matColumnDef="symbol">
-              <th mat-header-cell *matHeaderCellDef>Symbol</th>
-              <td mat-cell *matCellDef="let devise">
-                <span class="symbol-badge">{{ devise.symbol }}</span>
+                <span class="currency-name">{{ devise.libelle }}</span>
               </td>
             </ng-container>
 
             <!-- Exchange Rate Column -->
-            <ng-container matColumnDef="exchangeRate">
+            <ng-container matColumnDef="tauxConversion">
               <th mat-header-cell *matHeaderCellDef mat-sort-header>Exchange Rate</th>
               <td mat-cell *matCellDef="let devise">
                 <div class="exchange-rate">
-                  <span class="rate-value">1 USD = {{ formatExchangeRate(devise.exchangeRate) }}</span>
+                  <span class="rate-value">1 {{ selectedBaseCurrency }} = {{ formatExchangeRate(devise.tauxConversion) }}</span>
                   <span class="rate-currency">{{ devise.code }}</span>
                 </div>
               </td>
             </ng-container>
 
-            <!-- Status Column -->
-            <ng-container matColumnDef="active">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Status</th>
+            <!-- Quick Conversion Column -->
+            <ng-container matColumnDef="conversion">
+              <th mat-header-cell *matHeaderCellDef>Quick Convert</th>
               <td mat-cell *matCellDef="let devise">
-                <div class="status-container">
-                  <mat-slide-toggle
-                    [checked]="devise.active"
-                    (change)="toggleDeviseStatus(devise.id)"
-                    [disabled]="devise.code === 'USD'"
-                    color="primary">
-                  </mat-slide-toggle>
-                  <span class="status-badge" [ngClass]="getStatusClass(devise.active)">
-                    <mat-icon>{{ devise.active ? 'check_circle' : 'pause_circle' }}</mat-icon>
-                    {{ devise.active ? 'Active' : 'Inactive' }}
+                <div class="quick-conversion" *ngIf="devise.code !== selectedBaseCurrency">
+                  <span class="conversion-text">
+                    100 {{ selectedBaseCurrency }} = {{ formatExchangeRate(100 * devise.tauxConversion) }} {{ devise.code }}
                   </span>
                 </div>
-              </td>
-            </ng-container>
-
-            <!-- Last Updated Column -->
-            <ng-container matColumnDef="lastUpdated">
-              <th mat-header-cell *matHeaderCellDef mat-sort-header>Last Updated</th>
-              <td mat-cell *matCellDef="let devise">
-                <div class="last-updated">
-                  <mat-icon>schedule</mat-icon>
-                  <span>{{ devise.lastUpdated | date:'short' }}</span>
+                <div class="base-currency" *ngIf="devise.code === selectedBaseCurrency">
+                  <mat-icon>star</mat-icon>
+                  <span>Base Currency</span>
                 </div>
               </td>
             </ng-container>
@@ -181,29 +324,36 @@
               <th mat-header-cell *matHeaderCellDef>Actions</th>
               <td mat-cell *matCellDef="let devise">
                 <div class="actions-container">
-                  <!-- Quick actions -->
+                  <!-- Edit Button -->
                   <button mat-icon-button
                           color="primary"
-                          (click)="openDeviseDialog(devise)"
-                          matTooltip="Edit Currency">
+                          (click)="openEditDeviseForm(devise)"
+                          matTooltip="Edit Currency"
+                          [disabled]="isDeleting(devise)">
                     <mat-icon>edit</mat-icon>
                   </button>
 
-                  <!-- More actions menu -->
-                  <button mat-icon-button [matMenuTriggerFor]="actionsMenu">
+                  <!-- More Actions Menu -->
+                  <button mat-icon-button
+                          [matMenuTriggerFor]="actionsMenu"
+                          [disabled]="isDeleting(devise)">
                     <mat-icon>more_vert</mat-icon>
                   </button>
+
                   <mat-menu #actionsMenu="matMenu">
-                    <button mat-menu-item (click)="openDeviseDialog(devise)">
+                    <button mat-menu-item (click)="openEditDeviseForm(devise)">
                       <mat-icon>edit</mat-icon>
                       <span>Edit Currency</span>
                     </button>
 
-                    <button mat-menu-item
-                            (click)="toggleDeviseStatus(devise.id)"
-                            [disabled]="devise.code === 'USD'">
-                      <mat-icon>{{ devise.active ? 'toggle_off' : 'toggle_on' }}</mat-icon>
-                      <span>{{ devise.active ? 'Deactivate' : 'Activate' }}</span>
+                    <button mat-menu-item (click)="setConverterFromCurrency(devise.code)">
+                      <mat-icon>currency_exchange</mat-icon>
+                      <span>Convert From {{ devise.code }}</span>
+                    </button>
+
+                    <button mat-menu-item (click)="setConverterToCurrency(devise.code)">
+                      <mat-icon>currency_exchange</mat-icon>
+                      <span>Convert To {{ devise.code }}</span>
                     </button>
 
                     <mat-divider></mat-divider>
@@ -221,13 +371,18 @@
                     <mat-divider></mat-divider>
 
                     <button mat-menu-item
-                            (click)="deleteDevise(devise.id)"
-                            [disabled]="devise.code === 'USD'"
+                            (click)="deleteDevise(devise)"
+                            [disabled]="!canDeleteDevise(devise)"
                             class="delete-action">
                       <mat-icon color="warn">delete</mat-icon>
                       <span>Delete Currency</span>
                     </button>
                   </mat-menu>
+
+                  <!-- Loading spinner for delete operation -->
+                  <mat-spinner diameter="24"
+                               *ngIf="isDeleting(devise)"
+                               class="delete-spinner"></mat-spinner>
                 </div>
               </td>
             </ng-container>
@@ -236,7 +391,7 @@
             <tr mat-row *matRowDef="let row; columns: displayedColumns;" class="currency-row"></tr>
           </table>
 
-          <!-- No data state -->
+          <!-- No Data State -->
           <div class="no-data" *ngIf="dataSource.data.length === 0 && !loading">
             <div class="no-data-content">
               <mat-icon>currency_exchange</mat-icon>
@@ -257,7 +412,7 @@
                 </button>
                 <button mat-raised-button
                         color="primary"
-                        (click)="openDeviseDialog()"
+                        (click)="openAddDeviseForm()"
                         *ngIf="!searchTerm">
                   <mat-icon>add</mat-icon>
                   Add First Currency
@@ -277,7 +432,7 @@
       </mat-card-content>
     </mat-card>
 
-    <!-- Exchange rates info card -->
+    <!-- Information Card -->
     <mat-card class="info-card">
       <mat-card-content>
         <div class="info-content">
@@ -286,10 +441,16 @@
           </div>
           <div class="info-text">
             <h3>About Exchange Rates</h3>
-            <p>All exchange rates are displayed relative to USD (United States Dollar). Rates are updated automatically every hour during business days. You can manually refresh rates using the refresh button above. The base currency (USD) cannot be deleted or deactivated.</p>
+            <p>
+              All exchange rates are displayed relative to {{ selectedBaseCurrency }} (Moroccan Dirham).
+              Rates can be updated manually and automatically. The base currency ({{ selectedBaseCurrency }})
+              has a fixed rate of 1.0000 and cannot be deleted. Use the converter tool above to quickly
+              calculate conversions between any available currencies.
+            </p>
           </div>
         </div>
       </mat-card-content>
     </mat-card>
+
   </div>
 </div>

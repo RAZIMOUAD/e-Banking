@@ -56,10 +56,7 @@ export class ApiInterceptor implements HttpInterceptor {
             duration: 5000
           });
         } else if (error.status === 500) {
-          // Erreur serveur
-          this.snackBar.open('Une erreur est survenue sur le serveur. Veuillez réessayer plus tard.', 'OK', {
-            duration: 5000
-          });
+
         } else {
           // Autres erreurs
           this.snackBar.open('Une erreur s\'est produite. Veuillez réessayer.', 'OK', {

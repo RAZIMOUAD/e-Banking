@@ -479,6 +479,8 @@
 }
 
 /* Modal Styles */
+/* Fixed Modal Styles - Enable Interaction */
+
 .modal-overlay {
   position: fixed;
   top: 0;
@@ -490,20 +492,24 @@
   align-items: center;
   justify-content: center;
   padding: 1rem;
+  /* Remove pointer-events: none if it exists */
 }
 
 .modal-backdrop {
   position: absolute;
   inset: 0;
-  background: rgba(0, 0, 0, 0.6);
-  backdrop-filter: blur(8px);
+  background: rgba(0, 0, 0, 0.7);
+  /* Make sure backdrop doesn't block interactions */
+  pointer-events: auto;
 }
 
 .modal-container {
   position: relative;
-  z-index: 10;
+  z-index: 1001; /* Higher z-index than backdrop */
   width: 100%;
   max-width: 28rem;
+  /* Ensure container can receive events */
+  pointer-events: auto;
 }
 
 .modal-content {
@@ -513,40 +519,53 @@
   box-shadow: 0 25px 50px rgba(0, 0, 0, 0.25);
   border: 1px solid rgba(255, 255, 255, 0.2);
   animation: modalSlideIn 0.3s ease-out;
+  /* Explicitly enable pointer events */
+  pointer-events: auto;
+  position: relative;
 }
 
-.modal-header {
+/* Ensure form elements are interactive */
+.activation-form {
+  margin-bottom: 1.5rem;
+  pointer-events: auto;
+}
+
+.activation-input {
+  width: 100%;
+  padding: 1rem;
   text-align: center;
-  margin-bottom: 2rem;
+  font-size: 1.125rem;
+  font-family: 'Courier New', monospace;
+  letter-spacing: 0.1em;
+  border: 2px solid #e5e7eb;
+  border-radius: 0.75rem;
+  background: white;
+  transition: all 0.3s ease;
+  outline: none;
+  /* Ensure input is interactive */
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
 }
 
-.modal-icon {
-  display: inline-flex;
-  align-items: center;
+.activation-input:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 0 3px rgba(16, 185, 129, 0.1);
+}
+
+.modal-buttons {
+  display: flex;
+  gap: 1rem;
+  pointer-events: auto;
+}
+
+.modal-buttons .btn-primary,
+.modal-buttons .btn-secondary {
+  flex: 1;
   justify-content: center;
-  width: 4rem;
-  height: 4rem;
-  background: linear-gradient(135deg, #dcfdf7, #a7f3d0);
-  border-radius: 50%;
-  margin-bottom: 1rem;
-}
-
-.modal-icon svg {
-  width: 2rem;
-  height: 2rem;
-  color: #10b981;
-}
-
-.modal-title {
-  font-size: 1.5rem;
-  font-weight: 700;
-  color: #1f2937;
-  margin-bottom: 0.5rem;
-}
-
-.modal-subtitle {
-  color: #6b7280;
-  line-height: 1.5;
+  pointer-events: auto;
+  position: relative;
+  z-index: 1;
 }
 
 .email-highlight {

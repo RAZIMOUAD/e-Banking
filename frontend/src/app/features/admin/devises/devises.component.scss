@@ -1,4 +1,4 @@
-// Professional Currency Management Styles
+// Complete Currency Management Styles
 .devises-container {
   display: flex;
   flex-direction: column;
@@ -44,8 +44,9 @@
     display: flex;
     align-items: center;
     gap: 12px;
+    flex-wrap: wrap;
 
-    button[mat-icon-button] {
+    .refresh-btn {
       width: 48px;
       height: 48px;
       border-radius: 12px;
@@ -63,11 +64,13 @@
       }
     }
 
-    button[mat-raised-button] {
+    .converter-btn,
+    .add-btn {
       height: 48px;
       border-radius: 12px;
       font-weight: 600;
       letter-spacing: 0.5px;
+      white-space: nowrap;
 
       mat-icon {
         margin-right: 8px;
@@ -143,6 +146,10 @@
       background: linear-gradient(135deg, #10b981, #047857);
     }
 
+    &.base .stat-icon {
+      background: linear-gradient(135deg, #f59e0b, #d97706);
+    }
+
     &.update .stat-icon {
       background: linear-gradient(135deg, #8b5cf6, #7c3aed);
     }
@@ -165,6 +172,173 @@
   p {
     margin: 0;
     font-size: 14px;
+  }
+}
+
+// Currency Converter Card
+.converter-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 4px solid #3b82f6;
+
+  .mat-mdc-card-header {
+    .mat-mdc-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #1e40af;
+
+      mat-icon {
+        color: #3b82f6;
+      }
+    }
+  }
+
+  .converter-form {
+    .converter-row {
+      display: flex;
+      align-items: center;
+      gap: 16px;
+      flex-wrap: wrap;
+      margin-bottom: 20px;
+
+      .amount-field {
+        flex: 1;
+        min-width: 120px;
+      }
+
+      .currency-field {
+        flex: 2;
+        min-width: 180px;
+      }
+
+      .swap-btn {
+        width: 48px;
+        height: 48px;
+        border-radius: 12px;
+        background: #3b82f6;
+        color: white;
+
+        &:hover {
+          background: #1d4ed8;
+          transform: rotate(180deg);
+        }
+
+        mat-icon {
+          transition: transform 0.3s ease;
+        }
+      }
+    }
+
+    .conversion-result {
+      .result-display {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        gap: 16px;
+        padding: 20px;
+        background: white;
+        border-radius: 12px;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+        font-size: 18px;
+        font-weight: 600;
+
+        .from-amount {
+          color: #64748b;
+        }
+
+        mat-icon {
+          color: #3b82f6;
+          font-size: 24px;
+        }
+
+        .to-amount {
+          color: #10b981;
+          font-size: 20px;
+        }
+      }
+    }
+  }
+}
+
+// Form Card
+.form-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  background: white;
+
+  .mat-mdc-card-header {
+    .mat-mdc-card-title {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      color: #1e40af;
+    }
+  }
+
+  .devise-form {
+    .form-row {
+      display: flex;
+      gap: 16px;
+      flex-wrap: wrap;
+
+      .code-field {
+        flex: 1;
+        min-width: 120px;
+      }
+
+      .name-field {
+        flex: 2;
+        min-width: 200px;
+      }
+
+      .rate-field {
+        flex: 1;
+        min-width: 150px;
+      }
+    }
+
+    .quick-select {
+      margin: 16px 0;
+
+      .quick-select-label {
+        display: block;
+        font-size: 14px;
+        color: #64748b;
+        margin-bottom: 8px;
+      }
+
+      .popular-chips {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 8px;
+
+        mat-chip-option {
+          border-radius: 8px;
+          font-size: 12px;
+
+          &:not(.mdc-evolution-chip--disabled):hover {
+            background-color: #e0f2fe;
+          }
+
+          &.mdc-evolution-chip--disabled {
+            opacity: 0.5;
+          }
+        }
+      }
+    }
+
+    .form-actions {
+      display: flex;
+      justify-content: flex-end;
+      gap: 12px;
+      margin-top: 24px;
+      padding-top: 16px;
+      border-top: 1px solid #e5e7eb;
+    }
   }
 }
 
@@ -212,8 +386,8 @@
   }
 }
 
-// Currencies Table Card
-.devises-table-card {
+// Table Card
+.table-card {
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
   border: 1px solid #e2e8f0;
@@ -275,6 +449,7 @@
         .currency-details {
           display: flex;
           flex-direction: column;
+          gap: 4px;
 
           .currency-code {
             font-weight: 600;
@@ -283,10 +458,15 @@
             font-family: 'Roboto Mono', monospace;
           }
 
-          .currency-symbol {
-            font-size: 12px;
-            color: #64748b;
-            font-family: 'Roboto Mono', monospace;
+          .currency-badge {
+            font-size: 10px;
+            font-weight: 700;
+            color: #f59e0b;
+            background: rgba(245, 158, 11, 0.1);
+            padding: 2px 6px;
+            border-radius: 4px;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
           }
         }
       }
@@ -296,21 +476,6 @@
         font-weight: 500;
         color: #374151;
         font-size: 14px;
-      }
-
-      // Symbol Badge
-      .symbol-badge {
-        display: inline-flex;
-        align-items: center;
-        justify-content: center;
-        padding: 6px 12px;
-        background-color: #f1f5f9;
-        border-radius: 8px;
-        color: #475569;
-        font-weight: 600;
-        font-size: 14px;
-        font-family: 'Roboto Mono', monospace;
-        min-width: 40px;
       }
 
       // Exchange Rate
@@ -331,47 +496,24 @@
         }
       }
 
-      // Status Container
-      .status-container {
-        display: flex;
-        align-items: center;
-        gap: 12px;
-
-        .status-badge {
-          display: flex;
-          align-items: center;
-          gap: 6px;
-          padding: 6px 12px;
-          border-radius: 12px;
-          font-size: 12px;
-          font-weight: 600;
-          text-transform: uppercase;
-          letter-spacing: 0.5px;
-
-          mat-icon {
-            font-size: 16px;
-            height: 16px;
-            width: 16px;
-          }
-
-          &.status-active {
-            background-color: rgba(16, 185, 129, 0.1);
-            color: #10b981;
-          }
-
-          &.status-inactive {
-            background-color: rgba(107, 114, 128, 0.1);
-            color: #6b7280;
-          }
+      // Quick Conversion
+      .quick-conversion {
+        .conversion-text {
+          font-size: 13px;
+          color: #3b82f6;
+          font-family: 'Roboto Mono', monospace;
+          background: rgba(59, 130, 246, 0.1);
+          padding: 4px 8px;
+          border-radius: 6px;
         }
       }
 
-      // Last Updated
-      .last-updated {
+      .base-currency {
         display: flex;
         align-items: center;
         gap: 6px;
-        color: #64748b;
+        color: #f59e0b;
+        font-weight: 600;
         font-size: 13px;
 
         mat-icon {
@@ -386,15 +528,25 @@
         display: flex;
         align-items: center;
         gap: 4px;
+        position: relative;
 
         button[mat-icon-button] {
           width: 36px;
           height: 36px;
           border-radius: 8px;
 
-          &:hover {
+          &:hover:not(:disabled) {
             background-color: rgba(59, 130, 246, 0.1);
           }
+
+          &:disabled {
+            opacity: 0.5;
+          }
+        }
+
+        .delete-spinner {
+          position: absolute;
+          right: 0;
         }
       }
     }
@@ -407,7 +559,7 @@
   }
 }
 
-// Info Card
+// Information Card
 .info-card {
   border-radius: 16px;
   box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
@@ -546,6 +698,27 @@
   }
 }
 
+// Snackbar Styles
+::ng-deep .success-snackbar {
+  background-color: #10b981 !important;
+  color: white !important;
+}
+
+::ng-deep .error-snackbar {
+  background-color: #ef4444 !important;
+  color: white !important;
+}
+
+::ng-deep .info-snackbar {
+  background-color: #3b82f6 !important;
+  color: white !important;
+}
+
+::ng-deep .warning-snackbar {
+  background-color: #f59e0b !important;
+  color: white !important;
+}
+
 // Responsive Design
 @media (max-width: 1200px) {
   .devises-container {
@@ -576,6 +749,16 @@
       }
     }
   }
+
+  .converter-form .converter-row {
+    flex-direction: column;
+    align-items: stretch;
+
+    .swap-btn {
+      align-self: center;
+      margin: 8px 0;
+    }
+  }
 }
 
 @media (max-width: 768px) {
@@ -585,7 +768,10 @@
     }
 
     .header-actions {
-      button[mat-raised-button] {
+      flex-direction: column;
+      align-items: stretch;
+
+      button {
         width: 100%;
         justify-content: center;
       }
@@ -594,6 +780,17 @@
 
   .stats-cards {
     grid-template-columns: repeat(2, 1fr);
+  }
+
+  .devise-form .form-row {
+    flex-direction: column;
+
+    .code-field,
+    .name-field,
+    .rate-field {
+      flex: 1;
+      min-width: auto;
+    }
   }
 
   .devises-table {
@@ -606,11 +803,32 @@
         .currency-code {
           font-size: 13px;
         }
-
-        .currency-symbol {
-          font-size: 11px;
-        }
       }
     }
+  }
+
+  .converter-form .converter-row {
+    .amount-field,
+    .currency-field {
+      min-width: auto;
+    }
+  }
+}
+
+@media (max-width: 480px) {
+  .devises-container {
+    padding: 12px;
+  }
+
+  .converter-card,
+  .form-card,
+  .filters-card,
+  .table-card,
+  .info-card {
+    margin: 0 -4px;
+  }
+
+  .stats-cards {
+    grid-template-columns: 1fr;
   }
 }

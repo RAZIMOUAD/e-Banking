@@ -1,7 +1,7 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { MatCardModule } from '@angular/material/card';
-import { MatTableModule } from '@angular/material/table';
+import { MatTableModule, MatTableDataSource } from '@angular/material/table';
 import { MatSortModule, MatSort } from '@angular/material/sort';
 import { MatPaginatorModule, MatPaginator } from '@angular/material/paginator';
 import { MatInputModule } from '@angular/material/input';
@@ -15,13 +15,12 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import { MatSelectModule } from '@angular/material/select';
 import { MatChipsModule } from '@angular/material/chips';
 import { MatBadgeModule } from '@angular/material/badge';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { MatDividerModule } from '@angular/material/divider';
 import { trigger, transition, style, animate } from '@angular/animations';
 import { AgentService, AgentResponse, AgentRequest } from '@core/services/agent.service';
 import { catchError, finalize } from 'rxjs/operators';
 import { of } from 'rxjs';
-
-// Supposons que nous ayons un composant de dialogue pour ajouter/éditer des agents
-// import { AgentDialogComponent } from './agent-dialog/agent-dialog.component';
 
 @Component({
   selector: 'app-agents',
@@ -45,7 +44,9 @@ import { of } from 'rxjs';
     ReactiveFormsModule,
     MatSelectModule,
     MatChipsModule,
-    MatBadgeModule
+    MatBadgeModule,
+    MatProgressSpinnerModule,
+    MatDividerModule
   ],
   animations: [
     trigger('fadeInOut', [
@@ -58,14 +59,19 @@ import { of } from 'rxjs';
 })
 export class AgentsComponent implements OnInit {
   displayedColumns: string[] = ['id', 'name', 'email', 'phone', 'status', 'registrationDate', 'lastActive', 'transactionsCount', 'actions'];
-  dataSource: AgentResponse[] = [];
-  filteredData: AgentResponse[] = [];
+  dataSource = new MatTableDataSource<AgentResponse>();
   searchTerm = '';
   statusFilter = 'all';
 
-  // Chargement des données
+  // Loading states
   loading = false;
   error = false;
+
+  // Statistics
+  totalAgents = 0;
+  activeAgents = 0;
+  inactiveAgents = 0;
+  suspendedAgents = 0;
 
   @ViewChild(MatSort) sort!: MatSort;
   @ViewChild(MatPaginator) paginator!: MatPaginator;
@@ -81,10 +87,16 @@ export class AgentsComponent implements OnInit {
   }
 
   ngAfterViewInit() {
-    if (this.sort && this.paginator) {
-      // Add sorting and pagination
-      this.sort.sortChange.subscribe(() => this.paginator.pageIndex = 0);
-    }
+    this.dataSource.sort = this.sort;
+    this.dataSource.paginator = this.paginator;
+
+    // Custom filter predicate
+    this.dataSource.filterPredicate = (data: AgentResponse, filter: string) => {
+      const searchStr = filter.toLowerCase();
+      return data.name?.toLowerCase().includes(searchStr) ||
+        data.email?.toLowerCase().includes(searchStr) ||
+        data.phone?.includes(searchStr);
+    };
   }
 
   loadAgents() {
@@ -96,10 +108,10 @@ export class AgentsComponent implements OnInit {
         catchError(error => {
           console.error('Error loading agents:', error);
           this.error = true;
-          this.snackBar.open('Failed to load agents. Please try again.', 'Close', {
-            duration: 5000
+          this.snackBar.open('Backend unavailable - using demo data', 'Close', {
+            duration: 4000,
+            panelClass: ['warning-snackbar']
           });
-          // Retourne des données fictives en cas d'erreur
           return of(this.generateMockAgents());
         }),
         finalize(() => {
@@ -107,21 +119,33 @@ export class AgentsComponent implements OnInit {
         })
       )
       .subscribe(agents => {
-        this.dataSource = agents;
-        this.applyFilters();
+        this.processAgentsData(agents);
       });
   }
 
+  private processAgentsData(agents: AgentResponse[]): void {
+    this.dataSource.data = agents;
+    this.updateStatistics(agents);
+    this.applyFilters();
+  }
+
+  private updateStatistics(agents: AgentResponse[]): void {
+    this.totalAgents = agents.length;
+    this.activeAgents = agents.filter(a => a.status === 'Active').length;
+    this.inactiveAgents = agents.filter(a => a.status === 'Inactive').length;
+    this.suspendedAgents = agents.filter(a => a.status === 'Suspended').length;
+  }
+
   applyFilters() {
-    let filteredAgents = [...this.dataSource];
+    let filteredAgents = [...this.dataSource.data];
 
     // Apply search filter
     if (this.searchTerm.trim()) {
       const searchTermLower = this.searchTerm.toLowerCase();
       filteredAgents = filteredAgents.filter(agent =>
-        agent.name.toLowerCase().includes(searchTermLower) ||
-        agent.email.toLowerCase().includes(searchTermLower) ||
-        agent.phone.includes(searchTermLower)
+        agent.name?.toLowerCase().includes(searchTermLower) ||
+        agent.email?.toLowerCase().includes(searchTermLower) ||
+        agent.phone?.includes(searchTermLower)
       );
     }
 
@@ -130,7 +154,7 @@ export class AgentsComponent implements OnInit {
       filteredAgents = filteredAgents.filter(agent => agent.status === this.statusFilter);
     }
 
-    this.filteredData = filteredAgents;
+    this.dataSource.data = filteredAgents;
   }
 
   onSearch(event: Event) {
@@ -144,29 +168,46 @@ export class AgentsComponent implements OnInit {
   }
 
   openAgentDialog(agent?: AgentResponse) {
-    // Implémentation d'un dialogue pour ajouter/éditer un agent
-    // const dialogRef = this.dialog.open(AgentDialogComponent, {
-    //   width: '600px',
-    //   data: { agent: agent ? {...agent} : null }
-    // });
+    // For now, show a simple prompt-based dialog
+    // In production, you'd use a proper Angular Material Dialog
 
-    // dialogRef.afterClosed().subscribe(result => {
-    //   if (result) {
-    //     if (agent) {
-    //       this.updateAgent(agent.id, result);
-    //     } else {
-    //       this.createAgent(result);
-    //     }
-    //   }
-    // });
+    if (agent) {
+      // Edit existing agent
+      const name = prompt('Enter agent name:', agent.name);
+      const email = prompt('Enter agent email:', agent.email);
+      const phone = prompt('Enter agent phone:', agent.phone);
+      const service = prompt('Enter agent service:', agent.service || '');
 
-    // En attendant d'implémenter le dialogue, nous affichons simplement un message
-    this.snackBar.open('Agent dialog functionality will be implemented soon.', 'Close', {
-      duration: 3000
-    });
+      if (name && phone) {
+        const updateRequest = this.agentService.transformFrontendToBackend({
+          name: name.trim(),
+          email: email?.trim(),
+          phone: phone.trim(),
+          service: service?.trim()
+        });
+        this.updateAgent(agent.id!, updateRequest);
+      }
+    } else {
+      // Create new agent
+      const name = prompt('Enter agent name:');
+      const email = prompt('Enter agent email:');
+      const phone = prompt('Enter agent phone:');
+      const service = prompt('Enter agent service:');
+
+      if (name && phone) {
+        const createRequest = this.agentService.transformFrontendToBackend({
+          name: name.trim(),
+          email: email?.trim(),
+          phone: phone.trim(),
+          service: service?.trim()
+        });
+        this.createAgent(createRequest);
+      }
+    }
   }
 
-  createAgent(agentData: AgentRequest) {
+  createAgent(agentData: any) {
+    this.loading = true;
     this.agentService.create(agentData)
       .pipe(
         catchError(error => {
@@ -175,6 +216,9 @@ export class AgentsComponent implements OnInit {
             duration: 5000
           });
           return of(null);
+        }),
+        finalize(() => {
+          this.loading = false;
         })
       )
       .subscribe(newAgent => {
@@ -182,12 +226,13 @@ export class AgentsComponent implements OnInit {
           this.snackBar.open('Agent created successfully', 'Close', {
             duration: 3000
           });
-          this.loadAgents();
+          this.loadAgents(); // Reload the list
         }
       });
   }
 
-  updateAgent(id: number, agentData: AgentRequest) {
+  updateAgent(id: number, agentData: any) {
+    this.loading = true;
     this.agentService.update(id, agentData)
       .pipe(
         catchError(error => {
@@ -196,6 +241,9 @@ export class AgentsComponent implements OnInit {
             duration: 5000
           });
           return of(null);
+        }),
+        finalize(() => {
+          this.loading = false;
         })
       )
       .subscribe(updatedAgent => {
@@ -203,16 +251,16 @@ export class AgentsComponent implements OnInit {
           this.snackBar.open('Agent updated successfully', 'Close', {
             duration: 3000
           });
-          this.loadAgents();
+          this.loadAgents(); // Reload the list
         }
       });
   }
 
   deleteAgent(id: number) {
-    // Confirmation avant suppression
-    const confirmed = window.confirm('Are you sure you want to delete this agent?');
+    const confirmed = window.confirm('Are you sure you want to delete this agent? This action cannot be undone.');
 
     if (confirmed) {
+      this.loading = true;
       this.agentService.delete(id)
         .pipe(
           catchError(error => {
@@ -221,31 +269,30 @@ export class AgentsComponent implements OnInit {
               duration: 5000
             });
             return of(null);
+          }),
+          finalize(() => {
+            this.loading = false;
           })
         )
         .subscribe(() => {
           this.snackBar.open('Agent deleted successfully', 'Close', {
             duration: 3000
           });
-          this.loadAgents();
+          this.loadAgents(); // Reload the list
         });
     }
   }
 
   changeAgentStatus(id: number, status: string) {
-    // Trouver l'agent actuel
-    const agent = this.dataSource.find(a => a.id === id);
+    const agent = this.dataSource.data.find(a => a.id === id);
 
     if (agent) {
-      // Créer la requête de mise à jour avec le nouveau statut
-      const updateRequest: AgentRequest = {
-        name: agent.name,
-        email: agent.email,
-        phone: agent.phone,
+      const updateRequest = this.agentService.transformFrontendToBackend({
+        ...agent,
         status: status
-      };
+      });
 
-      // Appeler le service de mise à jour
+      this.loading = true;
       this.agentService.update(id, updateRequest)
         .pipe(
           catchError(error => {
@@ -254,6 +301,9 @@ export class AgentsComponent implements OnInit {
               duration: 5000
             });
             return of(null);
+          }),
+          finalize(() => {
+            this.loading = false;
           })
         )
         .subscribe(updatedAgent => {
@@ -261,13 +311,19 @@ export class AgentsComponent implements OnInit {
             this.snackBar.open(`Agent status changed to ${status}`, 'Close', {
               duration: 3000
             });
-            this.loadAgents();
+            this.loadAgents(); // Reload the list
           }
         });
     }
   }
 
-  // Génère des données fictives en cas d'erreur d'API
+  clearFilters(): void {
+    this.searchTerm = '';
+    this.statusFilter = 'all';
+    this.applyFilters();
+  }
+
+  // Mock data for fallback
   generateMockAgents(): AgentResponse[] {
     return [
       {

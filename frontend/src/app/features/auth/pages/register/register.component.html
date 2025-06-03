@@ -233,8 +233,8 @@
   </div>
 
   <!-- Activation Modal -->
-  <div *ngIf="showActivation" class="modal-overlay">
-    <div class="modal-backdrop"></div>
+  <!-- Activation Modal - Fixed and Working -->
+  <div *ngIf="showActivation" class="modal-overlay" (click)="$event.target === $event.currentTarget && (showActivation = false)">
     <div class="modal-container">
       <div class="modal-content">
 

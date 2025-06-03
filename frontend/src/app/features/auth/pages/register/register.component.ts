@@ -16,6 +16,7 @@ import { MatInputModule } from '@angular/material/input';
 import { MatButtonModule } from '@angular/material/button';
 import { MatCardModule } from '@angular/material/card';
 import { RegisterCardComponent } from '@features/auth/pages/components/register-card/register-card.component';
+import { trigger, transition, style, animate } from '@angular/animations';
 
 @Component({
   selector: 'app-register',
@@ -33,6 +34,26 @@ import { RegisterCardComponent } from '@features/auth/pages/components/register-
     RegisterCardComponent,
     RouterModule,
   ],
+  animations: [
+    trigger('slideIn', [
+      transition(':enter', [
+        style({ transform: 'translateX(100%)', opacity: 0 }),
+        animate('300ms ease-in', style({ transform: 'translateX(0%)', opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-out', style({ transform: 'translateX(-100%)', opacity: 0 }))
+      ])
+    ]),
+    trigger('fadeIn', [
+      transition(':enter', [
+        style({ opacity: 0 }),
+        animate('300ms ease-in', style({ opacity: 1 }))
+      ]),
+      transition(':leave', [
+        animate('300ms ease-out', style({ opacity: 0 }))
+      ])
+    ])
+  ]
 })
 export class RegisterComponent {
   registerForm: FormGroup;
@@ -142,12 +163,86 @@ export class RegisterComponent {
         this.loading = false;
         console.error('🛑 Erreur backend :', err);
         this.activationError = JSON.stringify(err.error) || 'Code invalide ou expiré';
-      }
-      ,
+      },
     });
   }
 
   get livePreviewData() {
     return this.registerForm.value;
+  }
+
+  // Helper methods for the enhanced UI
+  getFieldLabel(field: string): string {
+    const labels: { [key: string]: string } = {
+      nom: 'Nom de famille',
+      prenom: 'Prénom',
+      dateNaissance: 'Date de naissance',
+      genre: 'Genre',
+      nationalite: 'Nationalité',
+      numTel: 'Numéro de téléphone',
+      adresse: 'Adresse complète',
+      cin: 'Carte d\'identité nationale',
+      email: 'Adresse e-mail',
+      password: 'Mot de passe'
+    };
+    return labels[field] || field;
+  }
+
+  getFieldPlaceholder(field: string): string {
+    const placeholders: { [key: string]: string } = {
+      nom: 'Entrez votre nom',
+      prenom: 'Entrez votre prénom',
+      dateNaissance: '',
+      genre: 'Sélectionnez votre genre',
+      nationalite: 'Votre nationalité',
+      numTel: '+212 6 00 00 00 00',
+      adresse: 'Rue, ville, code postal',
+      cin: 'Numéro CIN',
+      email: 'exemple@email.com',
+      password: 'Créez un mot de passe sécurisé'
+    };
+    return placeholders[field] || '';
+  }
+
+  getFieldType(field: string): string {
+    switch (field) {
+      case 'email': return 'email';
+      case 'password': return 'password';
+      case 'dateNaissance': return 'date';
+      case 'numTel': return 'tel';
+      default: return 'text';
+    }
+  }
+
+  isFieldRequired(field: string): boolean {
+    const requiredFields = ['nom', 'prenom', 'email', 'password'];
+    return requiredFields.includes(field);
+  }
+
+  getFieldError(field: string): string {
+    const control = this.registerForm.get(field);
+    if (control?.errors && control?.touched) {
+      if (control.errors['required']) {
+        return `${this.getFieldLabel(field)} est requis`;
+      }
+      if (control.errors['email']) {
+        return 'Format d\'email invalide';
+      }
+      if (control.errors['minlength']) {
+        const requiredLength = control.errors['minlength'].requiredLength;
+        return `Minimum ${requiredLength} caractères requis`;
+      }
+      if (control.errors['pattern']) {
+        switch (field) {
+          case 'numTel':
+            return 'Format de téléphone invalide';
+          case 'cin':
+            return 'Format CIN invalide';
+          default:
+            return 'Format invalide';
+        }
+      }
+    }
+    return '';
   }
 }

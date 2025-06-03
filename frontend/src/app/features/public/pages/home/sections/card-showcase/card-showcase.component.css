@@ -1,11 +1,267 @@
+/* card-showcase.component.css */
 
 :host {
   display: block;
 }
 
-@media (prefers-reduced-motion: no-preference) {
-  img {
-    will-change: transform;
-    transform-style: preserve-3d;
+/* 3D perspective for card animations */
+.perspective-1000 {
+  perspective: 1000px;
+}
+
+/* Enhanced card 3D effects */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: all 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.card-3d:hover {
+  transform: rotateY(15deg) rotateX(5deg) scale(1.05);
+}
+
+/* Holographic effect animation */
+@keyframes holographic {
+  0%, 100% {
+    background-position: 0% 50%;
   }
+  50% {
+    background-position: 100% 50%;
+  }
+}
+
+.holographic-effect {
+  background: linear-gradient(45deg,
+  transparent 25%,
+  rgba(255, 255, 255, 0.1) 25%,
+  rgba(255, 255, 255, 0.1) 50%,
+  transparent 50%,
+  transparent 75%,
+  rgba(255, 255, 255, 0.1) 75%);
+  background-size: 200% 200%;
+  animation: holographic 3s ease-in-out infinite;
+}
+
+/* Card glow effects */
+.card-glow {
+  position: relative;
+}
+
+.card-glow::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  background: linear-gradient(45deg, #10b981, #3b82f6, #8b5cf6, #ef4444);
+  background-size: 400% 400%;
+  border-radius: inherit;
+  z-index: -1;
+  opacity: 0;
+  transition: opacity 0.3s ease;
+  animation: glow-rotate 3s linear infinite;
+}
+
+.card-glow:hover::before {
+  opacity: 0.7;
+}
+
+@keyframes glow-rotate {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+/* Enhanced chip styling */
+.emv-chip {
+  background: linear-gradient(135deg, #ffd700, #ffed4e, #f59e0b);
+  border: 1px solid #d97706;
+  box-shadow:
+    inset 0 1px 2px rgba(255, 255, 255, 0.3),
+    0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+/* Card network logo styling */
+.card-network {
+  background: linear-gradient(135deg, #1e40af, #7c3aed);
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.3);
+}
+
+/* Contactless symbol animation */
+.contactless-symbol {
+  animation: contactless-pulse 2s ease-in-out infinite;
+}
+
+@keyframes contactless-pulse {
+  0%, 100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  50% {
+    transform: scale(1.1);
+    opacity: 0.8;
+  }
+}
+
+/* Feature card animations */
+.feature-card {
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.feature-card:hover {
+  transform: translateY(-4px);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* Stats animation */
+.stat-item {
+  transition: all 0.3s ease;
+}
+
+.stat-item:hover {
+  transform: scale(1.1);
+}
+
+/* Enhanced floating animation */
+@keyframes enhanced-float {
+  0%, 100% {
+    transform: translateY(0px) rotateX(0deg) rotateY(0deg);
+  }
+  25% {
+    transform: translateY(-10px) rotateX(2deg) rotateY(1deg);
+  }
+  50% {
+    transform: translateY(-5px) rotateX(0deg) rotateY(-1deg);
+  }
+  75% {
+    transform: translateY(-15px) rotateX(-1deg) rotateY(0deg);
+  }
+}
+
+.card-float {
+  animation: enhanced-float 6s ease-in-out infinite;
+}
+
+/* Particle effects */
+.particle {
+  position: absolute;
+  width: 2px;
+  height: 2px;
+  background: linear-gradient(45deg, #10b981, #3b82f6);
+  border-radius: 50%;
+  pointer-events: none;
+}
+
+/* Backdrop blur effects */
+.glass-effect {
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+/* Button enhancements */
+.premium-button {
+  position: relative;
+  overflow: hidden;
+}
+
+.premium-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.premium-button:hover::before {
+  left: 100%;
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+  .card-3d {
+    transform: none !important;
+  }
+
+  .card-glow::before {
+    display: none;
+  }
+
+  .feature-card:hover {
+    transform: none;
+  }
+}
+
+/* Focus states for accessibility */
+.card-3d:focus,
+.feature-card:focus,
+.premium-button:focus {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .card-3d,
+  .feature-card,
+  .stat-item,
+  .card-float,
+  .contactless-symbol,
+  .holographic-effect,
+  .card-glow::before {
+    animation: none !important;
+    transition: none !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .particle,
+  .card-glow::before,
+  .premium-button::before {
+    display: none !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .glass-effect {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-color: #ffffff;
+  }
+
+  .feature-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #10b981, #3b82f6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #059669, #2563eb);
 }

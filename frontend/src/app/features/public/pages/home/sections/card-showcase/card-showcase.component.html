@@ -1,27 +1,211 @@
-<section class="relative w-full py-16 bg-gradient-to-b from-[#F9FAFB] via-[#FFFFFF] to-[#FDFDFD] text-center overflow-hidden">
-  <h2 class="text-3xl md:text-5xl font-extrabold tracking-tight text-gray-900 mb-4">
-    A Card. A Statement.
-  </h2>
-  <p class="text-base md:text-lg text-gray-600 mb-12 max-w-xl mx-auto">
-    Discover the elegance, security and power of your virtual banking companion.
-  </p>
+<section class="relative w-full py-24 bg-gradient-to-br from-slate-900 via-blue-900 to-indigo-900 overflow-hidden">
+  <!-- Background effects -->
+  <div class="absolute inset-0">
+    <!-- Animated background particles -->
+    <div class="absolute inset-0 opacity-30">
+      <div *ngFor="let i of [1,2,3,4,5,6,7,8,9,10]"
+           class="absolute w-2 h-2 bg-white rounded-full animate-ping"
+           [ngStyle]="{
+             left: (i * 10) + '%',
+             top: (i * 8) + '%',
+             'animation-delay': (i * 0.5) + 's',
+             'animation-duration': (2 + i * 0.3) + 's'
+           }">
+      </div>
+    </div>
 
-  <div class="relative flex justify-center items-center h-[260px]">
-    <div class="absolute bottom-12 w-64 h-8 bg-neutral-300 opacity-10 blur-2xl rounded-full z-0"></div>
-    <div class="absolute bottom-10 w-52 h-5 bg-gradient-to-r from-gray-200 to-gray-50 rounded-full blur-sm shadow-inner z-10"></div>
+    <!-- Gradient orbs -->
+    <div class="absolute top-20 left-10 w-96 h-96 bg-emerald-500/20 rounded-full blur-3xl animate-pulse"></div>
+    <div class="absolute bottom-20 right-10 w-80 h-80 bg-blue-500/20 rounded-full blur-3xl animate-pulse" style="animation-delay: 2s;"></div>
+  </div>
 
-    <div
-      #cardEl
-      class="relative w-72 h-44 z-20 bg-gradient-to-br from-white to-gray-100 rounded-xl border border-gray-200 shadow-[0_30px_60px_rgba(0,0,0,0.15)] overflow-hidden"
-      style="transform-style: preserve-3d; transform-origin: center;"
-    >
-      <img
-        ngSrc="assets/hero/cards/virtual-card.webp"
-        width="686"
-        height="446"
-        alt="Virtual Bank Card"
-        class="w-full h-full object-cover"
-      />
+  <div class="relative z-10 max-w-7xl mx-auto px-6">
+
+    <!-- Section header -->
+    <div class="text-center mb-16">
+      <div class="inline-flex items-center gap-2 px-4 py-2 bg-emerald-500/20 backdrop-blur-sm border border-emerald-400/30 rounded-full text-emerald-400 text-sm font-medium mb-6">
+        <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <rect x="1" y="4" width="22" height="16" rx="2" ry="2"></rect>
+          <line x1="1" y1="10" x2="23" y2="10"></line>
+        </svg>
+        Premium Banking Card
+      </div>
+
+      <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+        Your Card.
+        <span class="block bg-gradient-to-r from-emerald-400 via-blue-400 to-purple-400 bg-clip-text text-transparent">
+          Your Statement.
+        </span>
+      </h2>
+
+      <p class="text-xl text-gray-300 max-w-3xl mx-auto leading-relaxed">
+        Experience the perfect blend of elegance, security, and cutting-edge technology with our premium virtual banking card.
+      </p>
+    </div>
+
+    <!-- Main card showcase -->
+    <div class="grid grid-cols-1 lg:grid-cols-2 gap-16 items-center mb-20">
+
+      <!-- Left side - Interactive card -->
+      <div class="relative flex justify-center">
+        <!-- Card container with 3D effects -->
+        <div class="relative perspective-1000">
+          <!-- Card shadows and glow effects -->
+          <div class="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-2xl blur-xl opacity-30 scale-110 animate-pulse"></div>
+          <div class="absolute inset-0 bg-white/5 rounded-2xl blur-lg scale-105"></div>
+
+          <!-- Main card -->
+          <div
+            #cardEl
+            (click)="onCardClick()"
+            class="relative w-80 h-48 lg:w-96 lg:h-60 cursor-pointer transition-all duration-500 ease-out transform-gpu"
+            style="transform-style: preserve-3d;"
+          >
+            <!-- Card front -->
+            <div class="absolute inset-0 bg-gradient-to-br from-gray-900 via-gray-800 to-black rounded-2xl shadow-2xl overflow-hidden border border-gray-700">
+              <!-- Glow effect overlay -->
+              <div #glowEffect class="absolute inset-0 opacity-0 hover:opacity-100 transition-opacity duration-300"></div>
+
+              <!-- Card content -->
+              <div class="relative z-10 p-6 h-full flex flex-col justify-between text-white">
+                <!-- Top section -->
+                <div class="flex justify-between items-start">
+                  <div>
+                    <div class="text-sm text-gray-400 mb-1">E-BANKING</div>
+                    <div class="text-xs text-gray-500">Premium Card</div>
+                  </div>
+                  <!-- Contactless symbol -->
+                  <div class="w-8 h-8 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-full flex items-center justify-center">
+                    <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
+                    </svg>
+                  </div>
+                </div>
+
+                <!-- Middle section - Chip and card number -->
+                <div>
+                  <div class="flex items-center gap-4 mb-4">
+                    <!-- EMV Chip -->
+                    <div class="w-8 h-6 bg-gradient-to-br from-yellow-400 to-yellow-600 rounded-sm"></div>
+                    <!-- Card number -->
+                    <div class="text-lg font-mono tracking-wider">
+                      •••• •••• •••• 1234
+                    </div>
+                  </div>
+                </div>
+
+                <!-- Bottom section -->
+                <div class="flex justify-between items-end">
+                  <div>
+                    <div class="text-xs text-gray-400 mb-1">CARDHOLDER</div>
+                    <div class="text-sm font-semibold">SARAH JOHNSON</div>
+                  </div>
+                  <div>
+                    <div class="text-xs text-gray-400 mb-1">EXPIRES</div>
+                    <div class="text-sm font-mono">12/28</div>
+                  </div>
+                  <!-- Card network logo -->
+                  <div class="text-right">
+                    <div class="w-12 h-8 bg-gradient-to-r from-blue-500 to-purple-500 rounded flex items-center justify-center">
+                      <span class="text-xs font-bold text-white">VISA</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Holographic effect -->
+              <div class="absolute inset-0 bg-gradient-to-br from-transparent via-white/5 to-transparent opacity-20 animate-pulse"></div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Right side - Features -->
+      <div class="space-y-8">
+        <div class="space-y-6">
+          <h3 class="text-2xl md:text-3xl font-bold text-white">
+            Engineered for the Modern World
+          </h3>
+          <p class="text-gray-300 leading-relaxed">
+            Our premium card combines cutting-edge security with seamless user experience,
+            giving you complete control over your financial future.
+          </p>
+        </div>
+
+        <!-- Feature cards -->
+        <div class="grid grid-cols-1 sm:grid-cols-2 gap-4">
+          <div *ngFor="let feature of cardFeatures; let i = index"
+               class="bg-white/5 backdrop-blur-sm rounded-xl p-4 border border-white/10 hover:border-white/20 transition-all duration-300 hover:transform hover:scale-105"
+               [style.animation-delay]="i * 100 + 'ms'">
+
+            <div class="flex items-start gap-3">
+              <div
+                class="w-10 h-10 rounded-lg flex items-center justify-center flex-shrink-0"
+                [ngClass]="'bg-gradient-to-br ' + feature.gradient"
+              >
+                <!-- Dynamic icons based on feature type -->
+                <svg class="w-5 h-5 text-white" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <!-- Contactless icon -->
+                  <path *ngIf="feature.icon === 'contactless'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"></path>
+                  <!-- Security icon -->
+                  <path *ngIf="feature.icon === 'security'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"></path>
+                  <!-- Global icon -->
+                  <path *ngIf="feature.icon === 'global'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9V3"></path>
+                  <!-- Insights icon -->
+                  <path *ngIf="feature.icon === 'insights'" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 19v-6a2 2 0 00-2-2H5a2 2 0 00-2 2v6a2 2 0 002 2h2a2 2 0 002-2zm0 0V9a2 2 0 012-2h2a2 2 0 012 2v10m-6 0a2 2 0 002 2h2a2 2 0 002-2m0 0V5a2 2 0 012-2h2a2 2 0 012 2v14a2 2 0 01-2 2h-2a2 2 0 01-2-2z"></path>
+                </svg>
+              </div>
+
+              <div class="flex-1">
+                <h4 class="font-semibold text-white mb-1">{{ feature.title }}</h4>
+                <p class="text-sm text-gray-300">{{ feature.description }}</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Stats section -->
+    <div class="bg-white/5 backdrop-blur-sm rounded-3xl border border-white/10 p-8 lg:p-12">
+      <div class="text-center mb-12">
+        <h3 class="text-2xl md:text-3xl font-bold text-white mb-4">
+          Trusted by Millions Worldwide
+        </h3>
+        <p class="text-gray-300 max-w-2xl mx-auto">
+          Our premium card delivers unmatched security, reliability, and global acceptance.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-8">
+        <div *ngFor="let stat of cardStats; let i = index"
+             class="text-center group"
+             [style.animation-delay]="i * 150 + 'ms'">
+          <div class="mb-3">
+            <div class="text-3xl md:text-4xl font-bold text-white group-hover:scale-110 transition-transform duration-300">
+              {{ stat.value | number:'1.0-1' }}{{ stat.suffix }}
+            </div>
+          </div>
+          <p class="text-gray-300 font-medium">{{ stat.label }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- CTA section -->
+    <div class="text-center mt-16">
+      <a
+        routerLink="/register"
+        class="group inline-flex items-center gap-3 px-8 py-4 text-lg font-semibold text-white bg-gradient-to-r from-emerald-500 to-blue-500 rounded-xl shadow-lg hover:shadow-2xl transform hover:scale-105 transition-all duration-300"
+      >
+        <span class="relative">
+          <span class="absolute inset-0 bg-gradient-to-r from-emerald-400 to-blue-400 rounded-xl blur opacity-30 group-hover:opacity-50 transition-opacity"></span>
+          <span class="relative">Get Your Premium Card</span>
+        </span>
+        <svg class="w-5 h-5 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"></path>
+        </svg>
+      </a>
+      <p class="text-gray-400 text-sm mt-4">No annual fees • Instant approval • Free worldwide shipping</p>
     </div>
   </div>
 </section>

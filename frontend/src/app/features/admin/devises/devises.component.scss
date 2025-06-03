@@ -1,41 +1,73 @@
+// Professional Currency Management Styles
 .devises-container {
   display: flex;
   flex-direction: column;
   gap: 24px;
+  padding: 24px;
+  min-height: 100vh;
+  background: linear-gradient(135deg, #f8fafc 0%, #e2e8f0 100%);
 }
 
+// Page Header
 .page-header {
   display: flex;
   justify-content: space-between;
-  align-items: center;
-  margin-bottom: 8px;
+  align-items: flex-start;
+  margin-bottom: 16px;
 
-  @media (max-width: 768px) {
+  @media (max-width: 1024px) {
     flex-direction: column;
-    align-items: flex-start;
-    gap: 16px;
+    gap: 20px;
+    align-items: stretch;
   }
 
-  .page-title {
-    font-size: 24px;
-    font-weight: 600;
-    margin: 0;
-    color: #0f172a; /* Slate 900 */
-  }
+  .header-content {
+    flex: 1;
 
-  .page-subtitle {
-    margin: 4px 0 0;
-    color: #64748b; /* Slate 500 */
-    font-size: 14px;
+    .page-title {
+      font-size: 28px;
+      font-weight: 700;
+      margin: 0 0 8px 0;
+      color: #0f172a;
+      letter-spacing: -0.5px;
+    }
+
+    .page-subtitle {
+      margin: 0 0 24px 0;
+      color: #64748b;
+      font-size: 14px;
+      line-height: 1.5;
+    }
   }
 
   .header-actions {
     display: flex;
+    align-items: center;
     gap: 12px;
 
-    .refresh-button {
-      display: flex;
-      align-items: center;
+    button[mat-icon-button] {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: white;
+      box-shadow: 0 2px 8px rgba(0, 0, 0, 0.1);
+      border: 1px solid #e2e8f0;
+
+      &:hover {
+        box-shadow: 0 4px 12px rgba(0, 0, 0, 0.15);
+        transform: translateY(-1px);
+      }
+
+      mat-icon.spinning {
+        animation: spin 1s linear infinite;
+      }
+    }
+
+    button[mat-raised-button] {
+      height: 48px;
+      border-radius: 12px;
+      font-weight: 600;
+      letter-spacing: 0.5px;
 
       mat-icon {
         margin-right: 8px;
@@ -44,24 +76,149 @@
   }
 }
 
-.devises-card {
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  overflow: hidden;
+// Statistics Cards
+.stats-cards {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+  gap: 16px;
 
-  mat-card-header {
-    padding: 16px;
+  .stat-card {
+    background: white;
+    border-radius: 12px;
+    padding: 20px;
     display: flex;
     align-items: center;
-    background-color: #f8fafc; /* Slate 50 */
-    border-bottom: 1px solid #e2e8f0; /* Slate 200 */
+    gap: 16px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+    transition: all 0.3s ease;
 
-    .search-field {
-      width: 100%;
-      max-width: 400px;
-      margin: 0;
+    &:hover {
+      transform: translateY(-2px);
+      box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+    }
+
+    .stat-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+
+      mat-icon {
+        font-size: 24px;
+        height: 24px;
+        width: 24px;
+        color: white;
+      }
+    }
+
+    .stat-content {
+      display: flex;
+      flex-direction: column;
+
+      .stat-number {
+        font-size: 24px;
+        font-weight: 700;
+        color: #0f172a;
+        line-height: 1;
+      }
+
+      .stat-label {
+        font-size: 12px;
+        color: #64748b;
+        font-weight: 500;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        margin-top: 4px;
+      }
+    }
+
+    &.total .stat-icon {
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+    }
+
+    &.active .stat-icon {
+      background: linear-gradient(135deg, #10b981, #047857);
+    }
+
+    &.update .stat-icon {
+      background: linear-gradient(135deg, #8b5cf6, #7c3aed);
     }
   }
+}
+
+// Loading State
+.loading-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 0;
+  color: #64748b;
+
+  mat-spinner {
+    margin-bottom: 16px;
+  }
+
+  p {
+    margin: 0;
+    font-size: 14px;
+  }
+}
+
+// Filters Card
+.filters-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  background: white;
+
+  .filters-container {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 20px;
+    align-items: center;
+
+    @media (max-width: 768px) {
+      flex-direction: column;
+      align-items: stretch;
+    }
+
+    .search-field {
+      flex: 1;
+      min-width: 280px;
+
+      mat-icon[matPrefix] {
+        color: #64748b;
+        margin-right: 8px;
+      }
+    }
+
+    .clear-filters-btn {
+      height: 56px;
+      border-radius: 8px;
+      font-weight: 500;
+
+      mat-icon {
+        margin-right: 8px;
+      }
+
+      &:disabled {
+        opacity: 0.5;
+      }
+    }
+  }
+}
+
+// Currencies Table Card
+.devises-table-card {
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  background: white;
+  overflow: hidden;
 
   .table-container {
     overflow-x: auto;
@@ -70,90 +227,193 @@
       width: 100%;
 
       th {
-        font-weight: 500;
-        color: #64748b; /* Slate 500 */
-        white-space: nowrap;
+        background-color: #f8fafc;
+        font-weight: 600;
+        color: #374151;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        padding: 20px 16px;
+        border-bottom: 1px solid #e5e7eb;
       }
 
       td {
-        padding: 16px;
-        font-size: 14px;
+        padding: 20px 16px;
+        border-bottom: 1px solid #f3f4f6;
+      }
 
-        .currency-code {
-          display: flex;
-          align-items: center;
-          font-weight: 500;
+      .currency-row {
+        transition: all 0.2s ease;
 
-          .currency-flag {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            width: 28px;
-            height: 28px;
-            background-color: #e2e8f0; /* Slate 200 */
-            border-radius: 4px;
-            margin-right: 8px;
-            font-size: 10px;
-            font-weight: bold;
-            color: #475569; /* Slate 600 */
-          }
-        }
-
-        .exchange-rate {
-          font-family: 'Roboto Mono', monospace;
-          font-size: 13px;
-        }
-
-        .last-updated {
-          color: #64748b; /* Slate 500 */
-          font-size: 13px;
-        }
-
-        .status-text {
-          margin-left: 8px;
-          font-size: 13px;
-          color: #64748b; /* Slate 500 */
+        &:hover {
+          background-color: #f8fafc;
+          transform: translateY(-1px);
+          box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
         }
       }
 
-      tr.mat-row {
-        transition: background-color 0.2s ease;
+      // Currency Info Styles
+      .currency-info {
+        display: flex;
+        align-items: center;
+        gap: 12px;
 
-        &:hover {
-          background-color: #f8fafc; /* Slate 50 */
+        .currency-flag {
+          width: 40px;
+          height: 40px;
+          border-radius: 12px;
+          background: linear-gradient(135deg, #f59e0b, #d97706);
+          display: flex;
+          align-items: center;
+          justify-content: center;
+          color: white;
+          font-weight: 600;
+          font-size: 12px;
+          text-transform: uppercase;
+        }
+
+        .currency-details {
+          display: flex;
+          flex-direction: column;
+
+          .currency-code {
+            font-weight: 600;
+            color: #0f172a;
+            font-size: 14px;
+            font-family: 'Roboto Mono', monospace;
+          }
+
+          .currency-symbol {
+            font-size: 12px;
+            color: #64748b;
+            font-family: 'Roboto Mono', monospace;
+          }
+        }
+      }
+
+      // Currency Name
+      .currency-name {
+        font-weight: 500;
+        color: #374151;
+        font-size: 14px;
+      }
+
+      // Symbol Badge
+      .symbol-badge {
+        display: inline-flex;
+        align-items: center;
+        justify-content: center;
+        padding: 6px 12px;
+        background-color: #f1f5f9;
+        border-radius: 8px;
+        color: #475569;
+        font-weight: 600;
+        font-size: 14px;
+        font-family: 'Roboto Mono', monospace;
+        min-width: 40px;
+      }
+
+      // Exchange Rate
+      .exchange-rate {
+        display: flex;
+        flex-direction: column;
+        font-family: 'Roboto Mono', monospace;
+
+        .rate-value {
+          font-size: 14px;
+          font-weight: 600;
+          color: #0f172a;
+        }
+
+        .rate-currency {
+          font-size: 12px;
+          color: #64748b;
+        }
+      }
+
+      // Status Container
+      .status-container {
+        display: flex;
+        align-items: center;
+        gap: 12px;
+
+        .status-badge {
+          display: flex;
+          align-items: center;
+          gap: 6px;
+          padding: 6px 12px;
+          border-radius: 12px;
+          font-size: 12px;
+          font-weight: 600;
+          text-transform: uppercase;
+          letter-spacing: 0.5px;
+
+          mat-icon {
+            font-size: 16px;
+            height: 16px;
+            width: 16px;
+          }
+
+          &.status-active {
+            background-color: rgba(16, 185, 129, 0.1);
+            color: #10b981;
+          }
+
+          &.status-inactive {
+            background-color: rgba(107, 114, 128, 0.1);
+            color: #6b7280;
+          }
+        }
+      }
+
+      // Last Updated
+      .last-updated {
+        display: flex;
+        align-items: center;
+        gap: 6px;
+        color: #64748b;
+        font-size: 13px;
+
+        mat-icon {
+          font-size: 16px;
+          height: 16px;
+          width: 16px;
+        }
+      }
+
+      // Actions Container
+      .actions-container {
+        display: flex;
+        align-items: center;
+        gap: 4px;
+
+        button[mat-icon-button] {
+          width: 36px;
+          height: 36px;
+          border-radius: 8px;
+
+          &:hover {
+            background-color: rgba(59, 130, 246, 0.1);
+          }
         }
       }
     }
   }
 
-  .no-data {
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    padding: 48px 0;
-    color: #64748b; /* Slate 500 */
-
-    mat-icon {
-      font-size: 48px;
-      height: 48px;
-      width: 48px;
-      margin-bottom: 16px;
-      opacity: 0.5;
-    }
-
-    p {
-      margin: 0 0 16px;
-      font-size: 16px;
-    }
+  // Paginator
+  ::ng-deep .mat-mdc-paginator {
+    border-top: 1px solid #e5e7eb;
+    background-color: #f8fafc;
   }
 }
 
+// Info Card
 .info-card {
-  border-radius: 12px;
-  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
-  background-color: #f0f9ff; /* Sky 50 */
-  border-left: 4px solid #3b82f6; /* Blue 500 */
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  border: 1px solid #e2e8f0;
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 100%);
+  border-left: 4px solid #3b82f6;
 
   .info-content {
     display: flex;
@@ -161,26 +421,195 @@
     gap: 16px;
     padding: 8px;
 
-    mat-icon {
-      color: #3b82f6; /* Blue 500 */
-      font-size: 24px;
-      height: 24px;
-      width: 24px;
+    .info-icon {
+      width: 48px;
+      height: 48px;
+      border-radius: 12px;
+      background: linear-gradient(135deg, #3b82f6, #1d4ed8);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+
+      mat-icon {
+        color: white;
+        font-size: 24px;
+        height: 24px;
+        width: 24px;
+      }
     }
 
     .info-text {
+      flex: 1;
+
       h3 {
         margin: 0 0 8px;
         font-size: 16px;
-        font-weight: 500;
-        color: #0f172a; /* Slate 900 */
+        font-weight: 600;
+        color: #0f172a;
       }
 
       p {
         margin: 0;
-        color: #64748b; /* Slate 500 */
+        color: #64748b;
         font-size: 14px;
-        line-height: 1.5;
+        line-height: 1.6;
+      }
+    }
+  }
+}
+
+// Menu Styles
+::ng-deep .mat-mdc-menu-panel {
+  border-radius: 12px;
+  box-shadow: 0 8px 24px rgba(0, 0, 0, 0.12);
+  border: 1px solid #e2e8f0;
+
+  .mat-mdc-menu-item {
+    border-radius: 8px;
+    margin: 2px 8px;
+    padding: 8px 12px;
+
+    &.delete-action {
+      color: #ef4444;
+
+      &:hover {
+        background-color: rgba(239, 68, 68, 0.1);
+      }
+    }
+
+    mat-icon {
+      margin-right: 12px;
+    }
+
+    &:disabled {
+      opacity: 0.5;
+    }
+  }
+}
+
+// No Data State
+.no-data {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 80px 20px;
+
+  .no-data-content {
+    text-align: center;
+    max-width: 400px;
+
+    mat-icon {
+      font-size: 64px;
+      height: 64px;
+      width: 64px;
+      color: #d1d5db;
+      margin-bottom: 16px;
+    }
+
+    h3 {
+      margin: 0 0 8px 0;
+      font-size: 20px;
+      font-weight: 600;
+      color: #374151;
+    }
+
+    p {
+      margin: 0 0 24px 0;
+      color: #6b7280;
+      font-size: 14px;
+      line-height: 1.5;
+    }
+
+    .no-data-actions {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+
+      button {
+        mat-icon {
+          margin-right: 8px;
+        }
+      }
+    }
+  }
+}
+
+// Animations
+@keyframes spin {
+  from {
+    transform: rotate(0deg);
+  }
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+// Responsive Design
+@media (max-width: 1200px) {
+  .devises-container {
+    padding: 16px;
+    gap: 20px;
+  }
+
+  .stats-cards {
+    grid-template-columns: repeat(auto-fit, minmax(160px, 1fr));
+    gap: 12px;
+
+    .stat-card {
+      padding: 16px;
+
+      .stat-icon {
+        width: 40px;
+        height: 40px;
+
+        mat-icon {
+          font-size: 20px;
+          height: 20px;
+          width: 20px;
+        }
+      }
+
+      .stat-content .stat-number {
+        font-size: 20px;
+      }
+    }
+  }
+}
+
+@media (max-width: 768px) {
+  .page-header {
+    .header-content .page-title {
+      font-size: 24px;
+    }
+
+    .header-actions {
+      button[mat-raised-button] {
+        width: 100%;
+        justify-content: center;
+      }
+    }
+  }
+
+  .stats-cards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+
+  .devises-table {
+    th, td {
+      padding: 12px 8px !important;
+    }
+
+    .currency-info {
+      .currency-details {
+        .currency-code {
+          font-size: 13px;
+        }
+
+        .currency-symbol {
+          font-size: 11px;
+        }
       }
     }
   }

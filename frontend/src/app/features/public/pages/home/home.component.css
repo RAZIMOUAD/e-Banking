@@ -1,0 +1,220 @@
+/*
+PROFESSIONAL E-BANKING SECTION COLOR SCHEME
+This creates beautiful visual separation between sections while maintaining brand consistency
+*/
+
+/*
+=== SECTION 1: HERO SECTION ===
+Dark gradient - Sets the premium tone
+*/
+.hero-section {
+  background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #334155 100%);
+  /* Alternative: */
+  /* background: linear-gradient(to br, #0a0a23, #1a1a40, #2d2d5f); */
+}
+
+/*
+=== SECTION 2: PARTNER CAROUSEL ===
+Light section with subtle gradient - Creates contrast
+*/
+.partner-carousel-section {
+  background: linear-gradient(135deg, #f8fafc 0%, #f1f5f9 50%, #e2e8f0 100%);
+  color: #1e293b;
+}
+
+/* Update partner carousel colors */
+.partner-carousel-section .glass-container {
+  background: rgba(255, 255, 255, 0.7);
+  border: 1px solid rgba(59, 130, 246, 0.2);
+  backdrop-filter: blur(10px);
+}
+
+.partner-carousel-section .text-white {
+  color: #1e293b !important;
+}
+
+.partner-carousel-section .text-gray-300 {
+  color: #64748b !important;
+}
+
+.partner-carousel-section .bg-white\/5 {
+  background: rgba(255, 255, 255, 0.8) !important;
+}
+
+/*
+=== SECTION 3: CARD SHOWCASE ===
+Medium dark with blue accent - Builds depth
+*/
+.card-showcase-section {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+  position: relative;
+}
+
+.card-showcase-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+}
+
+/*
+=== SECTION 4: FAQ SECTION ===
+White/light section - Maximum contrast and readability
+*/
+.faq-section {
+  background: linear-gradient(135deg, #ffffff 0%, #f8fafc 50%, #f1f5f9 100%);
+  color: #1e293b;
+}
+
+/* Update FAQ section colors for light theme */
+.faq-section .bg-white\/5 {
+  background: rgba(59, 130, 246, 0.05) !important;
+  border: 1px solid rgba(59, 130, 246, 0.1);
+}
+
+.faq-section .text-white {
+  color: #1e293b !important;
+}
+
+.faq-section .text-gray-300 {
+  color: #64748b !important;
+}
+
+.faq-section .border-white\/10 {
+  border-color: rgba(59, 130, 246, 0.2) !important;
+}
+
+/*
+=== SECTION 5: FINAL CTA ===
+Deep dark with purple accent - Strong ending
+*/
+.cta-final-section {
+  background: linear-gradient(135deg, #0f0f23 0%, #1a1a2e 50%, #16213e 100%);
+  position: relative;
+}
+
+.cta-final-section::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+}
+
+/*
+=== ALTERNATIVE COLOR SCHEMES ===
+Choose one of these for variety:
+*/
+
+/* Option A: Warm Professional */
+.hero-section-warm {
+  background: linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%);
+}
+
+.partner-carousel-section-warm {
+  background: linear-gradient(135deg, #fef7ed 0%, #fed7aa 50%, #fdba74 100%);
+  color: #92400e;
+}
+
+.card-showcase-section-warm {
+  background: linear-gradient(135deg, #374151 0%, #4b5563 50%, #6b7280 100%);
+}
+
+.faq-section-warm {
+  background: linear-gradient(135deg, #ffffff 0%, #fef7ed 50%, #fed7aa 100%);
+  color: #92400e;
+}
+
+.cta-final-section-warm {
+  background: linear-gradient(135deg, #1f2937 0%, #374151 50%, #4b5563 100%);
+}
+
+/* Option B: Cool Professional */
+.hero-section-cool {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+}
+
+.partner-carousel-section-cool {
+  background: linear-gradient(135deg, #f0f9ff 0%, #e0f2fe 50%, #bae6fd 100%);
+  color: #0c4a6e;
+}
+
+.card-showcase-section-cool {
+  background: linear-gradient(135deg, #334155 0%, #475569 50%, #64748b 100%);
+}
+
+.faq-section-cool {
+  background: linear-gradient(135deg, #ffffff 0%, #f0f9ff 50%, #e0f2fe 100%);
+  color: #0c4a6e;
+}
+
+.cta-final-section-cool {
+  background: linear-gradient(135deg, #1e293b 0%, #334155 50%, #475569 100%);
+}
+
+/*
+=== SECTION SEPARATORS ===
+Beautiful gradient lines between sections
+*/
+.section-separator {
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #3b82f6, transparent);
+  margin: 0;
+}
+
+.section-separator-emerald {
+  background: linear-gradient(90deg, transparent, #10b981, transparent);
+}
+
+.section-separator-purple {
+  background: linear-gradient(90deg, transparent, #8b5cf6, transparent);
+}
+
+/*
+=== RESPONSIVE ADJUSTMENTS ===
+Ensure colors work well on mobile
+*/
+@media (max-width: 768px) {
+  .partner-carousel-section,
+  .faq-section {
+    background: #ffffff;
+  }
+
+  .hero-section,
+  .card-showcase-section,
+  .cta-final-section {
+    background: linear-gradient(135deg, #1e293b 0%, #334155 100%);
+  }
+}
+
+/*
+=== DARK MODE SUPPORT ===
+For users who prefer dark mode
+*/
+@media (prefers-color-scheme: dark) {
+  .partner-carousel-section,
+  .faq-section {
+    background: linear-gradient(135deg, #374151 0%, #4b5563 100%);
+    color: #f3f4f6;
+  }
+}
+
+/*
+=== PRINT STYLES ===
+Ensure good contrast for printing
+*/
+@media print {
+  .hero-section,
+  .partner-carousel-section,
+  .card-showcase-section,
+  .faq-section,
+  .cta-final-section {
+    background: #ffffff !important;
+    color: #000000 !important;
+  }
+}

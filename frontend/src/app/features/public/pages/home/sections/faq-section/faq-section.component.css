@@ -1,7 +1,14 @@
+/* faq-section.component.css */
+
+:host {
+  display: block;
+}
+
+/* Enhanced fade-in animation */
 @keyframes fade-in {
   0% {
     opacity: 0;
-    transform: translateY(16px);
+    transform: translateY(20px);
   }
   100% {
     opacity: 1;
@@ -10,20 +17,447 @@
 }
 
 .animate-fade-in {
-  animation: fade-in 0.4s ease-out forwards;
+  animation: fade-in 0.6s ease-out forwards;
 }
 
+/* Enhanced scale animation */
 @keyframes fade-scale {
   0% {
     opacity: 0;
-    transform: scale(0.95);
+    transform: scale(0.95) translateY(10px);
   }
   100% {
     opacity: 1;
-    transform: scale(1);
+    transform: scale(1) translateY(0);
   }
 }
 
 .animate-fade-scale {
-  animation: fade-scale 0.4s ease-out forwards;
+  animation: fade-scale 0.5s ease-out forwards;
+}
+
+/* Category tab animations */
+.category-tab {
+  position: relative;
+  overflow: hidden;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.category-tab::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.category-tab:hover::before {
+  left: 100%;
+}
+
+.category-tab.active {
+  background: linear-gradient(135deg, #10b981, #3b82f6);
+  box-shadow: 0 10px 25px -5px rgba(16, 185, 129, 0.4);
+}
+
+/* FAQ navigation item animations */
+.faq-nav-item {
+  backdrop-filter: blur(12px);
+  border: 1px solid transparent;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+}
+
+.faq-nav-item::after {
+  content: '';
+  position: absolute;
+  left: 0;
+  top: 0;
+  bottom: 0;
+  width: 0;
+  background: linear-gradient(180deg, #10b981, #3b82f6);
+  transition: width 0.3s ease;
+}
+
+.faq-nav-item.active::after {
+  width: 4px;
+}
+
+.faq-nav-item:hover {
+  transform: translateX(4px);
+  background: rgba(255, 255, 255, 0.05);
+  border-color: rgba(255, 255, 255, 0.1);
+}
+
+.faq-nav-item.active {
+  background: rgba(255, 255, 255, 0.1);
+  border-left: 4px solid #10b981;
+}
+
+/* FAQ content container */
+.faq-content {
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.faq-content::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #10b981, transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.faq-content:hover::before {
+  opacity: 1;
+}
+
+/* Tag styling */
+.faq-tag {
+  background: rgba(16, 185, 129, 0.2);
+  color: #10b981;
+  border: 1px solid rgba(16, 185, 129, 0.3);
+  transition: all 0.3s ease;
+}
+
+.faq-tag:hover {
+  background: rgba(16, 185, 129, 0.3);
+  transform: scale(1.05);
+}
+
+.category-tag {
+  background: rgba(59, 130, 246, 0.2);
+  color: #3b82f6;
+  border: 1px solid rgba(59, 130, 246, 0.3);
+}
+
+/* Search input styling */
+.faq-search {
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.2);
+  transition: all 0.3s ease;
+}
+
+.faq-search:focus {
+  border-color: #10b981;
+  box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  background: rgba(255, 255, 255, 0.15);
+}
+
+/* Support option cards */
+.support-card {
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  cursor: pointer;
+}
+
+.support-card:hover {
+  transform: translateY(-4px) scale(1.02);
+  border-color: rgba(255, 255, 255, 0.2);
+  box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.3);
+  background: rgba(255, 255, 255, 0.08);
+}
+
+.support-icon {
+  background: linear-gradient(135deg, #10b981, #3b82f6);
+  transition: all 0.3s ease;
+}
+
+.support-card:hover .support-icon {
+  transform: scale(1.1) rotate(5deg);
+  box-shadow: 0 15px 30px -5px rgba(16, 185, 129, 0.4);
+}
+
+/* Image hover effects */
+.faq-image {
+  transition: all 0.5s cubic-bezier(0.4, 0, 0.2, 1);
+  position: relative;
+  overflow: hidden;
+}
+
+.faq-image::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(45deg, transparent, rgba(16, 185, 129, 0.1), transparent);
+  opacity: 0;
+  transition: opacity 0.3s ease;
+}
+
+.faq-image:hover::after {
+  opacity: 1;
+}
+
+.faq-image:hover img {
+  transform: scale(1.05);
+}
+
+/* Action button styling */
+.action-button {
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.action-button::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.1), transparent);
+  transition: left 0.5s ease;
+}
+
+.action-button:hover::before {
+  left: 100%;
+}
+
+.action-button:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 10px 20px -5px rgba(0, 0, 0, 0.3);
+}
+
+/* CTA button enhancements */
+.cta-primary {
+  position: relative;
+  background: linear-gradient(135deg, #10b981, #3b82f6);
+  transition: all 0.3s ease;
+  overflow: hidden;
+}
+
+.cta-primary::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+  transition: left 0.5s ease;
+}
+
+.cta-primary:hover::before {
+  left: 100%;
+}
+
+.cta-primary:hover {
+  transform: translateY(-2px) scale(1.02);
+  box-shadow: 0 20px 25px -5px rgba(16, 185, 129, 0.4);
+}
+
+/* Transition effects */
+.transition-content {
+  transition: all 0.3s ease;
+}
+
+.transition-content.transitioning {
+  opacity: 0.5;
+  transform: translateY(10px);
+}
+
+/* Stagger animations */
+.stagger-item {
+  opacity: 0;
+  transform: translateY(20px);
+  animation: stagger-in 0.6s ease-out forwards;
+}
+
+@keyframes stagger-in {
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Pulse effects */
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+@keyframes pulse-glow {
+  0%, 100% {
+    box-shadow: 0 0 20px rgba(16, 185, 129, 0.3);
+  }
+  50% {
+    box-shadow: 0 0 40px rgba(16, 185, 129, 0.6);
+  }
+}
+
+/* Loading skeleton */
+.skeleton {
+  background: linear-gradient(90deg,
+  rgba(255, 255, 255, 0.1) 25%,
+  rgba(255, 255, 255, 0.2) 50%,
+  rgba(255, 255, 255, 0.1) 75%);
+  background-size: 200% 100%;
+  animation: skeleton-loading 2s infinite;
+}
+
+@keyframes skeleton-loading {
+  0% {
+    background-position: -200% 0;
+  }
+  100% {
+    background-position: 200% 0;
+  }
+}
+
+/* Glass morphism container */
+.glass-container {
+  background: rgba(255, 255, 255, 0.05);
+  backdrop-filter: blur(16px);
+  -webkit-backdrop-filter: blur(16px);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  box-shadow: 0 8px 32px 0 rgba(31, 38, 135, 0.2);
+}
+
+/* Responsive enhancements */
+@media (max-width: 768px) {
+  .faq-nav-item:hover {
+    transform: none;
+  }
+
+  .support-card:hover {
+    transform: translateY(-2px);
+  }
+
+  .category-tab {
+    margin-bottom: 8px;
+  }
+
+  .faq-content {
+    margin-top: 16px;
+  }
+}
+
+@media (max-width: 480px) {
+  .category-tab {
+    width: 100%;
+    justify-content: center;
+  }
+
+  .faq-nav-item {
+    padding: 12px;
+  }
+
+  .support-card {
+    text-align: center;
+  }
+}
+
+/* Focus states for accessibility */
+.category-tab:focus,
+.faq-nav-item:focus,
+.support-card:focus,
+.action-button:focus,
+.cta-primary:focus {
+  outline: 2px solid #10b981;
+  outline-offset: 2px;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  .animate-fade-in,
+  .animate-fade-scale,
+  .stagger-item,
+  .pulse-glow,
+  .skeleton,
+  * {
+    animation: none !important;
+    transition: none !important;
+  }
+
+  .faq-nav-item:hover,
+  .support-card:hover,
+  .cta-primary:hover {
+    transform: none !important;
+  }
+}
+
+/* Print styles */
+@media print {
+  .support-card:hover .support-icon,
+  .category-tab::before,
+  .action-button::before,
+  .cta-primary::before {
+    display: none !important;
+  }
+
+  .glass-container {
+    background: rgba(255, 255, 255, 0.9) !important;
+    border: 1px solid #000 !important;
+  }
+
+  .faq-search {
+    background: #fff !important;
+    color: #000 !important;
+  }
+}
+
+/* High contrast mode */
+@media (prefers-contrast: high) {
+  .glass-container {
+    background-color: rgba(0, 0, 0, 0.8);
+    border-color: #ffffff;
+  }
+
+  .faq-nav-item {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+  }
+
+  .support-card {
+    background-color: rgba(255, 255, 255, 0.1);
+    border-color: #ffffff;
+  }
+}
+
+/* Custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: rgba(15, 23, 42, 0.1);
+}
+
+::-webkit-scrollbar-thumb {
+  background: linear-gradient(180deg, #10b981, #3b82f6);
+  border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: linear-gradient(180deg, #059669, #2563eb);
+}
+
+/* Animation delays for staggered effects */
+.delay-100 { animation-delay: 0.1s; }
+.delay-200 { animation-delay: 0.2s; }
+.delay-300 { animation-delay: 0.3s; }
+.delay-400 { animation-delay: 0.4s; }
+.delay-500 { animation-delay: 0.5s; }
+
+/* Performance optimizations */
+.gpu-accelerated {
+  transform: translateZ(0);
+  will-change: transform;
+}
+
+.faq-nav-item,
+.support-card,
+.category-tab {
+  will-change: transform, opacity;
 }

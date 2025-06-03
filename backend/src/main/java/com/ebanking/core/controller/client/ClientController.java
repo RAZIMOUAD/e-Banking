@@ -2,7 +2,7 @@ package com.ebanking.core.controller.client;
 
 import com.ebanking.core.domain.base.CompteBancaire.CompteBancaire;
 import com.ebanking.core.domain.base.client.Client;
-import com.ebanking.core.domain.base.transaction.Virement;
+import com.ebanking.core.domain.base.transaction.Transaction;
 import com.ebanking.core.dto.client.*;
 import com.ebanking.core.service.client.ClientService;
 import com.ebanking.core.service.client.CompteBancaireService;
@@ -12,26 +12,21 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.List;
+import java.util.*;
 import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/api/client")
+
 public class ClientController {
 
     @Autowired
-    private final ClientService clientService;
+    private ClientService clientService;
     @Autowired
-    private final CompteBancaireService compteService;
+    private CompteBancaireService compteService;
     @Autowired
-    private final TransactionClientService transactionClientService;
+    private TransactionClientService transactionClientService;
 
-    public ClientController(ClientService clientService, CompteBancaireService compteService,
-                            TransactionClientService transactionClientService) {
-        this.clientService = clientService;
-        this.compteService = compteService;
-        this.transactionClientService = transactionClientService;
-    }
 
     // Récupérer infos client + comptes
     @GetMapping("/ccc/{clientId}")
@@ -106,7 +101,7 @@ public class ClientController {
     // Transactions d’un compte
     @GetMapping("/compte/{compteId}/transactions")
     public List<TransactionResponseDTO> getTransactionsCompte(@PathVariable Long compteId) {
-        return transactionClientService.getTransactionsByCompte(compteId).stream().map(t -> TransactionResponseDTO.builder()
+        return transactionClientService.getTransactionsByComptesource(compteId).stream().map(t -> TransactionResponseDTO.builder()
                 .id(t.getId())
                 .reference(t.getReference())
                 .montant(t.getMontant())
@@ -140,16 +135,31 @@ public class ClientController {
                 .build()
         ).collect(Collectors.toList());
     }
+    @PostMapping("/virement/interne")
+    public ResponseEntity<Transaction> effectuerVirementInterne(
+            @RequestParam Long idSource,
+            @RequestParam Long idCible,
+            @RequestParam double montant,
+            @RequestParam String motif,
+            @RequestParam String mode) {
 
-    // Effectuer un virement
-    @PostMapping("/virement")
-    public ResponseEntity<?> effectuerVirement(@RequestBody VirementRequestDTO dto) {
-        try {
-            Virement virement = transactionClientService.effectuerVirement(dto);
-            return ResponseEntity.ok().body("Virement effectué avec succès, ref: " + virement.getReference());
-        } catch (RuntimeException e) {
-            return ResponseEntity.badRequest().body(e.getMessage());
-        }
+        Transaction transaction = transactionClientService.effectuerVirementInterne(idSource, idCible, montant, motif, mode);
+        return ResponseEntity.ok(transaction);
     }
+
+    @PostMapping("/virement/externe")
+    public ResponseEntity<Transaction> effectuerVirementExterne(
+            @RequestParam Long idSource,
+            @RequestParam double montant,
+            @RequestParam String motif,
+            @RequestParam String mode,
+            @RequestParam String nomBanque,
+            @RequestParam String nomBeneficiaire,
+            @RequestParam String iban) {
+
+        Transaction transaction = transactionClientService.effectuerVirementExterne(idSource, montant, motif, mode, nomBanque, nomBeneficiaire, iban);
+        return ResponseEntity.ok(transaction);
+    }
+
 
 }

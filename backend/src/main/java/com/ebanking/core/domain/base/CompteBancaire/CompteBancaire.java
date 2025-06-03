@@ -35,6 +35,8 @@ public class CompteBancaire {
     private double soldeDisponible;
     private boolean actif;
 
+    private String banque;
+
     @ManyToOne
     @JoinColumn(name = "client_id")
     @JsonBackReference // inverse de Client → comptes

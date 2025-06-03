@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
+import { HttpClient,  HttpParams } from '@angular/common/http';
 import { Observable } from 'rxjs';
 
 export interface ClientProfil {
@@ -59,10 +59,37 @@ export class ServiceClientService {
   effectuerVirement(data: any) {
     return this.http.post(`${this.baseUrl}/virement`, data);
   }
+  effectuerVirementInterne(idSource: number, idCible: number, montant: number, motif: string, mode: string): Observable<any> {
+    const params = new HttpParams()
+      .set('idSource', idSource)
+      .set('idCible', idCible)
+      .set('montant', montant)
+      .set('motif', motif)
+      .set('mode', mode);
 
-  effectuerVirementExterne(data: any) {
-    return this.http.post(`${this.baseUrl}/virement-externe`, data);
+    return this.http.post(`${this.baseUrl}/virement/interne`, null, { params });
   }
+
+  effectuerVirementExterne(
+    idSource: number, montant: number, motif: string, mode: string,
+    nomBanque: string, nomBeneficiaire: string, iban: string): Observable<any> {
+
+    const params = new HttpParams()
+      .set('idSource', idSource)
+      .set('montant', montant)
+      .set('motif', motif)
+      .set('mode', mode)
+      .set('nomBanque', nomBanque)
+      .set('nomBeneficiaire', nomBeneficiaire)
+      .set('iban', iban);
+
+    return this.http.post(`${this.baseUrl}/virement/externe`, null, { params });
+  }
+
+
+  //effectuerVirementExterne(data: any) {
+    //return this.http.post(`${this.baseUrl}/virement-externe`, data);
+  //}
 
 
   getTransactionsByCompte(compteId: number): Observable<TransactionResponseDTO[]> {

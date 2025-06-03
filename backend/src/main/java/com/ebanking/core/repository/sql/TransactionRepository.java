@@ -11,7 +11,9 @@ import java.util.List;
 
 @Repository
 public interface TransactionRepository extends JpaRepository<Transaction, Long> {
-    List<Transaction> findBySourceIdOrCibleId(Long sourceId, Long cibleId);
+    List<Transaction> findBySourceId(Long sourceId);
+    List<Transaction> findByCibleId(Long cibleId);
+
     @Query(value = "SELECT COUNT(*) FROM transactions WHERE DATE(createdAt) = CURRENT_DATE", nativeQuery = true)
     long countToday();
     @Query("SELECT SUM(t.montant) FROM Transaction t")

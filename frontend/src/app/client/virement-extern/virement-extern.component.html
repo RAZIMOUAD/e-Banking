@@ -2,34 +2,36 @@
   <h2 class="text-2xl font-bold mb-4">Virement externe</h2>
   <form (ngSubmit)="effectuerVirementExterne()" class="space-y-4">
 
-    <!-- Type de compte source -->
-    <label>Type de compte</label>
-    <select [(ngModel)]="typeCompte" name="typeCompte" required class="w-full p-2 border rounded">
-      <option value="" disabled selected>-- Choisissez un type de compte --</option>
-      <option *ngFor="let type of typesPossedes" [value]="type">{{ type }}</option>
+    <label>Compte Source</label>
+    <select [(ngModel)]="compteSourceId" name="compteSourceId" class="w-full p-2 border rounded" required>
+      <option value="" disabled>-- Sélectionnez un compte --</option>
+      <option *ngFor="let compte of comptesDisponibles" [value]="compte.id">
+        {{ compte.IBAN }} ({{ compte.soldeDisponible }} €)
+      </option>
     </select>
 
-    <!-- Nom du bénéficiaire -->
-    <label>Nom du bénéficiaire</label>
-    <input [(ngModel)]="nomBeneficiaire" name="nomBeneficiaire" placeholder="Nom complet" class="w-full p-2 border rounded" required />
+    <label>Nom du Bénéficiaire</label>
+    <input [(ngModel)]="nomBeneficiaire" name="nomBeneficiaire" placeholder="Nom complet"
+           class="w-full p-2 border rounded" required />
 
-    <!-- IBAN -->
-    <label>IBAN du bénéficiaire</label>
-    <input [(ngModel)]="iban" name="iban" placeholder="FR..." class="w-full p-2 border rounded" required />
+    <label>IBAN du Bénéficiaire</label>
+    <input [(ngModel)]="ibanBeneficiaire" name="ibanBeneficiaire" placeholder="FR..."
+           class="w-full p-2 border rounded" required />
 
-    <!-- Nom de la banque -->
-    <label>Nom de la banque</label>
-    <input [(ngModel)]="banque" name="banque" placeholder="Banque destinataire" class="w-full p-2 border rounded" required />
+    <label>Banque du Bénéficiaire</label>
+    <select [(ngModel)]="banque" name="banque" required class="w-full p-2 border rounded">
+      <option value="" disabled>-- Choisissez une banque --</option>
+      <option *ngFor="let banque of banquesDisponibles" [value]="banque">{{ banque }}</option>
+    </select>
 
-    <!-- Montant -->
     <label>Montant</label>
-    <input [(ngModel)]="montant" type="number" name="montant" placeholder="Montant" class="w-full p-2 border rounded" required />
+    <input [(ngModel)]="montant" type="number" name="montant" placeholder="Montant"
+           class="w-full p-2 border rounded" required />
 
-    <!-- Motif -->
     <label>Motif</label>
-    <input [(ngModel)]="motif" name="motif" placeholder="Motif du virement" class="w-full p-2 border rounded" required />
+    <input [(ngModel)]="motif" name="motif" placeholder="Motif du virement"
+           class="w-full p-2 border rounded" required />
 
-    <!-- Bouton de validation -->
     <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">Valider</button>
   </form>
 </div>

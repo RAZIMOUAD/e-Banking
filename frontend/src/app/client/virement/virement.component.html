@@ -4,16 +4,25 @@
 
     <label>Compte Source</label>
     <select [(ngModel)]="compteSource" name="compteSource" class="w-full p-2 border rounded" required>
+      <option value="" disabled>-- Sélectionnez un compte --</option>
       <option *ngFor="let c of comptes" [value]="c.id">{{ c.IBAN }} ({{ c.soldeDisponible }} €)</option>
     </select>
 
     <label>Compte Destinataire</label>
     <select [(ngModel)]="compteCible" name="compteCible" class="w-full p-2 border rounded" required>
-      <option *ngFor="let c of comptes" [value]="c.id" [disabled]="c.id === compteSource">{{ c.IBAN }}</option>
+      <option value="" disabled>-- Sélectionnez un compte --</option>
+      <option *ngFor="let c of comptes" [value]="c.id" [disabled]="c.id === compteSource">
+        {{ c.IBAN }}
+      </option>
     </select>
 
-    <input [(ngModel)]="montant" type="number" name="montant" placeholder="Montant" class="w-full p-2 border rounded" required />
-    <input [(ngModel)]="motif" name="motif" placeholder="Motif" class="w-full p-2 border rounded" required />
+    <label>Montant</label>
+    <input [(ngModel)]="montant" type="number" name="montant" placeholder="Montant"
+           class="w-full p-2 border rounded" required />
+
+    <label>Motif</label>
+    <input [(ngModel)]="motif" name="motif" placeholder="Motif du virement"
+           class="w-full p-2 border rounded" required />
 
     <button type="submit" class="bg-indigo-600 text-white px-4 py-2 rounded">Valider</button>
   </form>

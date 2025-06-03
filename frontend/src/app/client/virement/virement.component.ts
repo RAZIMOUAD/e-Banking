@@ -1,5 +1,6 @@
 import { Component, OnInit } from '@angular/core';
 import { ServiceClientService } from '../service-client.service';
+import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-virement',
@@ -7,11 +8,11 @@ import { ServiceClientService } from '../service-client.service';
 })
 export class VirementComponent implements OnInit {
   comptes: any[] = [];
-  compteSource = '';
-  compteCible = '';
+  compteSource: number | null = null;
+  compteCible: number | null = null;
   montant = 0;
   motif = '';
-  clientId = 36; // dynamiquement plus tard
+  clientId = 36;
 
   constructor(private transactionService: ServiceClientService) {}
 
@@ -22,6 +23,11 @@ export class VirementComponent implements OnInit {
   }
 
   effectuerVirement() {
+    if (!this.compteSource || !this.compteCible || this.montant <= 0 || !this.motif) {
+      alert("Veuillez remplir tous les champs.");
+      return;
+    }
+
     const data = {
       sourceCompteId: this.compteSource,
       cibleCompteId: this.compteCible,
@@ -32,7 +38,7 @@ export class VirementComponent implements OnInit {
 
     this.transactionService.effectuerVirement(data).subscribe({
       next: () => alert('Virement interne effectué avec succès'),
-      error: err => alert('Erreur : ' + err.error)
+      error: err => alert('Erreur : ' + (err.error?.message || JSON.stringify(err)))
     });
   }
 }

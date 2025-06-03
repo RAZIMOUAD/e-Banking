@@ -3,8 +3,6 @@ package com.ebanking.core.service.client;
 import com.ebanking.core.domain.base.CompteBancaire.CompteBancaire;
 import com.ebanking.core.domain.base.CompteBancaire.HistoriqueCompte;
 import com.ebanking.core.domain.base.transaction.Transaction;
-import com.ebanking.core.domain.base.transaction.Virement;
-import com.ebanking.core.dto.client.VirementRequestDTO;
 import com.ebanking.core.repository.sql.CompteBancaireRepository;
 import com.ebanking.core.repository.sql.HistoriqueCompteRepository;
 import com.ebanking.core.repository.sql.TransactionRepository;
@@ -13,25 +11,25 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.Date;
-import java.util.List;
+import java.util.*;
 import java.util.UUID;
 
 @Service
 public class TransactionClientService {
+
     @Autowired
-    private final TransactionRepository transactionRepo;
+    private TransactionRepository transactionRepo;
     @Autowired
-    private final CompteBancaireRepository compteRepo;
+    private CompteBancaireRepository compteRepo;
     @Autowired
     private HistoriqueCompteRepository historiqueRepo;
 
-    public TransactionClientService(TransactionRepository transactionRepo, CompteBancaireRepository compteRepo) {
-        this.transactionRepo = transactionRepo;
-        this.compteRepo = compteRepo;
-    }
 
-    public List<Transaction> getTransactionsByCompte(Long compteId) {
-        return transactionRepo.findBySourceIdOrCibleId(compteId, compteId);
+    public List<Transaction> getTransactionsByComptesource(Long compteId) {
+        return transactionRepo.findBySourceId(compteId);
+    }
+    public List<Transaction> getTransactionsByComptecible(Long compteId2) {
+        return transactionRepo.findByCibleId(compteId2);
     }
 
     private void ajouterHistorique(CompteBancaire compte, String action) {
@@ -44,80 +42,98 @@ public class TransactionClientService {
         historiqueRepo.save(historique);
     }
 
+    private static final Map<String, Double> FRAIS_PAR_BANQUE = Map.of(
+            "Attijariwafa Bank", 10.0,
+            "Banque Populaire", 8.0,
+            "BMCE Bank", 12.0,
+            "CIH", 9.5,
+            "Crédit Agricole du Maroc", 7.5,
+            "Société Générale Maroc", 10.0,
+            "BMCI", 11.0,
+            "CFG Bank", 9.0,         // tu peux mettre la valeur que tu veux
+            "Al Barid Bank", 8.5     // idem
+    );
+
     @Transactional
-    public Virement effectuerVirement(VirementRequestDTO dto) {
-        CompteBancaire source = compteRepo.findById(dto.getSourceCompteId())
+    public Transaction effectuerVirementInterne(Long sourceId, Long cibleId, double montant, String motif, String mode) {
+        CompteBancaire source = compteRepo.findById(sourceId)
                 .orElseThrow(() -> new RuntimeException("Compte source non trouvé"));
+        CompteBancaire cible = compteRepo.findById(cibleId)
+                .orElseThrow(() -> new RuntimeException("Compte cible non trouvé"));
 
-        CompteBancaire cible = null;
-        String typeVirement;
-
-        if (dto.getCibleCompteId() != null) {
-            // Virement interne
-            cible = compteRepo.findById(dto.getCibleCompteId())
-                    .orElseThrow(() -> new RuntimeException("Compte cible non trouvé"));
-
-            if (!source.isActif() || !cible.isActif()) {
-                throw new RuntimeException("L'un des comptes est inactif");
-            }
-
-            typeVirement = "Virement Interne";
-        } else {
-            // Virement externe
-            if (!source.isActif()) {
-                throw new RuntimeException("Le compte source est inactif");
-            }
-
-            typeVirement = "Virement Externe";
+        if (!source.isActif() || !cible.isActif()) {
+            throw new RuntimeException("L'un des comptes est inactif");
         }
 
-        double frais = typeVirement.equals("Virement Externe") ? 10.0 : 0.0;
-        double totalDebit = dto.getMontant() + frais;
+        if (!source.getBanque().equalsIgnoreCase(cible.getBanque())) {
+            throw new RuntimeException("Virement interne refusé : banques différentes");
+        }
 
-        if (source.getSoldeDisponible() < totalDebit) {
+        if (source.getSoldeDisponible() < montant) {
             throw new RuntimeException("Solde insuffisant pour le virement");
         }
 
-        // Débit du compte source
-        source.setSoldeDisponible(source.getSoldeDisponible() - totalDebit);
+        source.setSoldeDisponible(source.getSoldeDisponible() - montant);
+        cible.setSoldeDisponible(cible.getSoldeDisponible() + montant);
 
-        if (cible != null) {
-            // Crédit du compte cible
-            cible.setSoldeDisponible(cible.getSoldeDisponible() + dto.getMontant());
-            compteRepo.save(cible);
-        }
+        compteRepo.save(source);
+        compteRepo.save(cible);
 
-        Virement virement = Virement.builder()
+        Transaction virement = Transaction.builder()
+                .reference(UUID.randomUUID().toString())
+                .montant(montant)
+                .type("Virement Interne")
+                .date(new Date())
+                .statut("Validé")
+                .mode(mode)
+                .motif(motif)
                 .source(source)
                 .cible(cible)
-                .montant(dto.getMontant())
-                .motif(dto.getMotif())
-                .mode(dto.getMode())
-                .statut("Validé")
-                .type(typeVirement)
-                .date(new Date())
-                .autorisePar(null) // Par défaut null
-                .reference(UUID.randomUUID().toString())
                 .build();
 
-        if (typeVirement.equals("Virement Externe")) {
-            virement.setMotif(dto.getMotif() + " (" + dto.getNomBanque() + ")");
-        }
+        transactionRepo.save(virement);
 
-        // Sauvegarde
-        compteRepo.save(source);
-        Virement saved = transactionRepo.save(virement);
+        ajouterHistorique(source, "Virement interne de " + montant + " vers " + cible.getIBAN());
+        ajouterHistorique(cible, "Réception de " + montant + " depuis " + source.getIBAN());
 
-        // Historique
-        ajouterHistorique(source, "Virement de " + dto.getMontant() + " " +
-                (cible != null ? ("vers " + cible.getIBAN()) : ("vers " + dto.getNomBanque())));
-
-        if (cible != null) {
-            ajouterHistorique(cible, "Réception de " + dto.getMontant() + " depuis " + source.getIBAN());
-        }
-
-        return saved;
+        return virement;
     }
+    @Transactional
+    public Transaction effectuerVirementExterne(Long sourceId, double montant, String motif, String mode, String nomBanque, String nomBeneficiaire, String iban) {
+        CompteBancaire source = compteRepo.findById(sourceId)
+                .orElseThrow(() -> new RuntimeException("Compte source non trouvé"));
+
+        if (!source.isActif()) {
+            throw new RuntimeException("Le compte source est inactif");
+        }
+
+        double frais = FRAIS_PAR_BANQUE.getOrDefault(nomBanque, 10.0);
+        double totalDebit = montant + frais;
+
+        if (source.getSoldeDisponible() < totalDebit) {
+            throw new RuntimeException("Solde insuffisant pour le virement externe");
+        }
+
+        source.setSoldeDisponible(source.getSoldeDisponible() - totalDebit);
+        compteRepo.save(source);
+
+        Transaction virement = Transaction.builder()
+                .reference(UUID.randomUUID().toString())
+                .montant(montant)
+                .type("Virement Externe")
+                .date(new Date())
+                .statut("Validé")
+                .mode(mode)
+                .motif(motif)
+                .source(source)
+                .cible(null)
+                .build();
+
+        transactionRepo.save(virement);
+
+        ajouterHistorique(source, "Virement externe de " + montant + " vers " + nomBeneficiaire + " (" + iban + ") à " + nomBanque + " avec frais de " + frais);
+
+        return virement;
+    }
+
 }
-
-

@@ -7,17 +7,27 @@ import { Router } from '@angular/router';
   templateUrl: './virement-extern.component.html'
 })
 export class VirementExternComponent implements OnInit {
-  typeCompte: string = '';
+  compteSourceId: number | null = null;
   nomBeneficiaire: string = '';
-  iban: string = '';
+  ibanBeneficiaire: string = '';
   banque: string = '';
   montant = 0;
   motif = '';
 
-  comptesDisponibles: any[] = []; // liste complète des comptes du client
-  typesPossedes: string[] = [];   // liste des types de comptes (filtrés)
+  comptesDisponibles: any[] = [];
+  banquesDisponibles: string[] = [
+    'Attijariwafa Bank',
+    'Banque Populaire',
+    'BMCE Bank',
+    'CIH',
+    'Crédit Agricole du Maroc',
+    'Société Générale Maroc',
+    'BMCI',
+    'CFG Bank',
+    'Al Barid Bank'
+  ];
 
-  clientId = 36; // À récupérer dynamiquement
+  clientId = 36;
 
   constructor(
     private clientService: ServiceClientService,
@@ -27,36 +37,33 @@ export class VirementExternComponent implements OnInit {
   ngOnInit() {
     this.clientService.getComptes(this.clientId).subscribe(res => {
       this.comptesDisponibles = res.comptes || [];
-
-      // On filtre les types de compte sans doublons
-      this.typesPossedes = [...new Set(this.comptesDisponibles.map(c => c.type))];
     });
   }
 
   effectuerVirementExterne() {
-    if (!this.typeCompte || !this.iban || !this.nomBeneficiaire) {
+    if (!this.compteSourceId || !this.ibanBeneficiaire || !this.nomBeneficiaire || !this.banque) {
       alert("Veuillez remplir tous les champs obligatoires.");
       return;
     }
 
     const virementData = {
-      typeCompte: this.typeCompte,
-      nomBeneficiaire: this.nomBeneficiaire,
-      iban: this.iban,
-      banque: this.banque,
+      sourceCompteId: this.compteSourceId,
       montant: this.montant,
       motif: this.motif,
-      type: 'EXTERNE' // utilisé pour distinguer dans le backend
+      mode: 'EXTERNE',
+      nomBanque: this.banque,
+      nomBeneficiaire: this.nomBeneficiaire,
+      iban: this.ibanBeneficiaire
     };
 
-    this.clientService.effectuerVirementExterne(virementData).subscribe({
-      next: res => {
+    this.clientService.effectuerVirement(virementData).subscribe({
+      next: () => {
         alert('Virement externe effectué avec succès.');
-        this.router.navigate(['/historique-virements']);
+        this.router.navigate(['/historique']);
       },
       error: err => {
-        console.error('Erreur lors du virement externe', err);
-        alert('Erreur lors du virement externe.');
+        console.error('Erreur détaillée :', err);
+        alert('Erreur : ' + (err.error?.message || JSON.stringify(err)));
       }
     });
   }

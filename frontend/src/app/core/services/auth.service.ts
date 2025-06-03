@@ -26,7 +26,15 @@ export class AuthService {
   }
 
   verifyTwoFactorCode(payload: { email: string; code: string }): Observable<AuthenticationResponse> {
-    return this.http.post<AuthenticationResponse>(`${this.API_URL}/verify-2fa`, payload);
+    return this.http.post<any>(`${this.API_URL}/verify-2fa`, payload).pipe(
+      map(res => ({
+        accessToken: res.access_token,
+        refreshToken: res.refresh_token,
+        message: res.message,
+        requires2FA: res.requires2FA,
+      })),
+      catchError(err => this.handleError(err))
+    );
   }
 
   login(credentials: LoginPayload): Observable<AuthenticationResponse> {

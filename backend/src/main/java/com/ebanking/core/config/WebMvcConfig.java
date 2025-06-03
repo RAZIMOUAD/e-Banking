@@ -19,5 +19,5 @@ public class WebMvcConfig implements WebMvcConfigurer {
         return new HandlerMappingIntrospector();
     }
 
-    // (optionnel) autres config
+    // (optionnel)
 }

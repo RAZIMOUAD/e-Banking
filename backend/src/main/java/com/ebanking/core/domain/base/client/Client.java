@@ -10,6 +10,7 @@ import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 import java.time.LocalDateTime;
+import java.util.Date;
 import java.util.List;
 
 @Entity
@@ -21,15 +22,11 @@ import java.util.List;
 @SuperBuilder
 public class Client extends Personne {
 
-    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss")
-    private LocalDateTime dateEnrolement;
 
+    private Date dateEnrolement;
     private Boolean valideParAgent;
     private String status;
 
-    @OneToOne
-    @JoinColumn(name = "user_id")
-    private User user;
 
     @OneToMany(mappedBy = "client", cascade = CascadeType.ALL, orphanRemoval = true)
     @JsonManagedReference // vers comptes

@@ -31,16 +31,18 @@ public class AuthenticationService {
 
     private final UserRepository repository;
     private final TokenRepository tokenRepository;
-    private final PasswordEncoder passwordEncoder;
+
     private final JwtService jwtService;
     private final AuthenticationManager authenticationManager;
 
-    private final RoleRepository roleRepository;
+
     private final RegistrationService registrationService;
-    private final InfobipVerifyService infobipVerifyService;
+    private final TwilioVerifyService twilioVerifyService;
     private final SecurityTokenService securityTokenService;
 
     public AuthenticationResponse register(RegisterRequest request) {
+        log.info("🔧 Début du processus de REGISTER dans AuthenticationService");
+
         return registrationService.register(request);
     }
 
@@ -85,7 +87,7 @@ public class AuthenticationService {
             var token = securityTokenService.createToken(user, "TWO_FACTOR", "auth");
 
             // Envoi SMS via Infobip
-            infobipVerifyService.sendVerificationCode(user.getPersonne().getNumTel(), token.getCode());
+           twilioVerifyService.sendVerificationCode(user.getPersonne().getNumTel());
 
             return AuthenticationResponse.builder()
                     .message("2FA_REQUIRED")

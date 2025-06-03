@@ -70,7 +70,7 @@ public class User implements UserDetails {
     // ✅ Relation vers Personne (bi-directionnelle)
     @OneToOne(cascade = {CascadeType.PERSIST, CascadeType.MERGE})
     @JoinColumn(name = "personne_id", nullable = false)
-    @JsonManagedReference // 🔁 côté propriétaire
+  //@JsonManagedReference // 🔁 côté propriétaire
     private Personne personne;
 
     @Builder.Default

@@ -1,1 +1,15 @@
+.navbar {
+  font-family: 'Inter', sans-serif;
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.navbar a {
+  color: #374151; /* Gray-700 */
+  transition: color 0.2s;
+}
+
+.navbar a:hover {
+  color: #4f46e5; /* Indigo-600 */
+}
 

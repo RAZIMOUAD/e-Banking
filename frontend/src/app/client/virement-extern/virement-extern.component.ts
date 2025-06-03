@@ -13,6 +13,9 @@ export class VirementExternComponent implements OnInit {
   banque: string = '';
   montant = 0;
   motif = '';
+  mode="EXTERN";
+  status="Validé";
+
 
   comptesDisponibles: any[] = [];
   banquesDisponibles: string[] = [
@@ -52,11 +55,20 @@ export class VirementExternComponent implements OnInit {
       motif: this.motif,
       mode: 'EXTERNE',
       nomBanque: this.banque,
+      status: this.status,
       nomBeneficiaire: this.nomBeneficiaire,
       iban: this.ibanBeneficiaire
     };
 
-    this.clientService.effectuerVirement(virementData).subscribe({
+    this.clientService.effectuerVirementExterne(
+      this.compteSourceId,
+      this.montant,
+      this.motif,
+      this.mode,
+      this.banque,
+      this.nomBeneficiaire,
+      this.ibanBeneficiaire
+    ).subscribe({
       next: () => {
         alert('Virement externe effectué avec succès.');
         this.router.navigate(['/historique']);

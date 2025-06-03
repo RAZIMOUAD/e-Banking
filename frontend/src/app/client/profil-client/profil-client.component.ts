@@ -3,7 +3,8 @@ import { ServiceClientService , ClientProfil } from '../service-client.service';
 
 @Component({
   selector: 'app-profil-client',
-  templateUrl: './profil-client.component.html'
+  templateUrl: './profil-client.component.html',
+  styleUrl: 'profil-client.component.css'
 })
 export class ProfilClientComponent {
   profil: ClientProfil | null = null;

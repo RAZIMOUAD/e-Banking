@@ -56,9 +56,9 @@ export class ServiceClientService {
     return this.http.get<any>(`${this.baseUrl}/ccc/${clientId}`);
   }
 
-  effectuerVirement(data: any) {
-    return this.http.post(`${this.baseUrl}/virement`, data);
-  }
+  //effectuerVirement(data: any) {
+   //return this.http.post(`${this.baseUrl}/virement`, data);
+  //}
   effectuerVirementInterne(idSource: number, idCible: number, montant: number, motif: string, mode: string): Observable<any> {
     const params = new HttpParams()
       .set('idSource', idSource)

@@ -4,7 +4,8 @@ import {FormGroup} from "@angular/forms";
 
 @Component({
   selector: 'app-virement',
-  templateUrl: './virement.component.html'
+  templateUrl: './virement.component.html',
+  styleUrl: 'virement.component.css'
 })
 export class VirementComponent implements OnInit {
   comptes: any[] = [];
@@ -36,9 +37,9 @@ export class VirementComponent implements OnInit {
       mode: 'INTERNE'
     };
 
-    this.transactionService.effectuerVirement(data).subscribe({
-      next: () => alert('Virement interne effectué avec succès'),
-      error: err => alert('Erreur : ' + (err.error?.message || JSON.stringify(err)))
-    });
+    //this.transactionService.effectuerVirement(data).subscribe({
+    //   next: () => alert('Virement interne effectué avec succès'),
+    //   error: err => alert('Erreur : ' + (err.error?.message || JSON.stringify(err)))
+    // });
   }
 }

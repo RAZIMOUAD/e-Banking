@@ -1,0 +1,25 @@
+.form-container {
+  font-family: 'Inter', sans-serif;
+  background-color: #ffffff;
+}
+
+.form-container input,
+.form-container select {
+  border: 1px solid #d1d5db; /* gray-300 */
+  transition: border-color 0.2s;
+}
+
+.form-container input:focus,
+.form-container select:focus {
+  border-color: #4f46e5; /* Indigo-600 */
+  outline: none;
+}
+
+.form-container button {
+  background-color: #4f46e5;
+  transition: background-color 0.3s;
+}
+
+.form-container button:hover {
+  background-color: #4338ca;
+}

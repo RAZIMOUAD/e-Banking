@@ -1,0 +1,20 @@
+.virement-form input,
+.virement-form select {
+  border: 1px solid #d1d5db;
+  transition: border-color 0.3s ease;
+}
+
+.virement-form input:focus,
+.virement-form select:focus {
+  border-color: #4f46e5;
+  outline: none;
+}
+
+.virement-form button {
+  background-color: #4f46e5;
+  transition: background-color 0.3s;
+}
+
+.virement-form button:hover {
+  background-color: #3730a3;
+}

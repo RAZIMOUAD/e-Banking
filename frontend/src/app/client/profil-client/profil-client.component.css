@@ -1,0 +1,21 @@
+.profil-container {
+  font-family: 'Inter', sans-serif;
+}
+
+.profil-container h3 {
+  font-size: 1.25rem;
+  font-weight: 700;
+}
+
+.profil-container p {
+  font-size: 1rem;
+}
+
+.profil-container button {
+  background-color: #4f46e5;
+  transition: background-color 0.3s ease;
+}
+
+.profil-container button:hover {
+  background-color: #3730a3;
+}
